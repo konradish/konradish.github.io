@@ -2,11 +2,8 @@ import * as THREE from 'https://unpkg.com/three@^0.164/build/three.module.js';
 
 // handles scene injection into #hero-canvas (make that elem in HTML)
 export function loadHero() {
-  console.log("Initializing hero 3D photo");
-  
   const canvas = document.getElementById('hero-canvas');
   if (!canvas) {
-    console.error("Canvas element not found!");
     return;
   }
   
@@ -19,8 +16,7 @@ export function loadHero() {
   
   // Set size immediately to prevent blank canvas
   renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-  console.log(`Canvas size: ${canvas.clientWidth}x${canvas.clientHeight}`);
-  
+
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(35, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
   camera.position.set(0, 0, 3);
@@ -39,14 +35,13 @@ export function loadHero() {
   // Start with a temporary cube to ensure rendering works
   const cube = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial({ 
-      color: 0x3498db, 
-      wireframe: true 
+    new THREE.MeshBasicMaterial({
+      color: 0x3498db,
+      wireframe: true
     })
   );
   scene.add(cube);
-  console.log("Added temporary cube to scene");
-  
+
   // Load textures
   const imageLoader = new THREE.ImageLoader();
   imageLoader.setCrossOrigin('anonymous');
@@ -65,13 +60,12 @@ export function loadHero() {
   imageLoader.load(
     'assets/depth.png',
     (depthImage) => {
-      console.log("Depth image loaded as Image:", depthImage.width, "x", depthImage.height);
       assets.depthImage = depthImage;
       tryCreateMesh(scene, assets, cube);
     },
     undefined,
     (err) => {
-      console.error("Failed to load depth image:", err);
+      // Failed to load depth image
     }
   );
   
@@ -79,7 +73,6 @@ export function loadHero() {
   textureLoader.load(
     'assets/me.jpg',
     (faceTexture) => {
-      console.log("Face texture loaded:", faceTexture.image.width, "x", faceTexture.image.height);
       // Improve texture rendering
       faceTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
       
@@ -91,7 +84,7 @@ export function loadHero() {
     },
     undefined,
     (err) => {
-      console.error("Failed to load face texture:", err);
+      // Failed to load face texture
     }
   );
   
@@ -151,15 +144,12 @@ export function loadHero() {
 function tryCreateMesh(scene, assets, tempCube) {
   // Check if all assets are loaded
   if (assets.depthImage && assets.faceTexture) {
-    console.log("All assets loaded, creating 3D photo");
-    
     // Create the mesh with both depth and face texture
     const headMesh = create3DPhoto(scene, assets.depthImage, assets.faceTexture);
     
     // Remove the temp cube once the photo is created
     if (headMesh) {
       scene.remove(tempCube);
-      console.log("Removed temporary cube, 3D photo is now visible");
     }
   }
 }
@@ -181,9 +171,7 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     // Try to get the pixel data from the canvas
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const pixels = imageData.data;
-    
-    console.log("Successfully read depth data from canvas");
-    
+
     // Create aspect-ratio-correct plane
     const width = 1.6; // Slightly smaller for better framing
     const height = width * (canvas.height / canvas.width);
@@ -270,12 +258,9 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     
     // Add the group to the scene
     scene.add(photoGroup);
-    
-    console.log("Created and added 3D photo with depth displacement");
-    
+
     return photoGroup;
   } catch (e) {
-    console.error("Error creating 3D photo:", e);
     createFallbackPhoto(scene, faceTexture);
     return null;
   }
@@ -283,8 +268,6 @@ function create3DPhoto(scene, depthImage, faceTexture) {
 
 // Create a fallback flat photo if the depth map approach fails
 function createFallbackPhoto(scene, faceTexture) {
-  console.log("Creating fallback flat photo");
-  
   // Calculate aspect ratio
   const aspect = faceTexture.image.height / faceTexture.image.width;
   const width = 1.6; // Slightly smaller for better framing
