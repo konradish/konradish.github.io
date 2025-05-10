@@ -10,9 +10,6 @@ export function loadHero() {
     return;
   }
   
-  // Make the canvas visible
-  canvas.style.display = 'block';
-  
   // Basic Three.js setup
   const renderer = new THREE.WebGLRenderer({ 
     canvas, 
@@ -42,34 +39,72 @@ export function loadHero() {
   scene.add(cube);
   console.log("Added test cube to scene");
   
+  // Simple wireframe sphere as a last resort fallback
+  const fallbackHead = new THREE.Mesh(
+    new THREE.SphereGeometry(0.8, 32, 32),
+    new THREE.MeshBasicMaterial({ 
+      color: 0x58a6ff, 
+      wireframe: true 
+    })
+  );
+  
   // Texture loader with crossOrigin
   const texLoader = new THREE.TextureLoader();
   texLoader.crossOrigin = 'anonymous';
   
-  // Load textures
+  // Cache textures for use with the displacement material
+  const textures = {};
+  
+  // Load face texture
   texLoader.load(
     'assets/me.jpg',
-    faceTexture => {
+    texture => {
       console.log("Face texture loaded successfully");
-      
-      texLoader.load(
-        'assets/depth.png',
-        depthTexture => {
-          console.log("Depth texture loaded successfully");
-          
-          // Now we have both textures, create the actual head wireframe
-          createWireframeHead(scene, faceTexture, depthTexture);
-          
-          // Remove the test cube
-          scene.remove(cube);
-        },
-        undefined,
-        err => console.error("Failed to load depth texture:", err)
-      );
+      textures.face = texture;
+      tryCreateHead();
     },
     undefined,
-    err => console.error("Failed to load face texture:", err)
+    err => {
+      console.error("Failed to load face texture:", err);
+      useFallbackHead();
+    }
   );
+  
+  // Load depth texture
+  texLoader.load(
+    'assets/depth.png',
+    texture => {
+      console.log("Depth texture loaded successfully");
+      textures.depth = texture;
+      tryCreateHead();
+    },
+    undefined,
+    err => {
+      console.error("Failed to load depth texture:", err);
+      useFallbackHead();
+    }
+  );
+  
+  // Try to create the head once both textures are loaded
+  function tryCreateHead() {
+    if (textures.face && textures.depth) {
+      console.log("Both textures loaded, creating head");
+      try {
+        createSimpleHead(scene, textures.face);
+        scene.remove(cube);
+      } catch (e) {
+        console.error("Error creating head:", e);
+        useFallbackHead();
+      }
+    }
+  }
+  
+  // Use fallback head if face creation fails
+  function useFallbackHead() {
+    console.log("Using fallback head");
+    scene.add(fallbackHead);
+    scene.remove(cube);
+  }
   
   // Animation loop
   const clock = new THREE.Clock();
@@ -79,7 +114,6 @@ export function loadHero() {
       renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
       camera.aspect = canvas.clientWidth / canvas.clientHeight;
       camera.updateProjectionMatrix();
-      console.log(`Canvas resized: ${canvas.clientWidth}x${canvas.clientHeight}`);
     }
     
     // Rotate all meshes in the scene
@@ -93,64 +127,51 @@ export function loadHero() {
     // Render
     renderer.render(scene, camera);
   });
-  
-  // Ensure the renderer is actually rendering
-  renderer.render(scene, camera);
 }
 
-// Function to create the actual head wireframe
-function createWireframeHead(scene, faceTexture, depthTexture) {
-  console.log("Creating wireframe head");
+// Create a simple head without relying on displacement
+function createSimpleHead(scene, faceTexture) {
+  console.log("Creating simple head wireframe");
   
-  // Ensure depth texture has the right filtering
-  depthTexture.minFilter = THREE.LinearFilter;
-  
-  // Create plane geometry
+  // Create geometry based on face aspect ratio
   const width = 1.5;
   const height = width * (faceTexture.image.height / faceTexture.image.width);
-  const geo = new THREE.PlaneGeometry(width, height, 128, 128);
   
-  // Create simple wireframe material
-  const mat = new THREE.MeshBasicMaterial({ 
-    color: 0xffffff,
-    wireframe: true 
+  // Use a finer geometry for better wireframe appearance
+  const geo = new THREE.PlaneGeometry(width, height, 32, 32);
+  
+  // Manually displace some vertices to give a 3D effect without using the depth map
+  const positions = geo.attributes.position;
+  const count = positions.count;
+  
+  // Create a simple bulge in the middle
+  for (let i = 0; i < count; i++) {
+    const x = positions.getX(i);
+    const y = positions.getY(i);
+    
+    // Calculate distance from center
+    const distanceFromCenter = Math.sqrt(x*x + y*y);
+    const normalizedDistance = Math.min(distanceFromCenter / (width/2), 1);
+    
+    // Create a bulge that's highest in the center
+    const bulge = 0.2 * (1 - normalizedDistance * normalizedDistance);
+    
+    // Apply the bulge
+    positions.setZ(i, bulge);
+  }
+  
+  positions.needsUpdate = true;
+  
+  // Create wireframe material
+  const mat = new THREE.MeshBasicMaterial({
+    wireframe: true,
+    color: 0xffffff
   });
   
-  // Create mesh and add to scene
+  // Create and add mesh
   const mesh = new THREE.Mesh(geo, mat);
   scene.add(mesh);
   console.log("Wireframe head added to scene");
   
-  // Try to apply depth map to geometry
-  try {
-    const positions = geo.attributes.position;
-    const uvs = geo.attributes.uv;
-    depthTexture.needsUpdate = true;
-    
-    const strength = 0.4; // depth exaggeration
-    
-    // Make sure we have image data
-    if (depthTexture.image && depthTexture.image.data) {
-      console.log("Applying depth map to geometry");
-      
-      for (let i = 0; i < positions.count; i++) {
-        const u = uvs.getX(i);
-        const v = 1 - uvs.getY(i);
-        
-        // Quick pixel lookup
-        const x = Math.floor(u * depthTexture.image.width);
-        const y = Math.floor(v * depthTexture.image.height);
-        const idx = (y * depthTexture.image.width + x) * 4;
-        const z = depthTexture.image.data[idx] / 255; // 0-1
-        
-        positions.setZ(i, z * strength);
-      }
-      positions.needsUpdate = true;
-      console.log("Depth map applied successfully");
-    } else {
-      console.warn("Depth texture has no image data available");
-    }
-  } catch (e) {
-    console.error("Error applying depth map:", e);
-  }
+  return mesh;
 }
