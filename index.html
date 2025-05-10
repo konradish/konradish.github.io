@@ -401,14 +401,24 @@
         .links {
             flex-direction: column;
         }
-        
+
         .links a {
             width: 100%;
             justify-content: center;
         }
-        
+
         .project-list {
             grid-template-columns: 1fr;
+        }
+
+        /* Responsive GIF container */
+        .project div {
+            flex-direction: column;
+        }
+
+        .project div img {
+            width: 100% !important;
+            margin-bottom: 10px;
         }
     }
     
@@ -487,6 +497,7 @@
         <article class="project">
           <h3><a href="https://konradish.github.io/magic-window" target="_blank" rel="noopener noreferrer">Magic Window</a></h3>
           <p>Simulates a window by using webcam to track your head position and moving the 3D scene accordingly.</p>
+          <img src="assets/preview/magicwindow.gif" alt="Magic Window Demo" style="width:100%; border-radius:8px; margin:12px 0; border:1px solid var(--border-color);">
           <ul>
             <li>WebGL/Three.js for 3D visualization</li>
             <li>Face tracking technology</li>
@@ -496,6 +507,11 @@
         <article class="project">
           <h3><a href="https://konradish.github.io/data_experiments/" target="_blank" rel="noopener noreferrer">Data Experiments</a></h3>
           <p>Collection of interactive data visualizations and experiments including sorting algorithm visualizers and pathfinding demos.</p>
+          <div style="display:flex; gap:10px; margin:12px 0;">
+            <img src="assets/preview/2dsort.gif" alt="2D Sorting Algorithm Visualization" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
+            <img src="assets/preview/3dsort.gif" alt="3D Sorting Algorithm Visualization" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
+            <img src="assets/preview/pathfind.gif" alt="Pathfinding Algorithm Demonstration" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
+          </div>
           <ul>
             <li>3D & 2D sorting algorithm visualizations</li>
             <li>Pathfinding algorithm demonstrations</li>
@@ -563,7 +579,7 @@
         resumeData = data;
         return data;
       })
-      .catch(e => console.error('Could not pre-fetch resume data:', e));
+      .catch(e => {/* Could not pre-fetch resume data */});
 
     document.getElementById('resume-link').addEventListener('click', async () => {
       const target = document.getElementById('resume');
@@ -586,7 +602,6 @@
         renderResume(data, target);
       } catch (e) {
         target.textContent = 'Could not load resume.';
-        console.error('Resume loading error:', e);
       }
     });
 
