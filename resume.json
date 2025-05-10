@@ -20,7 +20,7 @@
   "skills": [
     { "name": "languages", "keywords": ["java", "python", "sql", "javascript", "bash"] },
     { "name": "cloud / infra", "keywords": ["aws", "docker", "kubernetes", "openshift", "terraform‑adjacent"] },
-    { "name": "data", "keywords": ["trino", "iceberg", "spark", "dagster", "dbt"] }
+    { "name": "data", "keywords": ["databricks", "spark", "pandas", "bash shell", "MS cmd"] }
   ],
 
   "work": [
@@ -30,8 +30,8 @@
       "startDate": "2024-01",
       "summary": "leading data‑platform modernization & cost‑kill initiatives across lakehouse, consent mgmt, and event‑driven pipelines.",
       "highlights": [
-        "designed in‑house lakehouse stack (trino + iceberg) => slashed external vendor costs",
-        "established data‑tooling guild; introduced dagster/airbyte workflows"
+        "led project to land decentralized data into our data lakehouse => slashed external vendor costs",
+        "established data‑tooling guild; improved developer productivity with tooling standards"
       ]
     },
     {
