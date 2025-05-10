@@ -49,7 +49,7 @@
       "startDate": "2010-09",
       "endDate": "2021-08",
       "highlights": [
-        "containerised legacy print workflow; cut deployment time from hours to minutes",
+        "containerized legacy print workflow; cut deployment time from hours to minutes",
         "patched multithreaded pdf service for covid surge (+260 % throughput)"
       ]
     }
@@ -64,7 +64,7 @@
     {
       "name": "data experiments",
       "url": "https://konradish.github.io/data_experiments",
-      "summary": "interactive visualisers for path‑finding and sort algorithms."
+      "summary": "interactive visualizers for path‑finding and sort algorithms."
     },
     {
       "name": "meal‑planner mvp",
