@@ -195,13 +195,13 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     
     // Function to get depth at a specific UV coordinate
     const getDepthAtUV = (u, v) => {
-      // Convert UV to pixel coordinates
-      const x = Math.floor(u * canvas.width);
-      const y = Math.floor(v * canvas.height); // v is already flipped in the caller
-
+      // Convert UV to pixel coordinates (flipping both for consistency)
+      const x = Math.floor((1 - u) * canvas.width);
+      const y = Math.floor((1 - v) * canvas.height);
+      
       // Get pixel index
       const index = (y * canvas.width + x) * 4;
-
+      
       // Return normalized depth value (0-1)
       // Use only the red channel as grayscale images typically store values in the R channel
       return pixels[index] / 255;
@@ -210,35 +210,33 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     // Process the displacement
     const positions = planeGeometry.attributes.position;
     const uvs = planeGeometry.attributes.uv;
-
+    
     // Apply depth displacement
     for (let i = 0; i < positions.count; i++) {
-      // Get UV and invert the v coordinate to match the image orientation
+      // Get UV coordinates
       const u = uvs.getX(i);
-      const v = 1.0 - uvs.getY(i); // Invert v to correct orientation
-
+      const v = uvs.getY(i);
+      
       // Get depth value from image
       const depth = getDepthAtUV(u, v);
-
-      // Apply displacement - white (1.0) comes forward, black (0.0) goes back
-      // Depth factor controls how pronounced the effect is
+      
+      // Apply displacement
       const depthFactor = 0.7; // Increased depth effect
-      // Invert depth direction to match expected orientation
-      positions.setZ(i, (0.5 - depth) * depthFactor);
+      positions.setZ(i, depth * depthFactor);
     }
     
     // Update normals for better lighting
     planeGeometry.computeVertexNormals();
     
+    // Flip the geometry by rotating it 180 degrees
+    planeGeometry.rotateZ(Math.PI);
+    
     // Update geometry after changes
     positions.needsUpdate = true;
     
-    // Create a fixed, correctly oriented texture for the face
-    const fixedTexture = createFixedTexture(faceTexture);
-    
     // Create a main textured mesh with the photo
     const mainMaterial = new THREE.MeshStandardMaterial({
-      map: fixedTexture,
+      map: faceTexture,
       // Enhanced material properties for better contrast
       roughness: 0.5,
       metalness: 0.1,
@@ -272,9 +270,6 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     
     // Add a slight tilt for more natural look
     photoGroup.rotation.x = -0.05;
-
-    // We won't flip the group since we're handling the texture separately
-    // photoGroup.rotation.z = Math.PI;
     
     // Add the group to the scene
     scene.add(photoGroup);
@@ -289,31 +284,6 @@ function create3DPhoto(scene, depthImage, faceTexture) {
   }
 }
 
-// Create a correctly oriented texture from the original face texture
-function createFixedTexture(originalTexture) {
-  // Create a canvas to manipulate the texture
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  
-  // Set canvas size to match the texture
-  canvas.width = originalTexture.image.width;
-  canvas.height = originalTexture.image.height;
-  
-  // Draw the image to the canvas, flipped vertically
-  ctx.save();
-  ctx.translate(0, canvas.height);
-  ctx.scale(1, -1);
-  ctx.drawImage(originalTexture.image, 0, 0, canvas.width, canvas.height);
-  ctx.restore();
-  
-  // Create a new texture from the canvas
-  const newTexture = new THREE.CanvasTexture(canvas);
-  newTexture.anisotropy = originalTexture.anisotropy;
-  newTexture.encoding = originalTexture.encoding;
-  
-  return newTexture;
-}
-
 // Create a fallback flat photo if the depth map approach fails
 function createFallbackPhoto(scene, faceTexture) {
   console.log("Creating fallback flat photo");
@@ -325,6 +295,10 @@ function createFallbackPhoto(scene, faceTexture) {
   
   // Create a simple plane
   const geometry = new THREE.PlaneGeometry(width, height);
+  
+  // Rotate the geometry to match orientation
+  geometry.rotateZ(Math.PI);
+  
   const material = new THREE.MeshStandardMaterial({
     map: faceTexture,
     side: THREE.DoubleSide,
