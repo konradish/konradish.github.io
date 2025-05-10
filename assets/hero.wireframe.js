@@ -14,8 +14,24 @@ export function loadHero() {
 
   // geometry: plane subdivided for displacement
   const texLoader = new THREE.TextureLoader();
-  const face = texLoader.load('assets/me.jpg');
-  const depth = texLoader.load('assets/depth.png', t => (t.minFilter = THREE.LinearFilter));
+  texLoader.crossOrigin = 'anonymous';
+
+  const face = texLoader.load(
+    'assets/me.jpg',
+    texture => console.log("Face texture loaded successfully"),
+    undefined,
+    err => console.error("Failed to load face texture:", err)
+  );
+
+  const depth = texLoader.load(
+    'assets/depth.png',
+    t => {
+      console.log("Depth texture loaded");
+      t.minFilter = THREE.LinearFilter;
+    },
+    undefined,
+    err => console.error("Failed to load depth texture:", err)
+  );
 
   const width = 1.5;           // tweak to match aspect
   const height = width * (face.image.height / face.image.width);
@@ -28,20 +44,33 @@ export function loadHero() {
   // displace vertices using depth texture
   const positions = geo.attributes.position;
   const uvs = geo.attributes.uv;
-  depth.needsUpdate = true;
 
-  const strength = .4; // depth exaggeration
-  for (let i = 0; i < positions.count; i++) {
-    const u = uvs.getX(i), v = 1 - uvs.getY(i);
-    const col = new THREE.Color(depth.image);
-    // quick pixel lookup
-    const x = Math.floor(u * depth.image.width);
-    const y = Math.floor(v * depth.image.height);
-    const idx = (y * depth.image.width + x) * 4;
-    const z = depth.image.data[idx] / 255; // 0‑1
-    positions.setZ(i, z * strength);
-  }
-  positions.needsUpdate = true;
+  // Setup event listeners for textures
+  depth.onLoad = () => {
+    depth.needsUpdate = true;
+    console.log("Depth map loaded successfully");
+
+    const strength = .4; // depth exaggeration
+    try {
+      for (let i = 0; i < positions.count; i++) {
+        const u = uvs.getX(i), v = 1 - uvs.getY(i);
+        const col = new THREE.Color(depth.image);
+        // quick pixel lookup
+        const x = Math.floor(u * depth.image.width);
+        const y = Math.floor(v * depth.image.height);
+        const idx = (y * depth.image.width + x) * 4;
+        const z = depth.image.data[idx] / 255; // 0‑1
+        positions.setZ(i, z * strength);
+      }
+      positions.needsUpdate = true;
+    } catch (e) {
+      console.error("Error processing depth map:", e);
+    }
+  };
+
+  depth.onError = (err) => {
+    console.error("Failed to load depth map:", err);
+  };
 
   // rotate loop
   const clock = new THREE.Clock();
