@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preload" as="image" href="/assets/me.jpg">
+  <link rel="preload" as="image" href="/assets/depth.png">
   <title>Konrad Odell – software architect</title>
   <style>
     /* CSS Variables for Theme Switching */
@@ -391,6 +393,7 @@
             transition-duration: 0.01ms !important;
             scroll-behavior: auto !important;
         }
+        #hero-canvas { display: none; }
     }
     
     /* Mobile Responsive */
@@ -441,6 +444,7 @@
     <header>
       <h1>Konrad Odell</h1>
       <p class="title">Software Architect & Tech Enthusiast</p>
+      <canvas id="hero-canvas" style="width:100%;height:300px;"></canvas>
     </header>
     
     <section class="about">
@@ -632,6 +636,11 @@
       if (txt) el.textContent = txt;
       return el;
     }
+  </script>
+
+  <script type="module">
+    import { loadHero } from './assets/hero.wireframe.js';
+    loadHero();
   </script>
 </body>
 </html>
