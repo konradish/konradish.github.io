@@ -550,39 +550,83 @@
     }
 
     /* ==== résumé loader ==== */
+    // Pre-fetch the resume data when page loads
+    let resumeData = null;
+    const resumeDataPromise = fetch('resume.json')
+      .then(res => res.json())
+      .then(data => {
+        resumeData = data;
+        return data;
+      })
+      .catch(e => console.error('Could not pre-fetch resume data:', e));
+
     document.getElementById('resume-link').addEventListener('click', async () => {
       const target = document.getElementById('resume');
-      if (target.hasChildNodes()) return; // already loaded
+      if (target.hasChildNodes()) {
+        // Resume section is already visible, scroll to it
+        target.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
       try {
-        const res = await fetch('resume.json');
-        const data = await res.json();
+        // Show loading indicator
+        const loading = document.createElement('p');
+        loading.textContent = 'Loading résumé...';
+        target.appendChild(loading);
+
+        // Use the pre-fetched data if available, otherwise fetch it now
+        const data = resumeData || await resumeDataPromise;
+
+        // Render the resume with the data
         renderResume(data, target);
       } catch (e) {
-        target.textContent = 'could not load résumé.';
+        target.textContent = 'Could not load résumé.';
+        console.error('Resume loading error:', e);
       }
     });
 
     function renderResume(r, root) {
+      // Clear the loading indicator or any previous content
       root.innerHTML = '';
-      const h2 = tag('h2','experience'); root.appendChild(h2);
+
+      // Create a document fragment for better performance
+      const fragment = document.createDocumentFragment();
+
+      // Experience section
+      const expHeading = tag('h2', 'experience');
+      fragment.appendChild(expHeading);
+
+      // Create work items
       r.work.forEach(w => {
         const div = tag('div');
         div.appendChild(tag('h3', `${w.position} @ ${w.name}`));
-        if (w.startDate) div.appendChild(tag('p', `${w.startDate}${w.endDate?' – '+w.endDate:''}`));
-        if (w.summary)  div.appendChild(tag('p', w.summary));
-        if (w.highlights) {
+        if (w.startDate) div.appendChild(tag('p', `${w.startDate}${w.endDate ? ' – ' + w.endDate : ''}`));
+        if (w.summary) div.appendChild(tag('p', w.summary));
+
+        if (w.highlights && w.highlights.length) {
           const ul = tag('ul');
-          w.highlights.forEach(h => ul.appendChild(tag('li',h)));
+          w.highlights.forEach(h => ul.appendChild(tag('li', h)));
           div.appendChild(ul);
         }
-        root.appendChild(div);
+
+        fragment.appendChild(div);
       });
-      /* skills quick‑view */
-      root.appendChild(tag('h2','skills'));
+
+      // Skills section
+      const skillsHeading = tag('h2', 'skills');
+      fragment.appendChild(skillsHeading);
+
       const ul = tag('ul');
-      r.skills.forEach(s => ul.appendChild(tag('li',`${s.name}: ${s.keywords.join(', ')}`)));
-      root.appendChild(ul);
+      r.skills.forEach(s => ul.appendChild(tag('li', `${s.name}: ${s.keywords.join(', ')}`)));
+      fragment.appendChild(ul);
+
+      // Add everything to the DOM at once
+      root.appendChild(fragment);
+
+      // Scroll to the resume section
+      root.scrollIntoView({ behavior: 'smooth' });
     }
+
     function tag(t, txt) {
       const el = document.createElement(t);
       if (txt) el.textContent = txt;
