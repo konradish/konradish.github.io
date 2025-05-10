@@ -2,7 +2,7 @@ import * as THREE from 'https://unpkg.com/three@^0.164/build/three.module.js';
 
 // handles scene injection into #hero-canvas (make that elem in HTML)
 export function loadHero() {
-  console.log("Initializing hero wireframe");
+  console.log("Initializing hero 3D photo");
   
   const canvas = document.getElementById('hero-canvas');
   if (!canvas) {
@@ -25,10 +25,18 @@ export function loadHero() {
   const camera = new THREE.PerspectiveCamera(35, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
   camera.position.set(0, 0, 3);
 
-  // Add light
-  scene.add(new THREE.DirectionalLight(0xffffff, 0.8));
+  // Add lights for better texture appearance
+  scene.add(new THREE.AmbientLight(0xffffff, 0.7)); // Increased ambient light
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0); // Increased directional light
+  directionalLight.position.set(1, 1, 2);
+  scene.add(directionalLight);
   
-  // Start with a simple blue wireframe cube to test if rendering works
+  // Add a rim light for better edge definition
+  const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
+  rimLight.position.set(-1, 0.5, -1);
+  scene.add(rimLight);
+  
+  // Start with a temporary cube to ensure rendering works
   const cube = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
     new THREE.MeshBasicMaterial({ 
@@ -37,74 +45,72 @@ export function loadHero() {
     })
   );
   scene.add(cube);
-  console.log("Added test cube to scene");
+  console.log("Added temporary cube to scene");
   
-  // Simple wireframe sphere as a last resort fallback
-  const fallbackHead = new THREE.Mesh(
-    new THREE.SphereGeometry(0.8, 32, 32),
-    new THREE.MeshBasicMaterial({ 
-      color: 0x58a6ff, 
-      wireframe: true 
-    })
-  );
+  // Load textures
+  const imageLoader = new THREE.ImageLoader();
+  imageLoader.setCrossOrigin('anonymous');
   
-  // Texture loader with crossOrigin
-  const texLoader = new THREE.TextureLoader();
-  texLoader.crossOrigin = 'anonymous';
+  // Create a texture loader for the face texture
+  const textureLoader = new THREE.TextureLoader();
+  textureLoader.setCrossOrigin('anonymous');
   
-  // Cache textures for use with the displacement material
-  const textures = {};
+  // Create a cache for our loaded assets
+  const assets = {
+    depthImage: null,
+    faceTexture: null
+  };
   
-  // Load face texture
-  texLoader.load(
-    'assets/me.jpg',
-    texture => {
-      console.log("Face texture loaded successfully");
-      textures.face = texture;
-      tryCreateHead();
-    },
-    undefined,
-    err => {
-      console.error("Failed to load face texture:", err);
-      useFallbackHead();
-    }
-  );
-  
-  // Load depth texture
-  texLoader.load(
+  // Load the depth image
+  imageLoader.load(
     'assets/depth.png',
-    texture => {
-      console.log("Depth texture loaded successfully");
-      textures.depth = texture;
-      tryCreateHead();
+    (depthImage) => {
+      console.log("Depth image loaded as Image:", depthImage.width, "x", depthImage.height);
+      assets.depthImage = depthImage;
+      tryCreateMesh(scene, assets, cube);
     },
     undefined,
-    err => {
-      console.error("Failed to load depth texture:", err);
-      useFallbackHead();
+    (err) => {
+      console.error("Failed to load depth image:", err);
     }
   );
   
-  // Try to create the head once both textures are loaded
-  function tryCreateHead() {
-    if (textures.face && textures.depth) {
-      console.log("Both textures loaded, creating head");
-      try {
-        createSimpleHead(scene, textures.face);
-        scene.remove(cube);
-      } catch (e) {
-        console.error("Error creating head:", e);
-        useFallbackHead();
-      }
+  // Load the face texture
+  textureLoader.load(
+    'assets/me.jpg',
+    (faceTexture) => {
+      console.log("Face texture loaded:", faceTexture.image.width, "x", faceTexture.image.height);
+      // Improve texture rendering
+      faceTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      
+      // Enhance contrast by manipulating texture settings
+      faceTexture.encoding = THREE.sRGBEncoding; // Better color encoding
+      faceTexture.flipY = false; // Ensure proper orientation
+      assets.faceTexture = faceTexture;
+      
+      tryCreateMesh(scene, assets, cube);
+    },
+    undefined,
+    (err) => {
+      console.error("Failed to load face texture:", err);
     }
-  }
+  );
   
-  // Use fallback head if face creation fails
-  function useFallbackHead() {
-    console.log("Using fallback head");
-    scene.add(fallbackHead);
-    scene.remove(cube);
-  }
+  // Store mouse position for tracking
+  const mouse = {
+    x: 0,
+    y: 0,
+    targetX: 0,
+    targetY: 0,
+    updateRate: 0.1 // Controls how quickly the head follows the mouse
+  };
+  
+  // Add mouse move listener for tracking
+  document.addEventListener('mousemove', (event) => {
+    // Calculate normalized coordinates (-1 to 1)
+    mouse.targetX = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.targetY = -((event.clientY / window.innerHeight) * 2 - 1);
+  });
   
   // Animation loop
   const clock = new THREE.Clock();
@@ -116,62 +122,190 @@ export function loadHero() {
       camera.updateProjectionMatrix();
     }
     
-    // Rotate all meshes in the scene
-    const t = clock.getElapsedTime();
+    // Smoothly update mouse position (easing)
+    mouse.x += (mouse.targetX - mouse.x) * mouse.updateRate;
+    mouse.y += (mouse.targetY - mouse.y) * mouse.updateRate;
+    
+    // Apply mouse tracking rotation to all meshes in the scene
     scene.traverse(obj => {
-      if (obj.isMesh) {
-        obj.rotation.y = t * 0.3;
+      if (obj.isMesh || obj.isGroup) {
+        // Apply mouse tracking with limits
+        const t = clock.getElapsedTime();
+        
+        // Main rotation follows mouse horizontally (with subtle automatic movement)
+        obj.rotation.y = Math.sin(t * 0.1) * 0.05 + (mouse.x * 0.3);
+        
+        // Subtle vertical tilt based on mouse position
+        obj.rotation.x = -0.05 + (mouse.y * 0.1);
       }
     });
     
     // Render
     renderer.render(scene, camera);
   });
+  
+  // Ensure we render once immediately
+  renderer.render(scene, camera);
 }
 
-// Create a simple head without relying on displacement
-function createSimpleHead(scene, faceTexture) {
-  console.log("Creating simple head wireframe");
-  
-  // Create geometry based on face aspect ratio
-  const width = 1.5;
-  const height = width * (faceTexture.image.height / faceTexture.image.width);
-  
-  // Use a finer geometry for better wireframe appearance
-  const geo = new THREE.PlaneGeometry(width, height, 32, 32);
-  
-  // Manually displace some vertices to give a 3D effect without using the depth map
-  const positions = geo.attributes.position;
-  const count = positions.count;
-  
-  // Create a simple bulge in the middle
-  for (let i = 0; i < count; i++) {
-    const x = positions.getX(i);
-    const y = positions.getY(i);
+// Try to create the mesh when all assets are loaded
+function tryCreateMesh(scene, assets, tempCube) {
+  // Check if all assets are loaded
+  if (assets.depthImage && assets.faceTexture) {
+    console.log("All assets loaded, creating 3D photo");
     
-    // Calculate distance from center
-    const distanceFromCenter = Math.sqrt(x*x + y*y);
-    const normalizedDistance = Math.min(distanceFromCenter / (width/2), 1);
+    // Create the mesh with both depth and face texture
+    const headMesh = create3DPhoto(scene, assets.depthImage, assets.faceTexture);
     
-    // Create a bulge that's highest in the center
-    const bulge = 0.2 * (1 - normalizedDistance * normalizedDistance);
-    
-    // Apply the bulge
-    positions.setZ(i, bulge);
+    // Remove the temp cube once the photo is created
+    if (headMesh) {
+      scene.remove(tempCube);
+      console.log("Removed temporary cube, 3D photo is now visible");
+    }
   }
+}
+
+// Create a 3D photo using the depth map and face texture
+function create3DPhoto(scene, depthImage, faceTexture) {
+  // Create a canvas to read depth data from the image
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
   
-  positions.needsUpdate = true;
+  // Set canvas size to match the depth image
+  canvas.width = depthImage.width;
+  canvas.height = depthImage.height;
   
-  // Create wireframe material
-  const mat = new THREE.MeshBasicMaterial({
-    wireframe: true,
-    color: 0xffffff
+  // Draw the depth image to the canvas so we can read its pixels
+  ctx.drawImage(depthImage, 0, 0);
+  
+  try {
+    // Try to get the pixel data from the canvas
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixels = imageData.data;
+    
+    console.log("Successfully read depth data from canvas");
+    
+    // Create aspect-ratio-correct plane
+    const width = 1.6; // Slightly smaller for better framing
+    const height = width * (canvas.height / canvas.width);
+    
+    // Create a grid with enough segments to represent the detail
+    const segmentsX = Math.min(128, canvas.width / 4);  // Don't need full resolution
+    const segmentsY = Math.min(128, canvas.height / 4);
+    const planeGeometry = new THREE.PlaneGeometry(width, height, segmentsX, segmentsY);
+    
+    // Function to get depth at a specific UV coordinate
+    const getDepthAtUV = (u, v) => {
+      // Convert UV to pixel coordinates
+      const x = Math.floor(u * canvas.width);
+      const y = Math.floor((1 - v) * canvas.height); // Flip Y
+      
+      // Get pixel index
+      const index = (y * canvas.width + x) * 4;
+      
+      // Return normalized depth value (0-1)
+      // Use only the red channel as grayscale images typically store values in the R channel
+      return pixels[index] / 255;
+    };
+    
+    // Process the displacement
+    const positions = planeGeometry.attributes.position;
+    const uvs = planeGeometry.attributes.uv;
+    
+    // Apply depth displacement
+    for (let i = 0; i < positions.count; i++) {
+      const u = uvs.getX(i);
+      const v = uvs.getY(i);
+      
+      // Get depth value from image
+      const depth = getDepthAtUV(u, v);
+      
+      // Apply displacement - white (1.0) comes forward, black (0.0) goes back
+      // Depth factor controls how pronounced the effect is
+      const depthFactor = 0.7; // Increased depth effect
+      positions.setZ(i, (depth - 0.5) * depthFactor);
+    }
+    
+    // Update normals for better lighting
+    planeGeometry.computeVertexNormals();
+    
+    // Update geometry after changes
+    positions.needsUpdate = true;
+    
+    // Create a main textured mesh with the photo
+    const mainMaterial = new THREE.MeshStandardMaterial({
+      map: faceTexture,
+      // Enhanced material properties for better contrast
+      roughness: 0.5,
+      metalness: 0.1,
+      side: THREE.DoubleSide, // Show both sides
+      // Color adjustment for better contrast
+      color: 0xffffff,
+      emissive: 0x222222, // Slight self-illumination
+      emissiveIntensity: 0.2
+    });
+    
+    // Create a subtle wireframe on top for depth perception
+    const wireframeMaterial = new THREE.MeshBasicMaterial({
+      color: 0x58a6ff,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.12 // Very subtle wireframe
+    });
+    
+    // Create the meshes
+    const mainMesh = new THREE.Mesh(planeGeometry, mainMaterial);
+    const wireframeMesh = new THREE.Mesh(planeGeometry.clone(), wireframeMaterial);
+    
+    // Position meshes
+    mainMesh.position.set(0, 0, 0);
+    wireframeMesh.position.set(0, 0, 0.005); // Tiny offset to prevent z-fighting
+    
+    // Create a group to manage both meshes
+    const photoGroup = new THREE.Group();
+    photoGroup.add(mainMesh);
+    photoGroup.add(wireframeMesh);
+    
+    // Add a slight tilt for more natural look
+    photoGroup.rotation.x = -0.05;
+    
+    // Add the group to the scene
+    scene.add(photoGroup);
+    
+    console.log("Created and added 3D photo with depth displacement");
+    
+    return photoGroup;
+  } catch (e) {
+    console.error("Error creating 3D photo:", e);
+    createFallbackPhoto(scene, faceTexture);
+    return null;
+  }
+}
+
+// Create a fallback flat photo if the depth map approach fails
+function createFallbackPhoto(scene, faceTexture) {
+  console.log("Creating fallback flat photo");
+  
+  // Calculate aspect ratio
+  const aspect = faceTexture.image.height / faceTexture.image.width;
+  const width = 1.6; // Slightly smaller for better framing
+  const height = width * aspect;
+  
+  // Create a simple plane
+  const geometry = new THREE.PlaneGeometry(width, height);
+  const material = new THREE.MeshStandardMaterial({
+    map: faceTexture,
+    side: THREE.DoubleSide,
+    // Enhanced material properties
+    roughness: 0.5,
+    metalness: 0.1,
+    color: 0xffffff,
+    emissive: 0x222222, // Slight self-illumination
+    emissiveIntensity: 0.2
   });
   
-  // Create and add mesh
-  const mesh = new THREE.Mesh(geo, mat);
-  scene.add(mesh);
-  console.log("Wireframe head added to scene");
+  const photoMesh = new THREE.Mesh(geometry, material);
+  scene.add(photoMesh);
   
-  return mesh;
+  return photoMesh;
 }
