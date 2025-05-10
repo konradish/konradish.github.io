@@ -132,7 +132,7 @@ export function loadHero() {
         const t = clock.getElapsedTime();
         
         // Main rotation follows mouse horizontally (with subtle automatic movement)
-        obj.rotation.y = Math.sin(t * 0.1) * 0.05 + (mouse.x * 0.15); // Reduced rotation sensitivity
+        obj.rotation.y = Math.sin(t * 0.1) * 0.05 + (mouse.x * 0.075); // Further reduced horizontal rotation sensitivity
         
         // Subtle vertical tilt based on mouse position
         obj.rotation.x = -0.05 - (mouse.y * 0.05); // Inverted vertical rotation: up for mouse up, down for mouse down
