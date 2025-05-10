@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <title>Konrad O'Dell - Software Architect</title>
+    <title>Konrad Odell - Software Architect</title>
     <style>
         * {
             margin: 0;
@@ -21,7 +21,7 @@
         }
         
         .container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
             padding: 40px 20px;
         }
@@ -48,6 +48,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            margin-bottom: 30px;
         }
         
         .links a {
@@ -64,6 +65,48 @@
             text-decoration: underline;
         }
         
+        .projects {
+            margin-top: 40px;
+        }
+        
+        .projects h2 {
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            color: #222;
+            font-weight: 600;
+        }
+        
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .project {
+            padding: 15px;
+            border-left: 3px solid #0366d6;
+            background-color: #f8f9fa;
+        }
+        
+        .project h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        
+        .project h3 a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        
+        .project h3 a:hover {
+            text-decoration: underline;
+        }
+        
+        .project p {
+            color: #555;
+            font-size: 0.95em;
+        }
+        
         @media (max-width: 600px) {
             .container {
                 padding: 20px 10px;
@@ -72,13 +115,21 @@
             h1 {
                 font-size: 1.8em;
             }
+            
+            .projects h2 {
+                font-size: 1.4em;
+            }
+            
+            .project h3 {
+                font-size: 1.1em;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Konrad O'Dell</h1>
+            <h1>Konrad Odell</h1>
             <p class="title">Lead Software Architect</p>
         </header>
         
@@ -92,6 +143,26 @@
             <a href="https://www.linkedin.com/in/konrad-odell/">LinkedIn</a>
             <a href="mailto:contact@konradodell.com">Contact</a>
         </nav>
+        
+        <section class="projects">
+            <h2>Projects</h2>
+            <div class="project-list">
+                <div class="project">
+                    <h3><a href="https://konradish.github.io/magic-window">Magic Window</a></h3>
+                    <p>An experimental 3D scene that simulates a window by tracking head position via webcam to create a parallax effect.</p>
+                </div>
+                
+                <div class="project">
+                    <h3><a href="https://konradish.github.io/data_experiments/">Data Experiments</a></h3>
+                    <p>A collection of interactive algorithm visualizations:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>3D Sorting Algorithm Visualizer</li>
+                        <li>2D Sorting Algorithm Visualizer</li>
+                        <li>2D Pathfinding Algorithm Visualizer</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
     </div>
 </body>
 </html>
