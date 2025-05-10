@@ -85,9 +85,8 @@ export function loadHero() {
       
       // Enhance contrast by manipulating texture settings
       faceTexture.encoding = THREE.sRGBEncoding; // Better color encoding
-      // Keep the default flipY = true, which is needed for correct orientation
-      assets.faceTexture = faceTexture;
       
+      assets.faceTexture = faceTexture;
       tryCreateMesh(scene, assets, cube);
     },
     undefined,
@@ -228,21 +227,16 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     
     // Update normals for better lighting
     planeGeometry.computeVertexNormals();
-
+    
     // Update geometry after changes
     positions.needsUpdate = true;
-
-    // Flip the UVs vertically if needed to correct the texture orientation
-    const uvAttribute = planeGeometry.attributes.uv;
-    for (let i = 0; i < uvAttribute.count; i++) {
-      const v = uvAttribute.getY(i);
-      uvAttribute.setY(i, 1 - v);
-    }
-    uvAttribute.needsUpdate = true;
+    
+    // Create a fixed, correctly oriented texture for the face
+    const fixedTexture = createFixedTexture(faceTexture);
     
     // Create a main textured mesh with the photo
     const mainMaterial = new THREE.MeshStandardMaterial({
-      map: faceTexture,
+      map: fixedTexture,
       // Enhanced material properties for better contrast
       roughness: 0.5,
       metalness: 0.1,
@@ -277,6 +271,9 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     // Add a slight tilt for more natural look
     photoGroup.rotation.x = -0.05;
     
+    // Flip the entire photo group to correct the orientation
+    photoGroup.rotation.z = Math.PI;
+    
     // Add the group to the scene
     scene.add(photoGroup);
     
@@ -288,6 +285,31 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     createFallbackPhoto(scene, faceTexture);
     return null;
   }
+}
+
+// Create a correctly oriented texture from the original face texture
+function createFixedTexture(originalTexture) {
+  // Create a canvas to manipulate the texture
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  
+  // Set canvas size to match the texture
+  canvas.width = originalTexture.image.width;
+  canvas.height = originalTexture.image.height;
+  
+  // Draw the image to the canvas, flipped vertically
+  ctx.save();
+  ctx.translate(0, canvas.height);
+  ctx.scale(1, -1);
+  ctx.drawImage(originalTexture.image, 0, 0, canvas.width, canvas.height);
+  ctx.restore();
+  
+  // Create a new texture from the canvas
+  const newTexture = new THREE.CanvasTexture(canvas);
+  newTexture.anisotropy = originalTexture.anisotropy;
+  newTexture.encoding = originalTexture.encoding;
+  
+  return newTexture;
 }
 
 // Create a fallback flat photo if the depth map approach fails
