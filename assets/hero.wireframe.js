@@ -197,11 +197,11 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     const getDepthAtUV = (u, v) => {
       // Convert UV to pixel coordinates
       const x = Math.floor(u * canvas.width);
-      const y = Math.floor((1 - v) * canvas.height); // Flip Y
-      
+      const y = Math.floor(v * canvas.height); // v is already flipped in the caller
+
       // Get pixel index
       const index = (y * canvas.width + x) * 4;
-      
+
       // Return normalized depth value (0-1)
       // Use only the red channel as grayscale images typically store values in the R channel
       return pixels[index] / 255;
@@ -210,19 +210,21 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     // Process the displacement
     const positions = planeGeometry.attributes.position;
     const uvs = planeGeometry.attributes.uv;
-    
+
     // Apply depth displacement
     for (let i = 0; i < positions.count; i++) {
+      // Get UV and invert the v coordinate to match the image orientation
       const u = uvs.getX(i);
-      const v = uvs.getY(i);
-      
+      const v = 1.0 - uvs.getY(i); // Invert v to correct orientation
+
       // Get depth value from image
       const depth = getDepthAtUV(u, v);
-      
+
       // Apply displacement - white (1.0) comes forward, black (0.0) goes back
       // Depth factor controls how pronounced the effect is
       const depthFactor = 0.7; // Increased depth effect
-      positions.setZ(i, (depth - 0.5) * depthFactor);
+      // Invert depth direction to match expected orientation
+      positions.setZ(i, (0.5 - depth) * depthFactor);
     }
     
     // Update normals for better lighting
@@ -270,9 +272,9 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     
     // Add a slight tilt for more natural look
     photoGroup.rotation.x = -0.05;
-    
-    // Flip the entire photo group to correct the orientation
-    photoGroup.rotation.z = Math.PI;
+
+    // We won't flip the group since we're handling the texture separately
+    // photoGroup.rotation.z = Math.PI;
     
     // Add the group to the scene
     scene.add(photoGroup);
