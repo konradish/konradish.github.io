@@ -1,0 +1,92 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Konrad Odell",
+    "label": "software architect",
+    "email": "konradish@gmail.com",
+    "url": "https://konradodell.com",
+    "summary": "architecting cloud‑native, data‑driven systems for 20+ yrs. loves turning gnarly infrastructures into elegant monoliths‑or‑microservices (whatever actually works).",
+    "location": {
+      "city": "flower mound",
+      "region": "tx",
+      "country": "us"
+    },
+    "profiles": [
+      { "network": "GitHub",   "username": "konradish", "url": "https://github.com/konradish" },
+      { "network": "LinkedIn", "username": "konrad-odell", "url": "https://www.linkedin.com/in/konrad-odell/" }
+    ]
+  },
+
+  "skills": [
+    { "name": "languages", "keywords": ["java", "python", "sql", "javascript", "bash"] },
+    { "name": "cloud / infra", "keywords": ["aws", "docker", "kubernetes", "openshift", "terraform‑adjacent"] },
+    { "name": "data", "keywords": ["trino", "iceberg", "spark", "dagster", "dbt"] }
+  ],
+
+  "work": [
+    {
+      "name": "health‑tech interoperability platform",
+      "position": "software architect",
+      "startDate": "2024-01",
+      "summary": "leading data‑platform modernization & cost‑kill initiatives across lakehouse, consent mgmt, and event‑driven pipelines.",
+      "highlights": [
+        "designed in‑house lakehouse stack (trino + iceberg) => slashed external vendor costs",
+        "established data‑tooling guild; introduced dagster/airbyte workflows"
+      ]
+    },
+    {
+      "name": "discover card (via cognizant)",
+      "position": "sr software engineer",
+      "startDate": "2021-08",
+      "endDate": "2022-09",
+      "highlights": [
+        "built mail‑tracking api; mentored team on contract‑first + mutation‑testing culture"
+      ]
+    },
+    {
+      "name": "nearstar inc.",
+      "position": "vp of research → senior software engineer",
+      "startDate": "2010-09",
+      "endDate": "2021-08",
+      "highlights": [
+        "containerised legacy print workflow; cut deployment time from hours to minutes",
+        "patched multithreaded pdf service for covid surge (+260 % throughput)"
+      ]
+    }
+  ],
+
+  "projects": [
+    {
+      "name": "magic window",
+      "url": "https://konradish.github.io/magic-window",
+      "summary": "three.js toy that turns your monitor into a faux‑3d viewport."
+    },
+    {
+      "name": "data experiments",
+      "url": "https://konradish.github.io/data_experiments",
+      "summary": "interactive visualisers for path‑finding and sort algorithms."
+    },
+    {
+      "name": "meal‑planner mvp",
+      "summary": "vegetarian‑friendly planner with semantic recipe search (supabase + python)."
+    },
+    {
+      "name": "cognitive agent swarm",
+      "summary": "event‑driven llm micro‑agents teaching each other tools. strictly for science."
+    }
+  ],
+
+  "education": [
+    {
+      "institution": "university of texas at dallas",
+      "area": "computer science",
+      "studyType": "b.sc.",
+      "honors": "cum laude",
+      "endDate": "2010-08"
+    }
+  ],
+
+  "certificates": [
+    { "name": "aws certified cloud practitioner", "date": "2021-11" }
+  ]
+}
