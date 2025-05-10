@@ -26,13 +26,13 @@ export function loadHero() {
   camera.position.set(0, 0, 3);
 
   // Add lights for better texture appearance
-  scene.add(new THREE.AmbientLight(0xffffff, 0.7)); // Increased ambient light
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0); // Increased directional light
+  scene.add(new THREE.AmbientLight(0xffffff, 0.4)); // Adjusted ambient light
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7); // Adjusted directional light
   directionalLight.position.set(1, 1, 2);
   scene.add(directionalLight);
   
   // Add a rim light for better edge definition
-  const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
+  const rimLight = new THREE.DirectionalLight(0xffffff, 0.3); // Adjusted rim light
   rimLight.position.set(-1, 0.5, -1);
   scene.add(rimLight);
   
@@ -132,10 +132,10 @@ export function loadHero() {
         const t = clock.getElapsedTime();
         
         // Main rotation follows mouse horizontally (with subtle automatic movement)
-        obj.rotation.y = Math.sin(t * 0.1) * 0.05 + (mouse.x * 0.3);
+        obj.rotation.y = Math.sin(t * 0.1) * 0.05 + (mouse.x * 0.15); // Reduced rotation sensitivity
         
         // Subtle vertical tilt based on mouse position
-        obj.rotation.x = -0.05 + (mouse.y * 0.1);
+        obj.rotation.x = -0.05 + (mouse.y * 0.05); // Reduced rotation sensitivity
       }
     });
     
@@ -195,9 +195,9 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     
     // Function to get depth at a specific UV coordinate
     const getDepthAtUV = (u, v) => {
-      // Convert UV to pixel coordinates (flipping both for consistency)
-      const x = Math.floor((1 - u) * canvas.width);
-      const y = Math.floor((1 - v) * canvas.height);
+      // Convert UV to pixel coordinates
+      const x = Math.floor(u * canvas.width); // Adjusted x-coordinate mapping
+      const y = Math.floor((1 - v) * canvas.height); // v is flipped as texture v=0 is bottom, image y=0 is top
       
       // Get pixel index
       const index = (y * canvas.width + x) * 4;
@@ -228,9 +228,6 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     // Update normals for better lighting
     planeGeometry.computeVertexNormals();
     
-    // Flip the geometry by rotating it 180 degrees
-    planeGeometry.rotateZ(Math.PI);
-    
     // Update geometry after changes
     positions.needsUpdate = true;
     
@@ -242,9 +239,9 @@ function create3DPhoto(scene, depthImage, faceTexture) {
       metalness: 0.1,
       side: THREE.DoubleSide, // Show both sides
       // Color adjustment for better contrast
-      color: 0xffffff,
-      emissive: 0x222222, // Slight self-illumination
-      emissiveIntensity: 0.2
+      color: 0xffffff, // Base color
+      emissive: 0x000000 // Removed emissive component
+      // emissiveIntensity: 0.2 // Removed
     });
     
     // Create a subtle wireframe on top for depth perception
@@ -252,7 +249,7 @@ function create3DPhoto(scene, depthImage, faceTexture) {
       color: 0x58a6ff,
       wireframe: true,
       transparent: true,
-      opacity: 0.12 // Very subtle wireframe
+      opacity: 0.05 // More subtle wireframe
     });
     
     // Create the meshes
@@ -297,7 +294,7 @@ function createFallbackPhoto(scene, faceTexture) {
   const geometry = new THREE.PlaneGeometry(width, height);
   
   // Rotate the geometry to match orientation
-  geometry.rotateZ(Math.PI);
+  // geometry.rotateZ(Math.PI); // Removed rotation
   
   const material = new THREE.MeshStandardMaterial({
     map: faceTexture,
@@ -305,9 +302,9 @@ function createFallbackPhoto(scene, faceTexture) {
     // Enhanced material properties
     roughness: 0.5,
     metalness: 0.1,
-    color: 0xffffff,
-    emissive: 0x222222, // Slight self-illumination
-    emissiveIntensity: 0.2
+    color: 0xffffff, // Base color
+    emissive: 0x000000 // Removed emissive component
+    // emissiveIntensity: 0.2 // Removed
   });
   
   const photoMesh = new THREE.Mesh(geometry, material);
