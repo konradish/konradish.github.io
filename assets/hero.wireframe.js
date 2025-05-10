@@ -85,7 +85,7 @@ export function loadHero() {
       
       // Enhance contrast by manipulating texture settings
       faceTexture.encoding = THREE.sRGBEncoding; // Better color encoding
-      faceTexture.flipY = false; // Ensure proper orientation
+      // Keep the default flipY = true, which is needed for correct orientation
       assets.faceTexture = faceTexture;
       
       tryCreateMesh(scene, assets, cube);
@@ -228,9 +228,17 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     
     // Update normals for better lighting
     planeGeometry.computeVertexNormals();
-    
+
     // Update geometry after changes
     positions.needsUpdate = true;
+
+    // Flip the UVs vertically if needed to correct the texture orientation
+    const uvAttribute = planeGeometry.attributes.uv;
+    for (let i = 0; i < uvAttribute.count; i++) {
+      const v = uvAttribute.getY(i);
+      uvAttribute.setY(i, 1 - v);
+    }
+    uvAttribute.needsUpdate = true;
     
     // Create a main textured mesh with the photo
     const mainMaterial = new THREE.MeshStandardMaterial({
