@@ -1,2 +1,46 @@
+###############################################################################
+# Local agent configs and sensitive data
+###############################################################################
 **/.claude/settings.local.json
+.aider*
 private-resume.json
+.env
+.env.*
+
+###############################################################################
+# Python tooling
+###############################################################################
+venv/
+.venv/
+env/
+.python-version
+__pycache__/
+*.py[cod]
+*.pyo
+
+###############################################################################
+# Node / front-end tooling (occasionally used for linting or local preview)
+###############################################################################
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+.next/
+out/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+###############################################################################
+# Editors, OS cruft, and temporary files
+###############################################################################
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.log
+.idea/
+.vscode/
+tmp/
+temp/
