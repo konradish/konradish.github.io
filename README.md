@@ -1,6 +1,6 @@
 # konradish.github.io
 
-Personal website for Konrad O'Dell, hosted on GitHub Pages.
+Personal website for Konrad, hosted on GitHub Pages.
 
 Visit: [konradish.github.io](https://konradish.github.io)
 
