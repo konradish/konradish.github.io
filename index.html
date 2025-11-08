@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <!-- Content Security Policy - after Three.js is local, remove https://unpkg.com from script-src -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; connect-src 'self';">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
@@ -380,12 +384,33 @@
     
     /* Focus styles */
     *:focus {
-        outline: 2px dashed var(--text-accent);
+        outline: 3px solid var(--text-accent);
         outline-offset: 3px;
+        box-shadow: 0 0 0 5px rgba(88, 166, 255, 0.2);
     }
-    
+
+    *:focus:not(:focus-visible) {
+        outline: none;
+        box-shadow: none;
+    }
+
+    *:focus-visible {
+        outline: 3px solid var(--text-accent);
+        outline-offset: 3px;
+        box-shadow: 0 0 0 5px rgba(88, 166, 255, 0.2);
+    }
+
     .theme-toggle:focus {
         outline-color: var(--text-accent);
+    }
+
+    .sr-only:focus {
+        position: static;
+        width: auto;
+        height: auto;
+        clip: auto;
+        overflow: visible;
+        white-space: normal;
     }
     
     /* Reduced motion preference */
@@ -443,7 +468,8 @@
   </style>
 </head>
 <body>
-  <button class="theme-toggle" aria-label="Toggle dark mode">
+  <a href="#main-content" class="sr-only">Skip to main content</a>
+  <button class="theme-toggle" aria-label="Switch to light theme" aria-pressed="false">
     <span class="sr-only">Toggle theme</span>
     <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="sun-icon">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
@@ -453,7 +479,7 @@
     </svg>
   </button>
 
-  <div class="container">
+  <main class="container" id="main-content">
     <header>
       <h1>Konrad Odell</h1>
       <p class="title">Software Architect & Tech Enthusiast</p>
@@ -464,30 +490,32 @@
       distributed systems. I specialize in enterprise architecture, cloud-native solutions,
       and leading technical teams to deliver high-impact software solutions.</p>
 
-      <canvas id="hero-canvas" style="width:100%;height:300px;display:block;background:transparent;margin-top:20px;border-radius:8px;"></canvas>
+      <canvas id="hero-canvas" role="img" aria-label="Interactive 3D wireframe animation that responds to mouse movement" style="width:100%;height:300px;display:block;background:transparent;margin-top:20px;border-radius:8px;">
+        <p>An animated 3D wireframe visualization that responds to mouse movement.</p>
+      </canvas>
     </section>
     
     <nav class="links">
       <a href="https://github.com/konradish" target="_blank" rel="noopener noreferrer">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
         </svg>
-        GitHub
+        GitHub<span class="sr-only"> (opens in new tab)</span>
       </a>
       <a href="https://www.linkedin.com/in/konrad-odell/" target="_blank" rel="noopener noreferrer">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
         </svg>
-        LinkedIn
+        LinkedIn<span class="sr-only"> (opens in new tab)</span>
       </a>
       <a href="mailto:me@konradodell.com">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
         </svg>
         Email
       </a>
-      <a id="resume-link" href="#resume">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <a id="resume-link" href="#resume" aria-expanded="false" aria-controls="resume">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"/>
         </svg>
         Resume
@@ -498,9 +526,9 @@
       <h2>Featured Projects</h2>
       <div class="project-list">
         <article class="project">
-          <h3><a href="https://konradish.github.io/magic-window" target="_blank" rel="noopener noreferrer">Magic Window</a></h3>
+          <h3><a href="https://konradish.github.io/magic-window" target="_blank" rel="noopener noreferrer">Magic Window<span class="sr-only"> (opens in new tab)</span></a></h3>
           <p>Simulates a window by using webcam to track your head position and moving the 3D scene accordingly.</p>
-          <img src="assets/preview/magicwindow.gif" alt="Magic Window Demo" style="width:100%; border-radius:8px; margin:12px 0; border:1px solid var(--border-color);">
+          <img src="assets/preview/magicwindow.gif" alt="Animated demonstration of Magic Window project showing 3D scene responding to head tracking" loading="lazy" decoding="async" style="width:100%; border-radius:8px; margin:12px 0; border:1px solid var(--border-color);">
           <ul>
             <li>WebGL/Three.js for 3D visualization</li>
             <li>Face tracking technology</li>
@@ -508,7 +536,7 @@
           </ul>
         </article>
         <article class="project">
-          <h3><a href="https://github.com/konradish/claude-environment-intelligence" target="_blank" rel="noopener noreferrer">Claude Environment Intelligence (CEI)</a></h3>
+          <h3><a href="https://github.com/konradish/claude-environment-intelligence" target="_blank" rel="noopener noreferrer">Claude Environment Intelligence (CEI)<span class="sr-only"> (opens in new tab)</span></a></h3>
           <p>Intelligent development environment discovery and analysis for Claude Code. Transforms tedious environment setup into systematic intelligence gathering with production-tested slash commands.</p>
           <ul>
             <li>Automatic environment discovery & analysis</li>
@@ -518,12 +546,12 @@
           </ul>
         </article>
         <article class="project">
-          <h3><a href="https://konradish.github.io/data_experiments/" target="_blank" rel="noopener noreferrer">Data Experiments</a></h3>
+          <h3><a href="https://konradish.github.io/data_experiments/" target="_blank" rel="noopener noreferrer">Data Experiments<span class="sr-only"> (opens in new tab)</span></a></h3>
           <p>Collection of interactive data visualizations and experiments including sorting algorithm visualizers and pathfinding demos.</p>
           <div style="display:flex; gap:10px; margin:12px 0;">
-            <img src="assets/preview/2dsort.gif" alt="2D Sorting Algorithm Visualization" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
-            <img src="assets/preview/3dsort.gif" alt="3D Sorting Algorithm Visualization" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
-            <img src="assets/preview/pathfind.gif" alt="Pathfinding Algorithm Demonstration" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
+            <img src="assets/preview/2dsort.gif" alt="Animated visualization of sorting algorithms in 2D showing array elements being sorted" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
+            <img src="assets/preview/3dsort.gif" alt="Animated 3D visualization of sorting algorithms with vertical bars" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
+            <img src="assets/preview/pathfind.gif" alt="Animated demonstration of pathfinding algorithm navigating through a grid maze" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
           </div>
           <ul>
             <li>3D & 2D sorting algorithm visualizations</li>
@@ -535,88 +563,153 @@
     </section>
 
     <!-- Resume section -->
-    <section id="resume"></section>
-  </div>
+    <section id="resume" aria-live="polite" aria-atomic="true"></section>
+  </main>
 
   <script>
+    // Safe localStorage access with error handling
+    function safeLocalStorage(key, defaultValue = null) {
+      try {
+        return localStorage.getItem(key) || defaultValue;
+      } catch (e) {
+        console.warn('localStorage access denied:', e);
+        return defaultValue;
+      }
+    }
+
+    function safeSetLocalStorage(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        console.warn('localStorage write denied:', e);
+      }
+    }
+
     // Theme toggle functionality
     const themeToggle = document.querySelector('.theme-toggle');
     const sunIcon = document.querySelector('.sun-icon');
     const moonIcon = document.querySelector('.moon-icon');
     const html = document.documentElement;
-    
-    // Check for saved theme preference or default to dark theme
-    const currentTheme = localStorage.getItem('theme') || 'dark';
-    
-    // Apply the theme
-    if (currentTheme === 'light') {
-        html.setAttribute('data-theme', 'light');
-        sunIcon.style.display = 'none';
-        moonIcon.style.display = 'block';
-    }
-    
-    // Listen for theme toggle
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = html.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        
-        // Toggle icons
-        if (newTheme === 'light') {
-            sunIcon.style.display = 'none';
-            moonIcon.style.display = 'block';
-        } else {
-            sunIcon.style.display = 'block';
-            moonIcon.style.display = 'none';
-        }
-    });
-    
-    // Respect system preference if no theme is saved
-    if (!localStorage.getItem('theme')) {
-        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-        if (prefersLight) {
-            html.setAttribute('data-theme', 'light');
-            sunIcon.style.display = 'none';
-            moonIcon.style.display = 'block';
-        }
+
+    if (!themeToggle || !sunIcon || !moonIcon) {
+      console.error('Theme toggle elements not found');
+    } else {
+      // Check for saved theme preference or default to dark theme
+      const currentTheme = safeLocalStorage('theme', 'dark');
+
+      // Apply the theme
+      if (currentTheme === 'light') {
+          html.setAttribute('data-theme', 'light');
+          themeToggle.setAttribute('aria-label', 'Switch to dark theme');
+          themeToggle.setAttribute('aria-pressed', 'true');
+          sunIcon.style.display = 'none';
+          moonIcon.style.display = 'block';
+      }
+
+      // Listen for theme toggle
+      themeToggle.addEventListener('click', () => {
+          const currentTheme = html.getAttribute('data-theme');
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+          html.setAttribute('data-theme', newTheme);
+          safeSetLocalStorage('theme', newTheme);
+
+          // Update ARIA attributes and toggle icons
+          if (newTheme === 'light') {
+              themeToggle.setAttribute('aria-label', 'Switch to dark theme');
+              themeToggle.setAttribute('aria-pressed', 'true');
+              sunIcon.style.display = 'none';
+              moonIcon.style.display = 'block';
+          } else {
+              themeToggle.setAttribute('aria-label', 'Switch to light theme');
+              themeToggle.setAttribute('aria-pressed', 'false');
+              sunIcon.style.display = 'block';
+              moonIcon.style.display = 'none';
+          }
+      });
+
+      // Respect system preference if no theme is saved
+      if (!safeLocalStorage('theme')) {
+          const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          if (prefersLight) {
+              html.setAttribute('data-theme', 'light');
+              themeToggle.setAttribute('aria-label', 'Switch to dark theme');
+              themeToggle.setAttribute('aria-pressed', 'true');
+              sunIcon.style.display = 'none';
+              moonIcon.style.display = 'block';
+          }
+      }
     }
 
     /* ==== resume loader ==== */
+    // Validate resume data structure
+    function validateResumeData(data) {
+      if (!data || typeof data !== 'object') return false;
+      if (!Array.isArray(data.work)) return false;
+      if (!Array.isArray(data.skills)) return false;
+      return true;
+    }
+
     // Pre-fetch the resume data when page loads
     let resumeData = null;
     const resumeDataPromise = fetch('resume.json')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to load resume');
+        return res.json();
+      })
       .then(data => {
+        if (!validateResumeData(data)) {
+          throw new Error('Invalid resume data structure');
+        }
         resumeData = data;
         return data;
       })
-      .catch(e => {/* Could not pre-fetch resume data */});
+      .catch(e => {
+        console.warn('Failed to pre-fetch resume data:', e);
+        return null;
+      });
 
-    document.getElementById('resume-link').addEventListener('click', async () => {
-      const target = document.getElementById('resume');
-      if (target.hasChildNodes()) {
-        // Resume section is already visible, scroll to it
-        target.scrollIntoView({ behavior: 'smooth' });
-        return;
-      }
+    const resumeLink = document.getElementById('resume-link');
+    if (!resumeLink) {
+      console.error('Resume link not found');
+    } else {
+      resumeLink.addEventListener('click', async (e) => {
+        const target = document.getElementById('resume');
+        if (target.hasChildNodes()) {
+          // Resume section is already visible, scroll to it
+          if ('scrollBehavior' in document.documentElement.style) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            target.scrollIntoView();
+          }
+          return;
+        }
 
-      try {
-        // Show loading indicator
-        const loading = document.createElement('p');
-        loading.textContent = 'Loading resume...';
-        target.appendChild(loading);
+        try {
+          // Update aria-expanded state
+          resumeLink.setAttribute('aria-expanded', 'true');
 
-        // Use the pre-fetched data if available, otherwise fetch it now
-        const data = resumeData || await resumeDataPromise;
+          // Show loading indicator
+          const loading = document.createElement('p');
+          loading.textContent = 'Loading resume...';
+          loading.setAttribute('role', 'status');
+          target.appendChild(loading);
 
-        // Render the resume with the data
-        renderResume(data, target);
-      } catch (e) {
-        target.textContent = 'Could not load resume.';
-      }
-    });
+          // Use the pre-fetched data if available, otherwise fetch it now
+          const data = resumeData || await resumeDataPromise;
+
+          if (!data) {
+            throw new Error('Resume data unavailable');
+          }
+
+          // Render the resume with the data
+          renderResume(data, target);
+        } catch (e) {
+          console.error('Failed to load resume:', e);
+          target.innerHTML = '<p style="color: var(--text-secondary);">Could not load resume. Please try again later.</p>';
+        }
+      });
+    }
 
     function renderResume(r, root) {
       // Clear the loading indicator or any previous content
@@ -626,7 +719,7 @@
       const fragment = document.createDocumentFragment();
 
       // Experience section
-      const expHeading = tag('h2', 'experience');
+      const expHeading = tag('h2', 'Experience');
       fragment.appendChild(expHeading);
 
       // Create work items
@@ -646,7 +739,7 @@
       });
 
       // Skills section
-      const skillsHeading = tag('h2', 'skills');
+      const skillsHeading = tag('h2', 'Skills');
       fragment.appendChild(skillsHeading);
 
       const ul = tag('ul');
@@ -656,8 +749,12 @@
       // Add everything to the DOM at once
       root.appendChild(fragment);
 
-      // Scroll to the resume section
-      root.scrollIntoView({ behavior: 'smooth' });
+      // Scroll to the resume section with feature detection
+      if ('scrollBehavior' in document.documentElement.style) {
+        root.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        root.scrollIntoView();
+      }
     }
 
     function tag(t, txt) {
@@ -668,8 +765,15 @@
   </script>
 
   <script type="module">
-    import { loadHero } from './assets/hero.wireframe.js';
-    loadHero();
+    try {
+      const { loadHero } = await import('./assets/hero.wireframe.js');
+      loadHero();
+    } catch (e) {
+      console.error('Failed to load hero animation:', e);
+      // Optionally hide the canvas on error
+      const canvas = document.getElementById('hero-canvas');
+      if (canvas) canvas.style.display = 'none';
+    }
   </script>
 </body>
 </html>

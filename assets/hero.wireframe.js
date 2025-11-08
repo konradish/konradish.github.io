@@ -1,4 +1,8 @@
-import * as THREE from 'https://unpkg.com/three@^0.164/build/three.module.js';
+// Use local Three.js for better performance and eliminate external dependency
+// Download from: https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.min.js
+// TODO: After downloading three.module.min.js to assets/, uncomment the line below:
+// import * as THREE from './three.module.min.js';
+import * as THREE from 'https://unpkg.com/three@0.164.0/build/three.module.min.js';
 
 // handles scene injection into #hero-canvas (make that elem in HTML)
 export function loadHero() {
@@ -61,30 +65,30 @@ export function loadHero() {
     'assets/depth.png',
     (depthImage) => {
       assets.depthImage = depthImage;
-      tryCreateMesh(scene, assets, cube);
+      tryCreateMesh(scene, assets, cube, trackableMeshes);
     },
     undefined,
     (err) => {
-      // Failed to load depth image
+      console.error('Failed to load depth image:', err);
     }
   );
-  
+
   // Load the face texture
   textureLoader.load(
     'assets/me.jpg',
     (faceTexture) => {
       // Improve texture rendering
       faceTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      
+
       // Enhance contrast by manipulating texture settings
       faceTexture.encoding = THREE.sRGBEncoding; // Better color encoding
-      
+
       assets.faceTexture = faceTexture;
-      tryCreateMesh(scene, assets, cube);
+      tryCreateMesh(scene, assets, cube, trackableMeshes);
     },
     undefined,
     (err) => {
-      // Failed to load face texture
+      console.error('Failed to load face texture:', err);
     }
   );
   
@@ -96,60 +100,100 @@ export function loadHero() {
     targetY: 0,
     updateRate: 0.1 // Controls how quickly the head follows the mouse
   };
-  
-  // Add mouse move listener for tracking
+
+  // Add throttled mouse move listener for better performance
+  let mouseUpdateScheduled = false;
   document.addEventListener('mousemove', (event) => {
-    // Calculate normalized coordinates (-1 to 1)
-    mouse.targetX = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.targetY = -((event.clientY / window.innerHeight) * 2 - 1);
+    if (!mouseUpdateScheduled) {
+      mouseUpdateScheduled = true;
+      requestAnimationFrame(() => {
+        // Calculate normalized coordinates (-1 to 1)
+        mouse.targetX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.targetY = -((event.clientY / window.innerHeight) * 2 - 1);
+        mouseUpdateScheduled = false;
+      });
+    }
   });
   
-  // Animation loop
+  // Cache trackable meshes for better performance
+  const trackableMeshes = [];
+
+  // Animation loop with visibility detection
   const clock = new THREE.Clock();
-  renderer.setAnimationLoop(() => {
+  let isVisible = true;
+  let animationRunning = true;
+
+  // Use Intersection Observer to pause animation when canvas not visible
+  const observer = new IntersectionObserver((entries) => {
+    isVisible = entries[0].isIntersecting;
+    if (!isVisible) {
+      animationRunning = false;
+    } else if (!animationRunning) {
+      animationRunning = true;
+      animate();
+    }
+  }, { threshold: 0.1 });
+  observer.observe(canvas);
+
+  function animate() {
+    if (!animationRunning) return;
+
     // Resize canvas if needed
     if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
       renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
       camera.aspect = canvas.clientWidth / canvas.clientHeight;
       camera.updateProjectionMatrix();
     }
-    
+
     // Smoothly update mouse position (easing)
     mouse.x += (mouse.targetX - mouse.x) * mouse.updateRate;
     mouse.y += (mouse.targetY - mouse.y) * mouse.updateRate;
-    
-    // Apply mouse tracking rotation to all meshes in the scene
-    scene.traverse(obj => {
-      if (obj.isMesh || obj.isGroup) {
-        // Apply mouse tracking with limits
-        const t = clock.getElapsedTime();
-        
+
+    // Apply mouse tracking rotation using cached meshes
+    const t = clock.getElapsedTime();
+    if (trackableMeshes.length > 0) {
+      trackableMeshes.forEach(obj => {
         // Main rotation follows mouse horizontally (with subtle automatic movement)
-        obj.rotation.y = Math.sin(t * 0.1) * 0.05 + (mouse.x * 0.075); // Further reduced horizontal rotation sensitivity
-        
+        obj.rotation.y = Math.sin(t * 0.1) * 0.05 + (mouse.x * 0.075);
         // Subtle vertical tilt based on mouse position
-        obj.rotation.x = -0.05 - (mouse.y * 0.05); // Inverted vertical rotation: up for mouse up, down for mouse down
-      }
-    });
-    
+        obj.rotation.x = -0.05 - (mouse.y * 0.05);
+      });
+    } else {
+      // Fallback to traverse if no cached meshes yet
+      scene.traverse(obj => {
+        if (obj.isMesh || obj.isGroup) {
+          obj.rotation.y = Math.sin(t * 0.1) * 0.05 + (mouse.x * 0.075);
+          obj.rotation.x = -0.05 - (mouse.y * 0.05);
+        }
+      });
+    }
+
     // Render
     renderer.render(scene, camera);
-  });
-  
+
+    // Continue animation loop
+    requestAnimationFrame(animate);
+  }
+
+  // Start animation
+  animate();
+
   // Ensure we render once immediately
   renderer.render(scene, camera);
 }
 
 // Try to create the mesh when all assets are loaded
-function tryCreateMesh(scene, assets, tempCube) {
+function tryCreateMesh(scene, assets, tempCube, trackableMeshes) {
   // Check if all assets are loaded
   if (assets.depthImage && assets.faceTexture) {
     // Create the mesh with both depth and face texture
     const headMesh = create3DPhoto(scene, assets.depthImage, assets.faceTexture);
-    
+
     // Remove the temp cube once the photo is created
     if (headMesh) {
       scene.remove(tempCube);
+      // Cache the mesh for optimized animation
+      trackableMeshes.push(headMesh);
     }
   }
 }
@@ -175,10 +219,13 @@ function create3DPhoto(scene, depthImage, faceTexture) {
     // Create aspect-ratio-correct plane
     const width = 1.6; // Slightly smaller for better framing
     const height = width * (canvas.height / canvas.width);
-    
-    // Create a grid with enough segments to represent the detail
-    const segmentsX = Math.min(128, canvas.width / 4);  // Don't need full resolution
-    const segmentsY = Math.min(128, canvas.height / 4);
+
+    // Reduce geometry complexity for better performance
+    // Adaptive quality based on device pixel ratio
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    const detail = pixelRatio > 1.5 ? 64 : 48; // Reduced from 128
+    const segmentsX = Math.min(detail, canvas.width / 8);  // Reduced segments
+    const segmentsY = Math.min(detail, canvas.height / 8);
     const planeGeometry = new THREE.PlaneGeometry(width, height, segmentsX, segmentsY);
     
     // Function to get depth at a specific UV coordinate
