@@ -2,88 +2,104 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Konrad Odell",
-    "label": "software architect",
+    "label": "software architect & tech enthusiast",
     "email": "konradish@gmail.com",
     "url": "https://konradodell.com",
-    "summary": "architecting cloud‑native, data‑driven systems for 20+ yrs. loves turning gnarly infrastructures into elegant monoliths‑or‑microservices (whatever actually works).",
+    "summary": "20+ yrs building and rescuing distributed systems. fluent in monolith refactors, data-lakehouse economics, and the dark arts of getting QA + security to play nice.",
     "location": {
       "city": "flower mound",
       "region": "tx",
       "country": "us"
     },
     "profiles": [
-      { "network": "GitHub",   "username": "konradish", "url": "https://github.com/konradish" },
+      { "network": "GitHub", "username": "konradish", "url": "https://github.com/konradish" },
       { "network": "LinkedIn", "username": "konrad-odell", "url": "https://www.linkedin.com/in/konrad-odell/" }
     ]
   },
 
   "skills": [
-    { "name": "languages", "keywords": ["java", "python", "sql", "javascript", "bash"] },
-    { "name": "cloud / infra", "keywords": ["aws", "docker", "kubernetes", "openshift", "terraform‑adjacent"] },
-    { "name": "data", "keywords": ["databricks", "spark", "pandas", "bash shell", "MS cmd"] }
+    { "name": "languages", "level": "expert", "keywords": ["java", "python", "javascript", "sql", "bash"] },
+    { "name": "cloud", "level": "advanced", "keywords": ["aws (api gateway, lambda, eks, rds, cloudfront, s3)", "cloudflare", "openshift"] },
+    { "name": "data/analytics", "level": "advanced", "keywords": ["trino", "iceberg", "spark", "dagster", "dbt", "airbyte", "hive", "databricks (unity catalog, lakehouse architecture)"] },
+    { "name": "dev-ops", "keywords": ["docker", "k8s", "helm", "vault", "jenkins", "gh actions", "sonarqube", "nexus iq", "instana"] },
+    { "name": "testing", "keywords": ["springboottest", "cucumber", "wiremock", "pitest", "mutation testing cult leader"] }
   ],
 
   "work": [
     {
-      "name": "health‑tech interoperability platform",
-      "position": "software architect",
-      "startDate": "2024-01",
-      "summary": "leading data‑platform modernization & cost‑kill initiatives across lakehouse, consent mgmt, and event‑driven pipelines.",
+      "name": "Moxe Health",
+      "position": "software architect (promoted from TL)",
+      "url": "https://moxehealth.com",
+      "startDate": "2022-09",
+      "summary": "architect & unofficial data-tooling czar in a healthcare integration startup.",
       "highlights": [
-        "led project to land decentralized data into our data lakehouse => slashed external vendor costs",
-        "established data‑tooling guild; improved developer productivity with tooling standards"
-      ]
+        "migrated ~600 TB of clinical data to trino+iceberg lakehouse -> saved **$14 M/yr** vs legacy vendor pricing; wrote spark bulk-ingest, delta -> iceberg up-converter",
+        "rolled out dagster + airbyte; trained 15 engineers, replacing ad-hoc cron scripts with typed pipelines; mean incident MTTR dropped 48 %",
+        "architected consent-management service (java, spring boot, nats) w/ zero-downtime blue/green deploy; built terraform modules and opa policies",
+        "evangelized mutation testing; lifted coverage from ~55 % to 87 % on core repositories",
+        "built databricks self-service tooling (troubleshooting notebooks, masked gold/silver tables) enabling team autonomy and reducing cross-team dependencies for data analysis",
+        "established integration testing patterns w/ canary deployment, smoke tests, and auto-rollback for kit service; created reusable ci/cd pipeline framework reducing deployment risk"
+      ],
+      "keywords": ["lakehouse", "event-driven", "cost-kill", "spark", "dagster", "python", "java", "nats", "aws", "databricks", "ci/cd"]
     },
     {
-      "name": "discover card (via cognizant)",
-      "position": "sr software engineer",
+      "name": "Cognizant Softvision -> Discover Financial Services",
+      "position": "senior software engineer II",
       "startDate": "2021-08",
       "endDate": "2022-09",
+      "summary": "built card-tracking api ingesting USPS + internal events (spring boot microservices on openshift).",
       "highlights": [
-        "built mail‑tracking api; mentored team on contract‑first + mutation‑testing culture"
-      ]
+        "introduced contract-test pipeline (wiremock + pact) -> blocked 23 breaking changes pre-prod",
+        "embedded w/ devops to craft helm-based release; cut deploy time from 40 -> 8 min"
+      ],
+      "keywords": ["spring boot", "openshift", "helm", "elasticsearch", "mutation testing"]
     },
     {
-      "name": "nearstar inc.",
-      "position": "vp of research → senior software engineer",
-      "startDate": "2010-09",
+      "name": "Nearstar Inc.",
+      "position": "VP of Research -> Senior Software Engineer",
+      "startDate": "2008-07",
       "endDate": "2021-08",
+      "summary": "wore every hat: legacy modernization, docker adoption, CI/CD, print-workflow performance triage.",
       "highlights": [
-        "containerized legacy print workflow; cut deployment time from hours to minutes",
-        "patched multithreaded pdf service for covid surge (+260 % throughput)"
-      ]
+        "dockerized monolith suite; enabled per-customer config w/ env-vars -> SaaS pivot",
+        "covid-era spike: patched multithreaded pdf loader; throughput +260 %, backlog cleared in 36 h",
+        "designed zero-downtime patch mechanism for flagship customer (Jenkins file-orchestrated blue/green)",
+        "migrated windows servers to linux; slashed licensing OPEX by 70 %"
+      ],
+      "keywords": ["java", "spring", "docker", "jenkins", "file-net", "snmp printers"]
+    },
+    {
+      "name": "ClubCorp",
+      "position": "software developer",
+      "startDate": "2001-06",
+      "endDate": "2008-07",
+      "summary": "mainframe to oracle migration; built auth framework w/ salted MD5 (2003, pretty spicy for the time)."
     }
   ],
 
   "projects": [
     {
-      "name": "magic window",
-      "url": "https://konradish.github.io/magic-window",
-      "summary": "three.js toy that turns your monitor into a faux‑3d viewport."
+      "name": "Cognitive Agent Swarm",
+      "summary": "event-driven llm agents (aurora + nemesis) that teach each other new tools via markdown memories; spins up new agents on demand via deque + json queue.",
+      "keywords": ["openai", "gemini", "anthropic", "python", "tool registry", "cost-budgeting"]
     },
     {
-      "name": "data experiments",
-      "url": "https://konradish.github.io/data_experiments",
-      "summary": "interactive visualizers for path‑finding and sort algorithms."
+      "name": "Meal-Planner MVP",
+      "summary": "vegetarian meal planner w/ semantic search vectors (supabase), instructor-powered llm parsing; reverse-proxied home-lab on nginx, fail-over to aws lambda.",
+      "keywords": ["supabase", "fastapi", "cloudflare", "postgres vector", "docker compose"]
     },
     {
-      "name": "meal‑planner mvp",
-      "summary": "vegetarian‑friendly planner with semantic recipe search (supabase + python)."
+      "name": "Magic Window",
+      "summary": "three.js parallax toy leveraging webcam head tracking (facemesh)."
     },
     {
-      "name": "cognitive agent swarm",
-      "summary": "event‑driven llm micro‑agents teaching each other tools. strictly for science."
+      "name": "Data Experiments",
+      "summary": "interactive sort & path-find visualizers; typescript + three.js."
     }
   ],
 
   "education": [
-    {
-      "institution": "university of texas at dallas",
-      "area": "computer science",
-      "studyType": "b.sc.",
-      "honors": "cum laude",
-      "endDate": "2010-08"
-    }
+    { "institution": "UT Dallas", "area": "computer science", "studyType": "b.sc.", "honors": "cum laude", "endDate": "2010-08" }
   ],
 
   "certificates": [
