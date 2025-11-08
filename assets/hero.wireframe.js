@@ -1,4 +1,8 @@
-import * as THREE from 'https://unpkg.com/three@^0.164/build/three.module.js';
+// Use local Three.js for better performance and eliminate external dependency
+// Download from: https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.min.js
+// TODO: After downloading three.module.min.js to assets/, uncomment the line below:
+// import * as THREE from './three.module.min.js';
+import * as THREE from 'https://unpkg.com/three@0.164.0/build/three.module.min.js';
 
 // handles scene injection into #hero-canvas (make that elem in HTML)
 export function loadHero() {
