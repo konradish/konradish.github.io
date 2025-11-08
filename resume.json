@@ -22,7 +22,7 @@
     { "name": "cloud", "level": "advanced", "keywords": ["aws (api gateway, lambda, eks, rds, cloudfront, s3)", "cloudflare", "openshift"] },
     { "name": "data/analytics", "level": "advanced", "keywords": ["trino", "iceberg", "spark", "dagster", "dbt", "airbyte", "hive", "databricks (unity catalog, lakehouse architecture)"] },
     { "name": "dev-ops", "keywords": ["docker", "k8s", "helm", "vault", "jenkins", "gh actions", "sonarqube", "nexus iq", "instana"] },
-    { "name": "testing", "keywords": ["springboottest", "cucumber", "wiremock", "pitest", "mutation testing cult leader"] }
+    { "name": "testing", "keywords": ["springboottest", "cucumber", "wiremock", "pitest", "mutation testing"] }
   ],
 
   "work": [
