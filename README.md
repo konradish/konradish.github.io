@@ -1,6 +1,6 @@
 # konradish.github.io
 
-Personal website for Konrad O'Dell, hosted on GitHub Pages.
+Personal website for Konrad, hosted on GitHub Pages.
 
 Visit: [konradish.github.io](https://konradish.github.io)
 
@@ -19,4 +19,4 @@ This site is automatically deployed to GitHub Pages when changes are pushed to t
 
 ## Domain
 
-The site will be accessible through konradodell.com once DNS configuration is complete.
+The site will be accessible through konradodell.com
