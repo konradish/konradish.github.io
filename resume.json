@@ -19,7 +19,7 @@
 
   "skills": [
     { "name": "Languages", "level": "Expert", "keywords": ["Java", "Python", "SQL", "JavaScript", "Bash"] },
-    { "name": "Data Platforms", "level": "Advanced", "keywords": ["Databricks (Unity Catalog, Genie, Lakehouse)", "Spark", "Trino", "Iceberg", "Dagster", "dbt", "Airbyte"] },
+    { "name": "Data Platforms", "level": "Advanced", "keywords": ["Databricks (Unity Catalog, Genie, Lakehouse)", "Spark", "Trino", "Iceberg", "dbt"] },
     { "name": "Cloud", "level": "Advanced", "keywords": ["AWS (API Gateway, Lambda, EKS, RDS, S3)", "Cloudflare"] },
     { "name": "DevOps", "keywords": ["Docker", "Kubernetes", "Helm", "Vault", "GitHub Actions", "Jenkins"] },
     { "name": "Healthcare", "keywords": ["HIPAA", "FHIR", "HL7", "Clinical Data Processing", "PII Governance"] }
@@ -36,13 +36,12 @@
         "Partnered on Databricks implementation including Unity Catalog governance, lakehouse architecture, and self-service tooling for data analysis",
         "Built Databricks Genie interfaces enabling non-engineering teams to query complex healthcare datasets through natural language",
         "Migrated ~600 TB clinical data to Trino+Iceberg lakehouse, replacing $14M/yr legacy vendor dependency",
-        "Rolled out Dagster + Airbyte pipelines, training 15 engineers and reducing incident MTTR by 48%",
-        "Architected consent-management service (Java, Spring Boot, NATS) with zero-downtime blue/green deployment",
+        "Led consent-management service team (Java, Spring Boot, NATS) with zero-downtime blue/green deployment",
         "Validated AI opportunities including multimodal LLM proof-of-concept that identified $300K in recoverable invoices",
         "Established integration testing patterns with canary deployment, smoke tests, and auto-rollback",
         "Coordinated architecture decisions across Data Platform, Chart Retrieval, and RevOps teams"
       ],
-      "keywords": ["Databricks", "Lakehouse", "Spark", "Dagster", "Java", "Python", "NATS", "AWS", "CI/CD"]
+      "keywords": ["Databricks", "Lakehouse", "Spark", "Java", "Python", "NATS", "AWS", "CI/CD"]
     },
     {
       "name": "Cognizant Softvision → Discover Financial Services",
@@ -51,7 +50,7 @@
       "endDate": "2022-09",
       "summary": "Built card-tracking API ingesting USPS and internal events on Spring Boot microservices.",
       "highlights": [
-        "Introduced contract-test pipeline (WireMock + Pact), blocking 23 breaking changes pre-production",
+        "Introduced contract-test pipeline (WireMock + Pact) to catch breaking API changes pre-production",
         "Partnered with DevOps on Helm-based release process, reducing deploy time from 40 to 8 minutes"
       ],
       "keywords": ["Spring Boot", "OpenShift", "Helm", "Elasticsearch", "Contract Testing"]
@@ -66,7 +65,7 @@
         "Dockerized monolith suite enabling per-customer configuration and SaaS pivot",
         "Optimized multithreaded PDF loader during COVID spike: +260% throughput, backlog cleared in 36 hours",
         "Designed zero-downtime patch mechanism using Jenkins-orchestrated blue/green deployment",
-        "Migrated Windows servers to Linux, reducing licensing costs by 70%"
+        "Migrated Windows servers to Linux (MariaDB), enabling zero-downtime deployments and improved performance"
       ],
       "keywords": ["Java", "Spring", "Docker", "Jenkins", "Legacy Modernization"]
     },
