@@ -2,14 +2,14 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Konrad Odell",
-    "label": "software architect & tech enthusiast",
-    "email": "konradish@gmail.com",
+    "label": "Engineering Leader | Data Platforms & AI Integration",
+    "email": "contact@konradodell.com",
     "url": "https://konradodell.com",
-    "summary": "20+ yrs building and rescuing distributed systems. fluent in monolith refactors, data-lakehouse economics, and the dark arts of getting QA + security to play nice.",
+    "summary": "20+ years building and leading distributed systems teams. Expertise in monolith decomposition, data lakehouse architecture, and translating AI capabilities into measurable business outcomes.",
     "location": {
-      "city": "flower mound",
-      "region": "tx",
-      "country": "us"
+      "city": "Dallas-Fort Worth",
+      "region": "TX",
+      "country": "US"
     },
     "profiles": [
       { "network": "GitHub", "username": "konradish", "url": "https://github.com/konradish" },
@@ -18,91 +18,95 @@
   },
 
   "skills": [
-    { "name": "languages", "level": "expert", "keywords": ["java", "python", "javascript", "sql", "bash"] },
-    { "name": "cloud", "level": "advanced", "keywords": ["aws (api gateway, lambda, eks, rds, cloudfront, s3)", "cloudflare", "openshift"] },
-    { "name": "data/analytics", "level": "advanced", "keywords": ["trino", "iceberg", "spark", "dagster", "dbt", "airbyte", "hive", "databricks (unity catalog, lakehouse architecture)"] },
-    { "name": "dev-ops", "keywords": ["docker", "k8s", "helm", "vault", "jenkins", "gh actions", "sonarqube", "nexus iq", "instana"] },
-    { "name": "testing", "keywords": ["springboottest", "cucumber", "wiremock", "pitest", "mutation testing"] }
+    { "name": "Languages", "level": "Expert", "keywords": ["Java", "Python", "SQL", "JavaScript", "Bash"] },
+    { "name": "Data Platforms", "level": "Advanced", "keywords": ["Databricks (Unity Catalog, Genie, Lakehouse)", "Spark", "Trino", "Iceberg", "Dagster", "dbt", "Airbyte"] },
+    { "name": "Cloud", "level": "Advanced", "keywords": ["AWS (API Gateway, Lambda, EKS, RDS, S3)", "Cloudflare"] },
+    { "name": "DevOps", "keywords": ["Docker", "Kubernetes", "Helm", "Vault", "GitHub Actions", "Jenkins"] },
+    { "name": "Healthcare", "keywords": ["HIPAA", "FHIR", "HL7", "Clinical Data Processing", "PII Governance"] }
   ],
 
   "work": [
     {
       "name": "Moxe Health",
-      "position": "software architect (promoted from TL)",
+      "position": "Software Architect",
       "url": "https://moxehealth.com",
       "startDate": "2022-09",
-      "summary": "architect & unofficial data-tooling czar in a healthcare integration startup.",
+      "summary": "Architect for healthcare data interchange platform, focused on data platform capabilities and cross-team technical coordination.",
       "highlights": [
-        "migrated ~600 TB of clinical data to trino+iceberg lakehouse -> saved **$14 M/yr** vs legacy vendor pricing; wrote spark bulk-ingest, delta -> iceberg up-converter",
-        "rolled out dagster + airbyte; trained 15 engineers, replacing ad-hoc cron scripts with typed pipelines; mean incident MTTR dropped 48 %",
-        "architected consent-management service (java, spring boot, nats) w/ zero-downtime blue/green deploy; built terraform modules and opa policies",
-        "evangelized mutation testing; lifted coverage from ~55 % to 87 % on core repositories",
-        "built databricks self-service tooling (troubleshooting notebooks, masked gold/silver tables) enabling team autonomy and reducing cross-team dependencies for data analysis",
-        "established integration testing patterns w/ canary deployment, smoke tests, and auto-rollback for kit service; created reusable ci/cd pipeline framework reducing deployment risk"
+        "Partnered on Databricks implementation including Unity Catalog governance, lakehouse architecture, and self-service tooling for data analysis",
+        "Built Databricks Genie interfaces enabling non-engineering teams to query complex healthcare datasets through natural language",
+        "Migrated ~600 TB clinical data to Trino+Iceberg lakehouse, replacing $14M/yr legacy vendor dependency",
+        "Rolled out Dagster + Airbyte pipelines, training 15 engineers and reducing incident MTTR by 48%",
+        "Architected consent-management service (Java, Spring Boot, NATS) with zero-downtime blue/green deployment",
+        "Validated AI opportunities including multimodal LLM proof-of-concept that identified $300K in recoverable invoices",
+        "Established integration testing patterns with canary deployment, smoke tests, and auto-rollback",
+        "Coordinated architecture decisions across Data Platform, Chart Retrieval, and RevOps teams"
       ],
-      "keywords": ["lakehouse", "event-driven", "cost-kill", "spark", "dagster", "python", "java", "nats", "aws", "databricks", "ci/cd"]
+      "keywords": ["Databricks", "Lakehouse", "Spark", "Dagster", "Java", "Python", "NATS", "AWS", "CI/CD"]
     },
     {
-      "name": "Cognizant Softvision -> Discover Financial Services",
-      "position": "senior software engineer II",
+      "name": "Cognizant Softvision → Discover Financial Services",
+      "position": "Senior Software Engineer II",
       "startDate": "2021-08",
       "endDate": "2022-09",
-      "summary": "built card-tracking api ingesting USPS + internal events (spring boot microservices on openshift).",
+      "summary": "Built card-tracking API ingesting USPS and internal events on Spring Boot microservices.",
       "highlights": [
-        "introduced contract-test pipeline (wiremock + pact) -> blocked 23 breaking changes pre-prod",
-        "embedded w/ devops to craft helm-based release; cut deploy time from 40 -> 8 min"
+        "Introduced contract-test pipeline (WireMock + Pact), blocking 23 breaking changes pre-production",
+        "Partnered with DevOps on Helm-based release process, reducing deploy time from 40 to 8 minutes"
       ],
-      "keywords": ["spring boot", "openshift", "helm", "elasticsearch", "mutation testing"]
+      "keywords": ["Spring Boot", "OpenShift", "Helm", "Elasticsearch", "Contract Testing"]
     },
     {
       "name": "Nearstar Inc.",
-      "position": "VP of Research -> Senior Software Engineer",
-      "startDate": "2008-07",
+      "position": "Senior Software Engineer → VP of Research",
+      "startDate": "2010-09",
       "endDate": "2021-08",
-      "summary": "wore every hat: legacy modernization, docker adoption, CI/CD, print-workflow performance triage.",
+      "summary": "Legacy modernization, Docker adoption, CI/CD implementation, and performance optimization.",
       "highlights": [
-        "dockerized monolith suite; enabled per-customer config w/ env-vars -> SaaS pivot",
-        "covid-era spike: patched multithreaded pdf loader; throughput +260 %, backlog cleared in 36 h",
-        "designed zero-downtime patch mechanism for flagship customer (Jenkins file-orchestrated blue/green)",
-        "migrated windows servers to linux; slashed licensing OPEX by 70 %"
+        "Dockerized monolith suite enabling per-customer configuration and SaaS pivot",
+        "Optimized multithreaded PDF loader during COVID spike: +260% throughput, backlog cleared in 36 hours",
+        "Designed zero-downtime patch mechanism using Jenkins-orchestrated blue/green deployment",
+        "Migrated Windows servers to Linux, reducing licensing costs by 70%"
       ],
-      "keywords": ["java", "spring", "docker", "jenkins", "file-net", "snmp printers"]
+      "keywords": ["Java", "Spring", "Docker", "Jenkins", "Legacy Modernization"]
     },
     {
       "name": "ClubCorp",
-      "position": "software developer",
+      "position": "Software Developer",
       "startDate": "2001-06",
       "endDate": "2008-07",
-      "summary": "mainframe to oracle migration; built auth framework w/ salted MD5 (2003, pretty spicy for the time)."
+      "summary": "Mainframe to Oracle migration; built authentication framework with salted password hashing."
     }
   ],
 
   "projects": [
     {
-      "name": "Cognitive Agent Swarm",
-      "summary": "event-driven llm agents (aurora + nemesis) that teach each other new tools via markdown memories; spins up new agents on demand via deque + json queue.",
-      "keywords": ["openai", "gemini", "anthropic", "python", "tool registry", "cost-budgeting"]
+      "name": "AI Development Tools",
+      "summary": "Extensive use of Claude Code for autonomous development workflows, tool integration, and codebase analysis. Personal project experience with multi-model routing and structured output extraction.",
+      "keywords": ["Claude Code", "Gemini", "Python", "Agentic Workflows"]
     },
     {
-      "name": "Meal-Planner MVP",
-      "summary": "vegetarian meal planner w/ semantic search vectors (supabase), instructor-powered llm parsing; reverse-proxied home-lab on nginx, fail-over to aws lambda.",
-      "keywords": ["supabase", "fastapi", "cloudflare", "postgres vector", "docker compose"]
+      "name": "SchoolBrain",
+      "summary": "School organization app for parents with PostgreSQL streaming replica, OAuth, and Gemini-powered structured data extraction.",
+      "keywords": ["PostgreSQL", "OAuth", "Gemini", "FastAPI", "Next.js"]
     },
     {
-      "name": "Magic Window",
-      "summary": "three.js parallax toy leveraging webcam head tracking (facemesh)."
+      "name": "RecipeBrain",
+      "summary": "Meal planning application with semantic search vectors and LLM-powered recipe parsing.",
+      "keywords": ["Supabase", "FastAPI", "PostgreSQL Vector", "Embeddings"]
     },
     {
-      "name": "Data Experiments",
-      "summary": "interactive sort & path-find visualizers; typescript + three.js."
+      "name": "Interactive Visualizers",
+      "summary": "Sort algorithm and pathfinding visualizers built with TypeScript and Three.js.",
+      "keywords": ["TypeScript", "Three.js", "Algorithms"]
     }
   ],
 
   "education": [
-    { "institution": "UT Dallas", "area": "computer science", "studyType": "b.sc.", "honors": "cum laude", "endDate": "2010-08" }
+    { "institution": "UT Dallas", "area": "Computer Science", "studyType": "B.S.", "honors": "Cum Laude", "endDate": "2010-08" }
   ],
 
   "certificates": [
-    { "name": "aws certified cloud practitioner", "date": "2021-11" }
+    { "name": "AWS Certified Cloud Practitioner", "date": "2021-11" }
   ]
 }

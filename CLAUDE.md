@@ -7,6 +7,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Serve locally**: Use `python -m http.server` or any simple HTTP server
 - **Deploy**: Push changes to the main branch for GitHub Pages deployment
 - **Validation**: Use the W3C validator (https://validator.w3.org/) for HTML validation
+- **Resume**: Generate from `resume.json` (JSON Resume format):
+  - `npm run resume` - Generate both HTML and PDF
+  - `npm run resume:html` - Generate HTML only
+  - `npm run resume:pdf` - Generate PDF only (requires puppeteer)
 
 ## Code Style Guidelines
 

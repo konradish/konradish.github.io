@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "jsonresume-theme-even": "^0.26.1",
+    "puppeteer": "^24.32.0",
+    "resumed": "^6.1.0"
+  },
+  "name": "konradish.github.io",
+  "version": "1.0.0",
+  "description": "Personal website for Konrad, hosted on GitHub Pages.",
+  "main": "index.js",
+  "scripts": {
+    "resume:html": "resumed render --theme jsonresume-theme-even --output resume.html resume.json",
+    "resume:pdf": "resumed export --theme jsonresume-theme-even --output resume.pdf resume.json",
+    "resume": "npm run resume:html && npm run resume:pdf"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/konradish/konradish.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/konradish/konradish.github.io/issues"
+  },
+  "homepage": "https://github.com/konradish/konradish.github.io#readme"
+}
