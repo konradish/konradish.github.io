@@ -21,7 +21,7 @@
     { "name": "Languages", "level": "Expert", "keywords": ["Java", "Python", "SQL", "JavaScript", "Bash"] },
     { "name": "Data Platforms", "level": "Advanced", "keywords": ["Databricks (Unity Catalog, Genie, Lakehouse)", "Spark", "Trino", "Iceberg", "dbt"] },
     { "name": "Cloud", "level": "Advanced", "keywords": ["AWS (API Gateway, Lambda, EKS, RDS, S3)", "Cloudflare"] },
-    { "name": "DevOps", "keywords": ["Docker", "Kubernetes", "Helm", "Vault", "GitHub Actions", "Jenkins"] },
+    { "name": "DevOps", "keywords": ["Docker", "Kubernetes", "GitHub Actions"] },
     { "name": "Healthcare", "keywords": ["HIPAA", "FHIR", "HL7", "Clinical Data Processing", "PII Governance"] }
   ],
 
@@ -31,7 +31,7 @@
       "position": "Software Architect",
       "url": "https://moxehealth.com",
       "startDate": "2022-09",
-      "summary": "Architect for healthcare data interchange platform, focused on data platform capabilities and cross-team technical coordination.",
+      "summary": "Architect for B2B healthcare data interchange platform, focused on data platform capabilities and cross-team technical coordination.",
       "highlights": [
         "Partnered on Databricks implementation including Unity Catalog governance, lakehouse architecture, and self-service tooling for data analysis",
         "Built Databricks Genie interfaces enabling non-engineering teams to query complex healthcare datasets through natural language",
@@ -39,21 +39,23 @@
         "Led consent-management service team (Java, Spring Boot, NATS) with zero-downtime blue/green deployment",
         "Validated AI opportunities including multimodal LLM proof-of-concept that identified $300K in recoverable invoices",
         "Established integration testing patterns with canary deployment, smoke tests, and auto-rollback",
+        "Documented module boundaries and state diagrams for monolith decomposition planning on core clinical data processing system",
         "Coordinated architecture decisions across Data Platform, Chart Retrieval, and RevOps teams"
       ],
-      "keywords": ["Databricks", "Lakehouse", "Spark", "Java", "Python", "NATS", "AWS", "CI/CD"]
+      "keywords": ["Databricks", "Lakehouse", "Spark", "Java", "Python", "NATS", "AWS", "CI/CD", "Agile"]
     },
     {
       "name": "Cognizant Softvision → Discover Financial Services",
       "position": "Senior Software Engineer II",
       "startDate": "2021-08",
       "endDate": "2022-09",
-      "summary": "Built card-tracking API ingesting USPS and internal events on Spring Boot microservices.",
+      "summary": "Built card-tracking API ingesting USPS and internal events on Spring Boot microservices in Agile environment.",
       "highlights": [
         "Introduced contract-test pipeline (WireMock + Pact) to catch breaking API changes pre-production",
-        "Partnered with DevOps on Helm-based release process, reducing deploy time from 40 to 8 minutes"
+        "Partnered with DevOps on Helm-based release process, reducing deploy time from 40 to 8 minutes",
+        "Mentored junior engineers on testing practices and senior engineers on cross-team communication"
       ],
-      "keywords": ["Spring Boot", "OpenShift", "Helm", "Elasticsearch", "Contract Testing"]
+      "keywords": ["Spring Boot", "OpenShift", "Helm", "Elasticsearch", "Contract Testing", "Agile"]
     },
     {
       "name": "Nearstar Inc.",
