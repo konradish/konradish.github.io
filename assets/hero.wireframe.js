@@ -1,131 +1,147 @@
-// Use local Three.js for better performance and eliminate external dependency
-// Download from: https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.min.js
-// TODO: After downloading three.module.min.js to assets/, uncomment the line below:
-// import * as THREE from './three.module.min.js';
-import * as THREE from 'https://unpkg.com/three@0.164.0/build/three.module.min.js';
+// Three.js with GLTFLoader for 3D model
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-// handles scene injection into #hero-canvas (make that elem in HTML)
+// handles scene injection into #hero-canvas
 export function loadHero() {
   const canvas = document.getElementById('hero-canvas');
   if (!canvas) {
     return;
   }
-  
+
   // Basic Three.js setup
-  const renderer = new THREE.WebGLRenderer({ 
-    canvas, 
-    alpha: true, 
-    antialias: true 
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha: true,
+    antialias: true
   });
-  
-  // Set size immediately to prevent blank canvas
   renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(35, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
   camera.position.set(0, 0, 3);
 
-  // Add lights for better texture appearance
-  scene.add(new THREE.AmbientLight(0xffffff, 0.4)); // Adjusted ambient light
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7); // Adjusted directional light
-  directionalLight.position.set(1, 1, 2);
-  scene.add(directionalLight);
-  
-  // Add a rim light for better edge definition
-  const rimLight = new THREE.DirectionalLight(0xffffff, 0.3); // Adjusted rim light
-  rimLight.position.set(-1, 0.5, -1);
+  // Lighting setup for 3D model - brighter for glass effect
+  scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+
+  const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
+  keyLight.position.set(2, 2, 3);
+  scene.add(keyLight);
+
+  const fillLight = new THREE.DirectionalLight(0x88ccff, 1.0);
+  fillLight.position.set(-2, 1, 2);
+  scene.add(fillLight);
+
+  const rimLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  rimLight.position.set(0, 0, -2);
   scene.add(rimLight);
-  
-  // Start with a temporary cube to ensure rendering works
-  const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial({
-      color: 0x3498db,
-      wireframe: true
-    })
+
+  const topLight = new THREE.DirectionalLight(0xffffff, 0.6);
+  topLight.position.set(0, 3, 0);
+  scene.add(topLight);
+
+  // Loading indicator - spinning wireframe cube
+  const loadingCube = new THREE.Mesh(
+    new THREE.BoxGeometry(0.5, 0.5, 0.5),
+    new THREE.MeshBasicMaterial({ color: 0x58a6ff, wireframe: true })
   );
-  scene.add(cube);
+  scene.add(loadingCube);
 
-  // Load textures
-  const imageLoader = new THREE.ImageLoader();
-  imageLoader.setCrossOrigin('anonymous');
-  
-  // Create a texture loader for the face texture
-  const textureLoader = new THREE.TextureLoader();
-  textureLoader.setCrossOrigin('anonymous');
-  
-  // Create a cache for our loaded assets
-  const assets = {
-    depthImage: null,
-    faceTexture: null
-  };
-  
-  // Load the depth image
-  imageLoader.load(
-    'assets/depth.png',
-    (depthImage) => {
-      assets.depthImage = depthImage;
-      tryCreateMesh(scene, assets, cube, trackableMeshes);
-    },
-    undefined,
-    (err) => {
-      console.error('Failed to load depth image:', err);
-    }
-  );
-
-  // Load the face texture
-  textureLoader.load(
-    'assets/me.jpg',
-    (faceTexture) => {
-      // Improve texture rendering
-      faceTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-
-      // Enhance contrast by manipulating texture settings
-      faceTexture.encoding = THREE.sRGBEncoding; // Better color encoding
-
-      assets.faceTexture = faceTexture;
-      tryCreateMesh(scene, assets, cube, trackableMeshes);
-    },
-    undefined,
-    (err) => {
-      console.error('Failed to load face texture:', err);
-    }
-  );
-  
   // Store mouse position for tracking
   const mouse = {
     x: 0,
     y: 0,
     targetX: 0,
     targetY: 0,
-    updateRate: 0.1 // Controls how quickly the head follows the mouse
+    updateRate: 0.08
   };
 
-  // Add throttled mouse move listener for better performance
+  // Mouse tracking
   let mouseUpdateScheduled = false;
   document.addEventListener('mousemove', (event) => {
     if (!mouseUpdateScheduled) {
       mouseUpdateScheduled = true;
       requestAnimationFrame(() => {
-        // Calculate normalized coordinates (-1 to 1)
         mouse.targetX = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.targetY = -((event.clientY / window.innerHeight) * 2 - 1);
         mouseUpdateScheduled = false;
       });
     }
   });
-  
-  // Cache trackable meshes for better performance
-  const trackableMeshes = [];
 
-  // Animation loop with visibility detection
+  // Track the loaded model
+  let model = null;
+
+  // Load GLB model
+  const loader = new GLTFLoader();
+  loader.load(
+    'assets/me-lowpoly.glb',
+    (gltf) => {
+      model = gltf.scene;
+
+      // Remove loading cube
+      scene.remove(loadingCube);
+
+      // Apply stylized teal/cyan material with rim lighting effect
+      model.traverse((child) => {
+        if (child.isMesh) {
+          // Compute vertex normals for better shading
+          if (child.geometry) {
+            child.geometry.computeVertexNormals();
+          }
+          child.material = new THREE.MeshStandardMaterial({
+            color: 0x4db8cc,
+            emissive: 0x1a6680,
+            emissiveIntensity: 0.5,
+            metalness: 0.2,
+            roughness: 0.3,
+            flatShading: true, // Low-poly look
+            side: THREE.DoubleSide
+          });
+        }
+      });
+
+      // Center and scale the model
+      const box = new THREE.Box3().setFromObject(model);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+
+      // Center the model
+      model.position.sub(center);
+
+      // Scale to fit nicely in view (target ~1.5 units tall)
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const scale = 1.5 / maxDim;
+      model.scale.setScalar(scale);
+
+      // Position slightly lower to show head/face area
+      model.position.y -= 0.1;
+
+      scene.add(model);
+    },
+    (progress) => {
+      // Loading progress - rotate the cube
+      if (loadingCube) {
+        loadingCube.rotation.x += 0.02;
+        loadingCube.rotation.y += 0.03;
+      }
+    },
+    (error) => {
+      console.error('Failed to load GLB model:', error);
+      // Keep the cube as a fallback indicator
+      loadingCube.material.color.setHex(0xff6666);
+    }
+  );
+
+  // Animation loop
   const clock = new THREE.Clock();
-  let isVisible = true;
   let animationRunning = true;
 
-  // Use Intersection Observer to pause animation when canvas not visible
+  // Visibility detection
   const observer = new IntersectionObserver((entries) => {
-    isVisible = entries[0].isIntersecting;
+    const isVisible = entries[0].isIntersecting;
     if (!isVisible) {
       animationRunning = false;
     } else if (!animationRunning) {
@@ -138,207 +154,36 @@ export function loadHero() {
   function animate() {
     if (!animationRunning) return;
 
-    // Resize canvas if needed
+    // Resize handling
     if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
       renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
       camera.aspect = canvas.clientWidth / canvas.clientHeight;
       camera.updateProjectionMatrix();
     }
 
-    // Smoothly update mouse position (easing)
+    // Smooth mouse tracking
     mouse.x += (mouse.targetX - mouse.x) * mouse.updateRate;
     mouse.y += (mouse.targetY - mouse.y) * mouse.updateRate;
 
-    // Apply mouse tracking rotation using cached meshes
     const t = clock.getElapsedTime();
-    if (trackableMeshes.length > 0) {
-      trackableMeshes.forEach(obj => {
-        // Main rotation follows mouse horizontally (with subtle automatic movement)
-        obj.rotation.y = Math.sin(t * 0.1) * 0.05 + (mouse.x * 0.075);
-        // Subtle vertical tilt based on mouse position
-        obj.rotation.x = -0.05 - (mouse.y * 0.05);
-      });
-    } else {
-      // Fallback to traverse if no cached meshes yet
-      scene.traverse(obj => {
-        if (obj.isMesh || obj.isGroup) {
-          obj.rotation.y = Math.sin(t * 0.1) * 0.05 + (mouse.x * 0.075);
-          obj.rotation.x = -0.05 - (mouse.y * 0.05);
-        }
-      });
+
+    // Animate loading cube while waiting
+    if (loadingCube.parent) {
+      loadingCube.rotation.x = t * 0.5;
+      loadingCube.rotation.y = t * 0.7;
     }
 
-    // Render
-    renderer.render(scene, camera);
+    // Animate the loaded model
+    if (model) {
+      // Gentle idle animation + mouse tracking (inverted Y for natural feel)
+      model.rotation.y = Math.sin(t * 0.15) * 0.08 + (mouse.x * 0.3);
+      model.rotation.x = Math.cos(t * 0.1) * 0.03 - (mouse.y * 0.15);
+    }
 
-    // Continue animation loop
+    renderer.render(scene, camera);
     requestAnimationFrame(animate);
   }
 
-  // Start animation
   animate();
-
-  // Ensure we render once immediately
   renderer.render(scene, camera);
-}
-
-// Try to create the mesh when all assets are loaded
-function tryCreateMesh(scene, assets, tempCube, trackableMeshes) {
-  // Check if all assets are loaded
-  if (assets.depthImage && assets.faceTexture) {
-    // Create the mesh with both depth and face texture
-    const headMesh = create3DPhoto(scene, assets.depthImage, assets.faceTexture);
-
-    // Remove the temp cube once the photo is created
-    if (headMesh) {
-      scene.remove(tempCube);
-      // Cache the mesh for optimized animation
-      trackableMeshes.push(headMesh);
-    }
-  }
-}
-
-// Create a 3D photo using the depth map and face texture
-function create3DPhoto(scene, depthImage, faceTexture) {
-  // Create a canvas to read depth data from the image
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  
-  // Set canvas size to match the depth image
-  canvas.width = depthImage.width;
-  canvas.height = depthImage.height;
-  
-  // Draw the depth image to the canvas so we can read its pixels
-  ctx.drawImage(depthImage, 0, 0);
-  
-  try {
-    // Try to get the pixel data from the canvas
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const pixels = imageData.data;
-
-    // Create aspect-ratio-correct plane
-    const width = 1.6; // Slightly smaller for better framing
-    const height = width * (canvas.height / canvas.width);
-
-    // Reduce geometry complexity for better performance
-    // Adaptive quality based on device pixel ratio
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-    const detail = pixelRatio > 1.5 ? 64 : 48; // Reduced from 128
-    const segmentsX = Math.min(detail, canvas.width / 8);  // Reduced segments
-    const segmentsY = Math.min(detail, canvas.height / 8);
-    const planeGeometry = new THREE.PlaneGeometry(width, height, segmentsX, segmentsY);
-    
-    // Function to get depth at a specific UV coordinate
-    const getDepthAtUV = (u, v) => {
-      // Convert UV to pixel coordinates
-      const x = Math.floor(u * canvas.width); // Adjusted x-coordinate mapping
-      const y = Math.floor((1 - v) * canvas.height); // v is flipped as texture v=0 is bottom, image y=0 is top
-      
-      // Get pixel index
-      const index = (y * canvas.width + x) * 4;
-      
-      // Return normalized depth value (0-1)
-      // Use only the red channel as grayscale images typically store values in the R channel
-      return pixels[index] / 255;
-    };
-    
-    // Process the displacement
-    const positions = planeGeometry.attributes.position;
-    const uvs = planeGeometry.attributes.uv;
-    
-    // Apply depth displacement
-    for (let i = 0; i < positions.count; i++) {
-      // Get UV coordinates
-      const u = uvs.getX(i);
-      const v = uvs.getY(i);
-      
-      // Get depth value from image
-      const depth = getDepthAtUV(u, v);
-      
-      // Apply displacement
-      const depthFactor = 0.7; // Increased depth effect
-      positions.setZ(i, depth * depthFactor);
-    }
-    
-    // Update normals for better lighting
-    planeGeometry.computeVertexNormals();
-    
-    // Update geometry after changes
-    positions.needsUpdate = true;
-    
-    // Create a main textured mesh with the photo
-    const mainMaterial = new THREE.MeshStandardMaterial({
-      map: faceTexture,
-      // Enhanced material properties for better contrast
-      roughness: 0.5,
-      metalness: 0.1,
-      side: THREE.DoubleSide, // Show both sides
-      // Color adjustment for better contrast
-      color: 0xffffff, // Base color
-      emissive: 0x000000 // Removed emissive component
-      // emissiveIntensity: 0.2 // Removed
-    });
-    
-    // Create a subtle wireframe on top for depth perception
-    const wireframeMaterial = new THREE.MeshBasicMaterial({
-      color: 0x58a6ff,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.05 // More subtle wireframe
-    });
-    
-    // Create the meshes
-    const mainMesh = new THREE.Mesh(planeGeometry, mainMaterial);
-    const wireframeMesh = new THREE.Mesh(planeGeometry.clone(), wireframeMaterial);
-    
-    // Position meshes
-    mainMesh.position.set(0, 0, 0);
-    wireframeMesh.position.set(0, 0, 0.005); // Tiny offset to prevent z-fighting
-    
-    // Create a group to manage both meshes
-    const photoGroup = new THREE.Group();
-    photoGroup.add(mainMesh);
-    photoGroup.add(wireframeMesh);
-    
-    // Add a slight tilt for more natural look
-    photoGroup.rotation.x = -0.05;
-    
-    // Add the group to the scene
-    scene.add(photoGroup);
-
-    return photoGroup;
-  } catch (e) {
-    createFallbackPhoto(scene, faceTexture);
-    return null;
-  }
-}
-
-// Create a fallback flat photo if the depth map approach fails
-function createFallbackPhoto(scene, faceTexture) {
-  // Calculate aspect ratio
-  const aspect = faceTexture.image.height / faceTexture.image.width;
-  const width = 1.6; // Slightly smaller for better framing
-  const height = width * aspect;
-  
-  // Create a simple plane
-  const geometry = new THREE.PlaneGeometry(width, height);
-  
-  // Rotate the geometry to match orientation
-  // geometry.rotateZ(Math.PI); // Removed rotation
-  
-  const material = new THREE.MeshStandardMaterial({
-    map: faceTexture,
-    side: THREE.DoubleSide,
-    // Enhanced material properties
-    roughness: 0.5,
-    metalness: 0.1,
-    color: 0xffffff, // Base color
-    emissive: 0x000000 // Removed emissive component
-    // emissiveIntensity: 0.2 // Removed
-  });
-  
-  const photoMesh = new THREE.Mesh(geometry, material);
-  scene.add(photoMesh);
-  
-  return photoMesh;
 }
