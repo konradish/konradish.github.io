@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "jsonresume-theme-even": "^0.26.1",
+    "jsonresume-theme-flat": "^0.3.7",
+    "jsonresume-theme-kendall": "^0.2.0",
     "puppeteer": "^24.32.0",
     "resumed": "^6.1.0"
   },
@@ -9,8 +11,8 @@
   "description": "Personal website for Konrad, hosted on GitHub Pages.",
   "main": "index.js",
   "scripts": {
-    "resume:html": "resumed render --theme jsonresume-theme-even --output resume.html resume.json",
-    "resume:pdf": "resumed export --theme jsonresume-theme-even --output resume.pdf resume.json",
+    "resume:html": "resumed render --theme jsonresume-theme-kendall --output resume.html resume.json",
+    "resume:pdf": "resumed export --theme jsonresume-theme-kendall --output resume.pdf resume.json",
     "resume": "npm run resume:html && npm run resume:pdf"
   },
   "repository": {
