@@ -11,6 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - `npm run resume` - Generate both HTML and PDF
   - `npm run resume:html` - Generate HTML only
   - `npm run resume:pdf` - Generate PDF only (requires puppeteer)
+  - Uses `kendall` theme (other themes like `even` and `flat` had text overlap/bad formatting)
 
 ## Code Style Guidelines
 
