@@ -23,24 +23,18 @@ export function loadHero() {
   const camera = new THREE.PerspectiveCamera(35, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
   camera.position.set(0, 0, 3);
 
-  // Lighting setup for 3D model - brighter for glass effect
-  scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+  // Lighting setup for 3D model - lower ambient for more dramatic mouse light effect
+  scene.add(new THREE.AmbientLight(0xffffff, 0.3));
 
-  const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
-  keyLight.position.set(2, 2, 3);
-  scene.add(keyLight);
-
-  const fillLight = new THREE.DirectionalLight(0x88ccff, 1.0);
-  fillLight.position.set(-2, 1, 2);
+  // Subtle fill light from below/behind
+  const fillLight = new THREE.DirectionalLight(0x4488cc, 0.4);
+  fillLight.position.set(-1, -1, -1);
   scene.add(fillLight);
 
-  const rimLight = new THREE.DirectionalLight(0xffffff, 0.8);
-  rimLight.position.set(0, 0, -2);
-  scene.add(rimLight);
-
-  const topLight = new THREE.DirectionalLight(0xffffff, 0.6);
-  topLight.position.set(0, 3, 0);
-  scene.add(topLight);
+  // Mouse-controlled point light (main light source)
+  const mouseLight = new THREE.PointLight(0xffffff, 2.5, 10);
+  mouseLight.position.set(0, 0, 3);
+  scene.add(mouseLight);
 
   // Loading indicator - spinning wireframe cube
   const loadingCube = new THREE.Mesh(
@@ -164,10 +158,16 @@ export function loadHero() {
 
     // Animate the loaded model
     if (model) {
-      // Gentle idle animation + mouse tracking (inverted Y for natural feel)
-      model.rotation.y = Math.sin(t * 0.15) * 0.08 + (mouse.x * 0.3);
-      model.rotation.x = Math.cos(t * 0.1) * 0.03 - (mouse.y * 0.15);
+      // Gentle idle animation only (no mouse tracking for rotation)
+      model.rotation.y = Math.sin(t * 0.15) * 0.08;
+      model.rotation.x = Math.cos(t * 0.1) * 0.03;
     }
+
+    // Move the mouse light to follow cursor position
+    // Map mouse coordinates to 3D space around the model
+    mouseLight.position.x = mouse.x * 2.5;
+    mouseLight.position.y = mouse.y * 2.0;
+    mouseLight.position.z = 2.5;
 
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
