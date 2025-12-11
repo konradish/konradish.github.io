@@ -40,15 +40,16 @@ function getSunLighting() {
     g = 0.9 - t * 0.2;
     b = 0.8 - t * 0.4;
   } else {
-    // Night: cool blue moonlight
-    r = 0.6;
-    g = 0.7;
-    b = 0.9;
+    // Night: silvery moonlight
+    r = 0.85;
+    g = 0.88;
+    b = 0.95;
   }
 
   return {
-    intensity: intensity * 5.0, // Scale to match original intensity range (bumped up significantly)
-    color: new THREE.Color(r, g, b)
+    intensity: intensity * 20.0, // Scale to match original intensity range (bumped up significantly)
+    color: new THREE.Color(r, g, b),
+    hours: hours // expose for debug display
   };
 }
 
@@ -90,6 +91,7 @@ export function loadHero() {
   mouseLight.position.set(0, 0, 3);
   scene.add(mouseLight);
 
+
   // Loading indicator - spinning wireframe cube
   const loadingCube = new THREE.Mesh(
     new THREE.BoxGeometry(0.5, 0.5, 0.5),
@@ -122,8 +124,10 @@ export function loadHero() {
   // Track the loaded model and glasses meshes
   let model = null;
   let glassesMeshes = [];
-  let glassesVisible = true;
-  let glassesManualOverride = false; // Track if user manually toggled
+  // Initialize glasses visibility based on current time
+  const initialSunLighting = getSunLighting();
+  let glassesVisible = initialSunLighting.hours >= 6 && initialSunLighting.hours < 18;
+  let lastShouldHaveGlasses = glassesVisible; // Track previous time-based state
 
   // Load GLB model
   const loader = new GLTFLoader();
@@ -186,9 +190,15 @@ export function loadHero() {
           console.log('Glasses meshes after deep search:', glassesMeshes.map(m => m.name));
         }
 
+        // Apply initial glasses state based on time
+        glassesMeshes.forEach(mesh => {
+          mesh.visible = glassesVisible;
+        });
+        glassesToggle.setAttribute('aria-pressed', glassesVisible.toString());
+        glassesToggle.querySelector('span').textContent = glassesVisible ? 'Glasses' : 'No Glasses';
+
         glassesToggle.addEventListener('click', () => {
           glassesVisible = !glassesVisible;
-          glassesManualOverride = true; // User manually toggled, disable auto
           glassesMeshes.forEach(mesh => {
             mesh.visible = glassesVisible;
           });
@@ -259,17 +269,18 @@ export function loadHero() {
       model.rotation.x = Math.cos(t * 0.1) * 0.03;
     }
 
-    // Update sun lighting every ~30 frames (roughly once per second at 30fps)
-    if (Math.floor(t * 30) % 30 === 0) {
+    // Update sun lighting every frame when debugging, otherwise every ~30 frames
+    const updateLighting = Math.floor(t * 30) % 30 === 0;
+    if (updateLighting) {
       const sunLighting = getSunLighting();
       mouseLight.color.copy(sunLighting.color);
       mouseLight.intensity = sunLighting.intensity;
 
-      // Auto-remove glasses when light goes below 1 (evening/night)
-      // Only if user hasn't manually overridden
-      if (!glassesManualOverride) {
-        const shouldHaveGlasses = sunLighting.intensity >= 1;
-        if (glassesMeshes.length > 0 && glassesVisible !== shouldHaveGlasses) {
+      // Auto-toggle glasses at sunrise/sunset transitions only
+      {
+        const shouldHaveGlasses = sunLighting.hours >= 6 && sunLighting.hours < 18;
+        // Only toggle when the time-based state changes (sunrise/sunset), not every frame
+        if (glassesMeshes.length > 0 && lastShouldHaveGlasses !== null && shouldHaveGlasses !== lastShouldHaveGlasses) {
           glassesVisible = shouldHaveGlasses;
           glassesMeshes.forEach(mesh => {
             mesh.visible = glassesVisible;
@@ -281,6 +292,7 @@ export function loadHero() {
             glassesToggle.querySelector('span').textContent = glassesVisible ? 'Glasses' : 'No Glasses';
           }
         }
+        lastShouldHaveGlasses = shouldHaveGlasses;
       }
     }
 
