@@ -77,29 +77,18 @@ export function loadHero() {
   // Load GLB model
   const loader = new GLTFLoader();
   loader.load(
-    'assets/me-lowpoly.glb',
+    'assets/me-cellshaded.glb',
     (gltf) => {
       model = gltf.scene;
 
       // Remove loading cube
       scene.remove(loadingCube);
 
-      // Apply stylized teal/cyan material with rim lighting effect
+      // Keep original materials/textures from the GLB
+      // Just ensure double-sided rendering for any back faces
       model.traverse((child) => {
-        if (child.isMesh) {
-          // Compute vertex normals for better shading
-          if (child.geometry) {
-            child.geometry.computeVertexNormals();
-          }
-          child.material = new THREE.MeshStandardMaterial({
-            color: 0x4db8cc,
-            emissive: 0x1a6680,
-            emissiveIntensity: 0.5,
-            metalness: 0.2,
-            roughness: 0.3,
-            flatShading: true, // Low-poly look
-            side: THREE.DoubleSide
-          });
+        if (child.isMesh && child.material) {
+          child.material.side = THREE.DoubleSide;
         }
       });
 
