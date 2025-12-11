@@ -1,14 +1,14 @@
 # GLB 3D Model Hero Implementation - 2025-12-09
 
 ## Context
-Continuation of website refresh session. User created a 3D low-poly bust model using Windows Copilot and wanted to replace the depth-mapped photo effect with an actual 3D GLB model. Goal: load the GLB model in Three.js with a stylized glass/crystal material.
+Continuation of website refresh session. User created a 3D low-poly bust model using Windows Copilot and wanted to replace the depth-mapped photo effect with an actual 3D GLB model. Initially used untextured model with custom materials, then swapped to cell-shaded textured GLB (`me-cellshaded.glb`) that renders with embedded textures.
 
 ## Mistakes Are Learnings (Read This First)
 
 **Key mistakes in this session**:
-1. **MeshPhysicalMaterial with transmission invisible without env map**: Used transmission: 0.95 for glass effect → Model completely invisible → Transmission-based glass requires environment map to show refraction. Use emissive or clearcoat instead.
-2. **Deprecated Three.js API**: Used `outputEncoding = THREE.sRGBEncoding` (deprecated in r152+) → No visible error but bad practice → Use `outputColorSpace = THREE.SRGBColorSpace` for Three.js 0.164+
-3. **Headless browser WebGL limitations**: Puppeteer screenshots initially showed empty canvas → Required multiple reload/wait cycles → Headless Chrome has WebGL but may need extra time for complex scenes
+1. **Overwrote GLB textures with custom material**: Initially replaced all materials with custom MeshStandardMaterial → Lost embedded textures → GLB files can contain textures; preserve original materials unless intentionally replacing
+2. **MeshPhysicalMaterial with transmission invisible without env map**: Used transmission: 0.95 for glass effect → Model completely invisible → Transmission-based glass requires environment map to show refraction
+3. **Deprecated Three.js API**: Used `outputEncoding = THREE.sRGBEncoding` (deprecated in r152+) → Use `outputColorSpace = THREE.SRGBColorSpace` for Three.js 0.164+
 
 **Time wasted**: ~15 minutes iterating on glass material settings that were fundamentally incompatible with no-env-map setup
 
@@ -86,4 +86,5 @@ Continuation of website refresh session. User created a 3D low-poly bust model u
 ## Artifacts
 - Files modified: `assets/hero.wireframe.js`
 - Commands run: Puppeteer navigation/screenshot for testing
-- Model used: `assets/me-lowpoly.glb` (created by user in Windows Copilot)
+- Model used: `assets/me-cellshaded.glb` (cell-shaded textured GLB with embedded textures)
+- Previous model: `assets/me-lowpoly.glb` (untextured, used with custom materials)
