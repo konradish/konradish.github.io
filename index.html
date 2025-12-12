@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="preload" as="fetch" href="assets/me-lowpoly.glb" crossorigin="anonymous">
-  <title>Konrad Odell – software architect</title>
+  <title>Konrad Odell – AI workflow innovator</title>
   <!-- Import map for Three.js modules -->
   <script type="importmap">
   {
@@ -531,13 +531,12 @@
   <main class="container" id="main-content">
     <header>
       <h1>Konrad Odell</h1>
-      <p class="title">Software Architect & Tech Enthusiast</p>
+      <p class="title">AI Workflow Innovator</p>
     </header>
 
     <section class="about">
-      <p>Software architect with over 20 years of experience designing and building scalable,
-      distributed systems. I specialize in enterprise architecture, cloud-native solutions,
-      and leading technical teams to deliver high-impact software solutions.</p>
+      <p>I build AI-assisted workflows that actually ship. 20 years of software architecture experience,
+      now focused on making AI tools reliable and systematic—not just demos that kinda work.</p>
 
       <div class="hero-container">
         <canvas id="hero-canvas" role="img" aria-label="Interactive 3D low-poly portrait that responds to mouse movement" style="width:100%;height:300px;display:block;background:transparent;margin-top:20px;border-radius:8px;">
@@ -583,6 +582,26 @@
     <section class="projects">
       <h2>Featured Projects</h2>
       <div class="project-list">
+        <article class="project" style="grid-column: 1 / -1;">
+          <h3><a href="https://github.com/konradish/prompt-kit" target="_blank" rel="noopener noreferrer">Prompt Kit<span class="sr-only"> (opens in new tab)</span></a></h3>
+          <p><strong>This is how I build software now.</strong> A systematic approach to AI-assisted development that turns Claude Code from a fancy autocomplete into a reliable engineering partner.</p>
+          <p style="margin-top: 10px;">The core insight: LLMs are powerful but inconsistent. prompt-kit provides structure—reusable templates, workflow commands, and a learning flywheel that captures lessons across sessions. No more starting from scratch each time.</p>
+          <ul>
+            <li><strong>HTK Workflow</strong>: Hypothesis → Test Kernel methodology for incremental, verifiable progress</li>
+            <li><strong>Session Management</strong>: Park documents and spaced repetition for institutional knowledge</li>
+            <li><strong>Fullstack Templates</strong>: Battle-tested starters for Python, TypeScript, and multi-service projects</li>
+            <li><strong>Global Configuration</strong>: CLAUDE.md system that evolves with your workflow</li>
+          </ul>
+        </article>
+        <article class="project">
+          <h3>Mind → Music <span style="font-size: 0.75em; color: var(--text-secondary); font-weight: normal;">(Coming Soon)</span></h3>
+          <p>Real-time EEG analysis using the Muse headband. Monitoring consciousness states and exploring brain-computer interface patterns for therapeutic applications.</p>
+          <ul>
+            <li>Python analysis pipeline with Docker</li>
+            <li>OSC receiver for real-time data streaming</li>
+            <li>Consciousness state detection algorithms</li>
+          </ul>
+        </article>
         <article class="project">
           <h3><a href="https://konradish.github.io/magic-window" target="_blank" rel="noopener noreferrer">Magic Window<span class="sr-only"> (opens in new tab)</span></a></h3>
           <p>Simulates a window by using webcam to track your head position and moving the 3D scene accordingly.</p>
@@ -593,35 +612,34 @@
             <li>Responsive perspective adjustment</li>
           </ul>
         </article>
-        <article class="project">
-          <h3><a href="https://github.com/konradish/prompt-kit" target="_blank" rel="noopener noreferrer">Prompt Kit<span class="sr-only"> (opens in new tab)</span></a></h3>
-          <p>A library of reusable LLM templates and Claude Code configuration for systematic development. Includes fullstack starter templates, HTK workflow, and a learning flywheel that captures lessons across sessions.</p>
-          <ul>
-            <li>HTK (Hypothesis → Test Kernel) workflow commands</li>
-            <li>Session management & knowledge capture</li>
-            <li>Fullstack project starter templates</li>
-            <li>Global Claude Code configuration system</li>
-          </ul>
-        </article>
+      </div>
+    </section>
+
+    <section class="projects" style="margin-top: clamp(20px, 4vh, 30px);">
+      <h2>Other Work</h2>
+      <div class="project-list">
         <article class="project">
           <h3><a href="https://konradish.github.io/data_experiments/" target="_blank" rel="noopener noreferrer">Data Experiments<span class="sr-only"> (opens in new tab)</span></a></h3>
-          <p>Collection of interactive data visualizations and experiments including sorting algorithm visualizers and pathfinding demos.</p>
+          <p>Interactive data visualizations—sorting algorithms, pathfinding demos, and exploration tools.</p>
           <div style="display:flex; gap:10px; margin:12px 0;">
-            <img src="assets/preview/2dsort.gif" alt="Animated visualization of sorting algorithms in 2D showing array elements being sorted" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
-            <img src="assets/preview/3dsort.gif" alt="Animated 3D visualization of sorting algorithms with vertical bars" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
-            <img src="assets/preview/pathfind.gif" alt="Animated demonstration of pathfinding algorithm navigating through a grid maze" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
+            <img src="assets/preview/2dsort.gif" alt="Animated visualization of sorting algorithms in 2D" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
+            <img src="assets/preview/3dsort.gif" alt="Animated 3D visualization of sorting algorithms" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
+            <img src="assets/preview/pathfind.gif" alt="Pathfinding algorithm demonstration" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
           </div>
-          <ul>
-            <li>3D & 2D sorting algorithm visualizations</li>
-            <li>Pathfinding algorithm demonstrations</li>
-            <li>Interactive data exploration tools</li>
-          </ul>
         </article>
       </div>
     </section>
 
     <!-- Resume section -->
     <section id="resume" aria-live="polite" aria-atomic="true"></section>
+
+    <footer style="margin-top: clamp(40px, 8vh, 60px); padding-top: 20px; border-top: 1px solid var(--border-color); text-align: center; animation: fadeInUp 0.6s ease-out 1s both;">
+      <p style="font-size: 0.85rem; color: var(--text-secondary);">
+        Built with <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer" style="color: var(--text-accent); text-decoration: none;">Claude Code</a>
+        <span style="margin: 0 8px;">·</span>
+        <a href="https://github.com/konradish/prompt-kit" target="_blank" rel="noopener noreferrer" style="color: var(--text-accent); text-decoration: none;">See the workflow</a>
+      </p>
+    </footer>
   </main>
 
   <script>
