@@ -312,17 +312,23 @@
 <td>After each session</td>
 </tr>
 <tr>
-<td><strong>CLAUDE.md</strong></td>
+<td><strong>Durable artifacts</strong></td>
 <td>The rutter — distilled patterns that hold up</td>
 <td>When patterns prove themselves</td>
 </tr>
 </tbody>
 </table>
-<p>The park document captures everything. The CLAUDE.md keeps only what matters for the next voyage.</p>
-<p>You can see this in practice in <a href="https://github.com/konradish/prompt-kit">prompt-kit</a> — the <code>CLAUDE.md</code> there evolved from dozens of parked sessions across multiple projects.</p>
+<p>The park document captures everything. The durable artifacts keep only what matters for the next voyage.</p>
 <hr />
 <h2 id="the-voyage-log-park-documents">The Voyage Log: Park Documents</h2>
-<p>After each session, I park the raw experience:</p>
+<p>The <a href="https://github.com/konradish/prompt-kit/blob/main/claude-config/commands/session/park.md">park protocol</a> is a slash command that compresses a session into an AI-optimized summary. Run <code>/session:park</code> at the end of a working session and it captures:</p>
+<ul>
+<li><strong>Decisions made</strong> and their rationale</li>
+<li><strong>Mistakes and learnings</strong> — what didn&rsquo;t work initially</li>
+<li><strong>Technical details</strong> — bug root causes, configurations, API patterns</li>
+<li><strong>Improvements needed</strong> — gaps in documentation, missing tools</li>
+</ul>
+<p>Here&rsquo;s a simplified example:</p>
 <pre><code class="language-markdown"># Park: API Integration Refactor
 **Date:** 2025-12-13
 
@@ -330,50 +336,94 @@
 Refactored the data sync pipeline to handle rate limiting.
 
 ## Key Outcomes
+
 - Added exponential backoff to API calls
 - Discovered the `/export` endpoint supports pagination
 - Fixed timezone bug in date parsing
 
-## Connections Made
-| Source | Target | Link Type |
-|--------|--------|-----------|
-| Rate limiting pattern | Global retry config | Reusable across projects |
+## Lessons
 
-## For Future Sessions
-The `/export` endpoint is more reliable than `/highlights` for bulk operations.
+- ✅ Rate limiting pattern worked first try
+- ❌ Spent 40 minutes debugging case-sensitive config keys
+- 💡 The `/export` endpoint is more reliable than `/highlights` for bulk operations
+
+## .claude Improvements
+
+- [ ] Add rate limiting pattern to CLAUDE.md
+- [ ] Create skill for API debugging workflow
 </code></pre>
-<p>This is the voyage log. Everything that happened, chronologically, including dead ends.</p>
+<p>This is the voyage log. Everything that happened, including dead ends and what you&rsquo;d do differently.</p>
 <hr />
-<h2 id="the-rutter-claudemd">The Rutter: CLAUDE.md</h2>
-<p>When patterns prove themselves across multiple sessions, they graduate to CLAUDE.md:</p>
-<pre><code class="language-markdown">## API Integration Patterns
+<h2 id="the-rutter-durable-artifacts">The Rutter: Durable Artifacts</h2>
+<p>When patterns prove themselves across multiple sessions, they graduate from park documents to <strong>durable artifacts</strong>. In Claude Code, this means:</p>
+<table>
+<thead>
+<tr>
+<th>Artifact</th>
+<th>What Goes Here</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/konradish/prompt-kit/blob/main/claude-config/CLAUDE.md">CLAUDE.md</a></td>
+<td>Universal patterns, project context</td>
+<td>&ldquo;Use <code>uv</code> for Python, never <code>pip</code>&ldquo;</td>
+</tr>
+<tr>
+<td><a href="https://github.com/konradish/prompt-kit/tree/main/claude-config/skills">Skills</a></td>
+<td>Domain-specific workflows</td>
+<td><code>provider-ingestion/</code>, <code>chart-review/</code></td>
+</tr>
+<tr>
+<td><a href="https://github.com/konradish/prompt-kit/tree/main/claude-config/commands">Slash Commands</a></td>
+<td>Repeatable macros</td>
+<td><code>/commit</code>, <code>/pr</code>, <code>/session:park</code></td>
+</tr>
+<tr>
+<td>Hooks</td>
+<td>Deterministic automation</td>
+<td>Auto-format on save, lint on edit</td>
+</tr>
+<tr>
+<td>REFERENCE.md</td>
+<td>Detailed technical info</td>
+<td>API configurations, server IDs</td>
+</tr>
+</tbody>
+</table>
+<p>The park document asks &ldquo;what happened?&rdquo; The rutter asks &ldquo;what should every future session know?&rdquo;</p>
+<hr />
+<h2 id="from-voyage-log-to-rutter">From Voyage Log to Rutter</h2>
+<p>The <a href="https://github.com/konradish/prompt-kit/blob/main/claude-config/commands/session/park-apply.md">park-apply</a> command extracts learnings and routes them:</p>
+<pre><code class="language-markdown">## Park Apply Summary
 
-### Rate Limiting
-Use exponential backoff with jitter. Start at 1s, max 32s.
-See: `utils/retry.py` for the standard implementation.
+### Learnings Extracted
 
-### Bulk Operations
-Prefer `/api/v2/export` over `/api/v2/highlights`:
-- Export supports pagination
-- Highlights has undocumented rate limits
-- Export includes metadata that highlights omits
+#### Code Patterns (→ CLAUDE.md)
+- **Python `and` truthiness**: Returns value, not boolean
+- **React key stability**: Never include editable content in keys
+
+#### Anti-Patterns (→ Skills)
+- `python-gotchas`: Added Decimal serialization
+- `wsl-cross-platform`: Added PowerShell curl warning
+
+#### Tech Debt (→ Issue tracker)
+- Created: Remove instructor dependency
 </code></pre>
-<p>Notice what changed: the rutter doesn&rsquo;t explain <em>how</em> I learned this. It states <strong>what the next pilot needs to know</strong>.</p>
-<p>The full pattern lives in <a href="https://github.com/konradish/prompt-kit/blob/main/CLAUDE.md">prompt-kit&rsquo;s CLAUDE.md</a> — battle-tested instructions that boot every session.</p>
+<p>Notice the routing. A universal one-liner goes to CLAUDE.md. A detailed debugging workflow becomes a Skill. A technical reference goes to REFERENCE.md. The rutter is not one file — it&rsquo;s the whole Claude Code configuration layer.</p>
 <hr />
 <h2 id="what-doesnt-make-the-cut">What Doesn&rsquo;t Make the Cut</h2>
 <p>A park document might include:</p>
 <ul>
 <li>&ldquo;Tried three different API endpoints before finding the right one&rdquo;</li>
 <li>&ldquo;Spent 40 minutes debugging a typo in the config file&rdquo;</li>
-<li>&ldquo;Asked clarifying questions about the requirements&rdquo;</li>
 <li>&ldquo;Refactored the approach twice before settling on the final design&rdquo;</li>
 </ul>
 <p>The rutter keeps:</p>
 <ul>
 <li>&ldquo;Use <code>/api/v2/export</code> for bulk operations — it&rsquo;s paginated and more reliable&rdquo;</li>
 <li>&ldquo;Config keys are case-sensitive in production but not locally&rdquo;</li>
-<li>&ldquo;Always confirm scope before implementation on ambiguous requests&rdquo;</li>
 </ul>
 <p>The voyage was interesting. The rutter is useful.</p>
 <hr />
@@ -389,31 +439,39 @@ Prefer `/api/v2/export` over `/api/v2/highlights`:
 <hr />
 <h2 id="the-refinement-loop">The Refinement Loop</h2>
 <ol>
-<li><strong>Park after sessions</strong> — Capture raw experience in <code>.claude-sessions/</code> or similar</li>
-<li><strong>Review periodically</strong> — Scan recent parks for recurring patterns</li>
-<li><strong>Promote to CLAUDE.md</strong> — Extract the durable wisdom</li>
+<li><strong>Park after sessions</strong> — Run <code>/session:park</code> to capture raw experience</li>
+<li><strong>Review periodically</strong> — Run <code>/session:apply</code> to extract recurring patterns</li>
+<li><strong>Promote to artifacts</strong> — Route learnings to CLAUDE.md, Skills, or Commands</li>
 <li><strong>Prune what didn&rsquo;t hold</strong> — Remove instructions that caused problems</li>
 </ol>
 <p>The rutter gets better by removing what didn&rsquo;t work, not by adding everything new.</p>
 <hr />
 <h2 id="real-example-wsl-docker">Real Example: WSL + Docker</h2>
-<p>From <a href="https://github.com/konradish/prompt-kit/blob/main/CLAUDE.md">prompt-kit&rsquo;s CLAUDE.md</a>:</p>
+<p>From my <a href="https://github.com/konradish/prompt-kit">prompt-kit configuration</a>:</p>
+<p>In <strong>CLAUDE.md</strong> (the one-liner version):</p>
+<pre><code class="language-markdown">- Use `host.docker.internal` for host access, not `localhost`
+</code></pre>
+<p>In <strong>Skills</strong> (the detailed workflow):</p>
 <pre><code class="language-markdown">## WSL + Docker Gotchas
 
-- Use `host.docker.internal` for host access, not `localhost`
 - Socket-based port checks instead of PowerShell curl
 - Build-time vars need `--force-recreate --build`
 - LAN IPs (192.168.x.x) for cross-container networking
+- Run `docker compose` from WSL, not Windows CMD
 </code></pre>
-<p>This section emerged from at least five different debugging sessions across three projects. Each time I hit one of these, I&rsquo;d park it. Eventually the pattern was clear enough to extract.</p>
+<p>This emerged from five different debugging sessions across three projects. Each time I hit one of these, I&rsquo;d park it. Eventually the pattern was clear enough to extract — some to CLAUDE.md for quick reference, the rest to a dedicated skill for deeper context.</p>
 <hr />
 <h2 id="the-punchline">The Punchline</h2>
 <p>The pilots who survived the age of sail didn&rsquo;t have better ships. They had better rutters.</p>
-<p>Build park documents for raw experience. Build CLAUDE.md for extracted wisdom. Let experience accumulate, then distill.</p>
+<p>Build park documents for raw experience. Build durable artifacts for extracted wisdom. Let experience accumulate, then distill.</p>
 <hr />
-<p><strong>Sources:</strong>
-- James Clavell, <em>Shōgun</em> (1975)
-- <a href="https://github.com/konradish/prompt-kit">prompt-kit</a> — My Claude Code configuration system</p>
+<p><strong>Sources:</strong></p>
+<ul>
+<li>James Clavell, <em>Shōgun</em> (1975)</li>
+<li><a href="https://github.com/konradish/prompt-kit">prompt-kit</a> — Claude Code configuration system with park protocol and artifact templates</li>
+<li><a href="https://github.com/konradish/prompt-kit/blob/main/claude-config/commands/session/park.md">park.md</a> — The park protocol definition</li>
+<li><a href="https://github.com/konradish/prompt-kit/blob/main/claude-config/commands/session/park-apply.md">park-apply.md</a> — The extraction workflow</li>
+</ul>
     </article>
   </main>
 
