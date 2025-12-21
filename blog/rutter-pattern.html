@@ -191,6 +191,33 @@
         border: 1px solid var(--border-color);
     }
 
+    article table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        font-size: 0.95em;
+    }
+
+    article th, article td {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    article th {
+        background: var(--bg-tertiary);
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    article td {
+        color: var(--text-secondary);
+    }
+
+    article tr:hover td {
+        background: var(--hover-bg);
+    }
+
     .theme-toggle {
         position: fixed;
         top: 20px;
@@ -268,11 +295,13 @@
 <p>In the age of sail, a rutter wasn&rsquo;t the voyage log. It was the <strong>extracted wisdom</strong> that made the next voyage safer.</p>
 <hr />
 <h2 id="the-pattern">The Pattern</h2>
-<p>A rutter wasn&rsquo;t everything the pilot experienced. It was what the pilot <strong>chose to record</strong> for the next voyage:
-- Safe passages and dangerous shoals
-- Where friends and foes could be found
-- How many days on a specific tack
-- The pattern of the wind</p>
+<p>A rutter wasn&rsquo;t everything the pilot experienced. It was what the pilot <strong>chose to record</strong> for the next voyage:</p>
+<ul>
+<li>Safe passages and dangerous shoals</li>
+<li>Where friends and foes could be found</li>
+<li>How many days on a specific tack</li>
+<li>The pattern of the wind</li>
+</ul>
 <p>Your AI memory system should work the same way: distilled navigation for future sessions.</p>
 <hr />
 <h2 id="accumulate-then-synthesize">Accumulate, Then Synthesize</h2>
@@ -344,16 +373,20 @@ The rutter asks: &ldquo;What should the next pilot know?&rdquo;</p>
 </blockquote>
 <hr />
 <h2 id="what-doesnt-make-the-cut">What Doesn&rsquo;t Make the Cut</h2>
-<p>A voyage log might include:
-- &ldquo;Tried three different API endpoints before finding the right one&rdquo;
-- &ldquo;Spent 40 minutes debugging a typo in the config file&rdquo;
-- &ldquo;Asked clarifying questions about the requirements&rdquo;
-- &ldquo;Refactored the approach twice before settling on the final design&rdquo;
-- &ldquo;The user seemed frustrated around message 47&rdquo;</p>
-<p>The rutter keeps:
-- &ldquo;Use <code>/api/v2/export</code>, not <code>/api/v2/highlights</code> — the latter doesn&rsquo;t include favorites&rdquo;
-- &ldquo;Config keys are case-sensitive in production but not locally&rdquo;
-- &ldquo;Always confirm scope before implementation on ambiguous requests&rdquo;</p>
+<p>A voyage log might include:</p>
+<ul>
+<li>&ldquo;Tried three different API endpoints before finding the right one&rdquo;</li>
+<li>&ldquo;Spent 40 minutes debugging a typo in the config file&rdquo;</li>
+<li>&ldquo;Asked clarifying questions about the requirements&rdquo;</li>
+<li>&ldquo;Refactored the approach twice before settling on the final design&rdquo;</li>
+<li>&ldquo;The user seemed frustrated around message 47&rdquo;</li>
+</ul>
+<p>The rutter keeps:</p>
+<ul>
+<li>&ldquo;Use <code>/api/v2/export</code>, not <code>/api/v2/highlights</code> — the latter doesn&rsquo;t include favorites&rdquo;</li>
+<li>&ldquo;Config keys are case-sensitive in production but not locally&rdquo;</li>
+<li>&ldquo;Always confirm scope before implementation on ambiguous requests&rdquo;</li>
+</ul>
 <p>The voyage was interesting. The rutter is useful.</p>
 <hr />
 <h2 id="when-to-write-the-rutter">When to Write the Rutter</h2>
