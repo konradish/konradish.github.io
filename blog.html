@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline';">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+  <title>Writing – Konrad Odell</title>
+  <style>
+    :root {
+        --bg-primary: #0d1117;
+        --bg-secondary: #161b22;
+        --bg-tertiary: #21262d;
+        --text-primary: #c9d1d9;
+        --text-secondary: #8b949e;
+        --text-accent: #58a6ff;
+        --text-highlight: #7ee787;
+        --border-color: #30363d;
+        --hover-bg: #1c2128;
+        --gradient-1: #58a6ff;
+        --gradient-2: #7ee787;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --font-size-base: clamp(16px, 2vw, 18px);
+        --container-max-width: min(90vw, 700px);
+    }
+
+    [data-theme="light"] {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f6f8fa;
+        --bg-tertiary: #f0f3f6;
+        --text-primary: #24292e;
+        --text-secondary: #586069;
+        --text-accent: #0366d6;
+        --text-highlight: #28a745;
+        --border-color: #e1e4e8;
+        --hover-bg: #f3f4f6;
+        --gradient-1: #0366d6;
+        --gradient-2: #28a745;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root:not([data-theme]) {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f6f8fa;
+            --bg-tertiary: #f0f3f6;
+            --text-primary: #24292e;
+            --text-secondary: #586069;
+            --text-accent: #0366d6;
+            --text-highlight: #28a745;
+            --border-color: #e1e4e8;
+            --hover-bg: #f3f4f6;
+            --gradient-1: #0366d6;
+            --gradient-2: #28a745;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: var(--font-size-base);
+        line-height: 1.6;
+        color: var(--text-primary);
+        background-color: var(--bg-primary);
+        transition: var(--transition);
+        min-height: 100vh;
+    }
+
+    .container {
+        width: var(--container-max-width);
+        margin: 0 auto;
+        padding: clamp(40px, 8vh, 80px) clamp(20px, 4vw, 40px);
+    }
+
+    header {
+        margin-bottom: clamp(30px, 6vh, 50px);
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+        transition: var(--transition);
+    }
+
+    .back-link:hover {
+        color: var(--text-accent);
+    }
+
+    h1 {
+        font-size: clamp(2rem, 6vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+        color: var(--text-secondary);
+        margin-top: 0.5rem;
+    }
+
+    .posts {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(15px, 3vw, 25px);
+    }
+
+    .post-card {
+        padding: clamp(20px, 3vw, 30px);
+        border-radius: 12px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        transition: var(--transition);
+        text-decoration: none;
+        display: block;
+    }
+
+    .post-card:hover {
+        transform: translateY(-3px);
+        border-color: var(--text-accent);
+        box-shadow: 0 8px 25px var(--shadow-color);
+    }
+
+    .post-card h2 {
+        font-size: clamp(1.2rem, 3vw, 1.4rem);
+        color: var(--text-accent);
+        margin-bottom: 0.5rem;
+    }
+
+    .post-meta {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.75rem;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .post-tag {
+        background: var(--bg-tertiary);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+    }
+
+    .post-excerpt {
+        color: var(--text-secondary);
+        line-height: 1.7;
+    }
+
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        padding: 10px;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px var(--shadow-color);
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        z-index: 1000;
+    }
+
+    .theme-toggle:hover {
+        background: var(--hover-bg);
+        color: var(--text-accent);
+        transform: scale(1.1);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: var(--text-secondary);
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        border: 1px dashed var(--border-color);
+    }
+
+    *:focus-visible {
+        outline: 3px solid var(--text-accent);
+        outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" aria-label="Toggle theme">
+    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="sun-icon">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+    </svg>
+    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="moon-icon" style="display: none;">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+    </svg>
+  </button>
+
+  <main class="container">
+    <header>
+      <a href="index.html" class="back-link">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back to home
+      </a>
+      <h1>Writing</h1>
+      <p class="subtitle">Thoughts on AI workflows, project updates, and lessons learned</p>
+    </header>
+
+    <section class="posts">
+      <a href="blog/rutter-pattern.html" class="post-card">
+        <h2>The Rutter Pattern: AI Memory Through Continuous Refinement</h2>
+        <div class="post-meta">
+          <span>December 21, 2025</span>
+          <span class="post-tag">AI Workflows</span><span class="post-tag">Claude Code</span>
+        </div>
+        <p class="post-excerpt">In the age of sail, a rutter wasn't the voyage log. It was the extracted wisdom that made the next voyage safer. Your AI memory system should work the same way.</p>
+      </a>
+      <!-- Posts will be added here -->
+      </section>
+  </main>
+
+  <script>
+    // Theme toggle (synced with main page)
+    const themeToggle = document.querySelector('.theme-toggle');
+    const sunIcon = document.querySelector('.sun-icon');
+    const moonIcon = document.querySelector('.moon-icon');
+    const html = document.documentElement;
+
+    function getTheme() {
+      try { return localStorage.getItem('theme'); } catch (e) { return null; }
+    }
+
+    function setTheme(theme) {
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    }
+
+    const savedTheme = getTheme();
+    if (savedTheme === 'light' || (!savedTheme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+      html.setAttribute('data-theme', 'light');
+      sunIcon.style.display = 'none';
+      moonIcon.style.display = 'block';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const isLight = html.getAttribute('data-theme') === 'light';
+      html.setAttribute('data-theme', isLight ? 'dark' : 'light');
+      setTheme(isLight ? 'dark' : 'light');
+      sunIcon.style.display = isLight ? 'block' : 'none';
+      moonIcon.style.display = isLight ? 'none' : 'block';
+    });
+  </script>
+</body>
+</html>
