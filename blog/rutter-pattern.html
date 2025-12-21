@@ -292,135 +292,128 @@
 <p><em>&ldquo;A rutter was a small book containing the detailed observation of a pilot who had been there before. It recorded magnetic compass courses between ports and capes&hellip; the how we got there and how we got back: how many days on a special tack, the pattern of the wind&hellip; where there were friends and where foes.&rdquo;</em>
 — James Clavell, <em>Shōgun</em></p>
 </blockquote>
-<p>In the age of sail, a rutter wasn&rsquo;t the voyage log. It was the <strong>extracted wisdom</strong> that made the next voyage safer.</p>
+<p>Pilots who survived the age of sail had rutters — small books of <strong>extracted wisdom</strong> from accumulated voyages. Safe passages, dangerous shoals, where to find friends and foes.</p>
+<p>Your AI workflow needs the same thing.</p>
 <hr />
-<h2 id="the-pattern">The Pattern</h2>
-<p>A rutter wasn&rsquo;t everything the pilot experienced. It was what the pilot <strong>chose to record</strong> for the next voyage:</p>
-<ul>
-<li>Safe passages and dangerous shoals</li>
-<li>Where friends and foes could be found</li>
-<li>How many days on a specific tack</li>
-<li>The pattern of the wind</li>
-</ul>
-<p>Your AI memory system should work the same way: distilled navigation for future sessions.</p>
-<hr />
-<h2 id="accumulate-then-synthesize">Accumulate, Then Synthesize</h2>
-<p>The rutter emerges from accumulated experience, not from individual session summaries.</p>
-<p>Here&rsquo;s the pattern I follow:</p>
-<ol>
-<li><strong>Many sessions accumulate</strong> — raw voyages, experiments, mistakes, wins</li>
-<li><strong>Park application synthesizes</strong> — once enough voyages exist, extract the durable patterns</li>
-<li><strong>Future sessions boot from the rutter</strong> — start with distilled wisdom, not empty context</li>
-</ol>
-<p>The key insight: you can&rsquo;t write a rutter after one voyage. You need enough experience to see what patterns hold up.</p>
-<hr />
-<h2 id="what-a-park-document-looks-like">What a Park Document Looks Like</h2>
-<p>After accumulating enough sessions, I run a synthesis pass:</p>
-<pre><code class="language-markdown"># Park: Morning Sync + MAS Scaling
-**Date:** 2025-12-13
-
-## What Happened
-Morning sync processing plus YouTube video ingest.
-
-## Key Outcomes
-- Created Multi-Agent System Scaling note (Manager Test heuristic)
-- Handled parents communication (pattern captured)
-- Updated Current-Context with new decision blockers
-
-## Connections Made
-| Source | Target | Link Type |
-|--------|--------|-----------|
-| Shōgun Rutter | Park docs, CLAUDE.md | Metaphor for institutional knowledge |
-| Manager Test | Interview prep | System design heuristic |
-
-## For Future Sessions
-When drafting parent comms: Check Communication Patterns.
-For interviews: The Manager Test is a great system design heuristic.
-</code></pre>
-<p>This is wisdom for the next voyage.</p>
-<hr />
-<h2 id="the-rutter-vs-the-voyage-log">The Rutter vs. The Voyage Log</h2>
+<h2 id="two-artifacts-two-purposes">Two Artifacts, Two Purposes</h2>
+<p>Working with Claude Code, I&rsquo;ve landed on two complementary artifacts:</p>
 <table>
 <thead>
 <tr>
-<th>Voyage Log</th>
-<th>Rutter</th>
+<th>Artifact</th>
+<th>Purpose</th>
+<th>Updates</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Everything that happened</td>
-<td>What matters for next time</td>
+<td><strong>Park documents</strong></td>
+<td>Raw voyage logs — what happened this session</td>
+<td>After each session</td>
 </tr>
 <tr>
-<td>Chronological</td>
-<td>Organized by utility</td>
-</tr>
-<tr>
-<td>Gets longer over time</td>
-<td>Gets refined over time</td>
-</tr>
-<tr>
-<td>Raw data</td>
-<td>Distilled wisdom</td>
+<td><strong>CLAUDE.md</strong></td>
+<td>The rutter — distilled patterns that hold up</td>
+<td>When patterns prove themselves</td>
 </tr>
 </tbody>
 </table>
-<p>The voyage log asks: &ldquo;What did we do?&rdquo;
-The rutter asks: &ldquo;What should the next pilot know?&rdquo;</p>
-<blockquote>
-<p><em>Editor&rsquo;s note: The author of this document — which is to say, me — had to be explicitly told to stop using &ldquo;it&rsquo;s not X, it&rsquo;s Y&rdquo; constructions throughout the drafts. I&rsquo;m now writing about this correction in the third person, which is exactly the kind of recursive absurdity you get when an AI writes its own rutter. The lesson held up. I&rsquo;m including it.</em></p>
-</blockquote>
+<p>The park document captures everything. The CLAUDE.md keeps only what matters for the next voyage.</p>
+<p>You can see this in practice in <a href="https://github.com/konradish/prompt-kit">prompt-kit</a> — the <code>CLAUDE.md</code> there evolved from dozens of parked sessions across multiple projects.</p>
+<hr />
+<h2 id="the-voyage-log-park-documents">The Voyage Log: Park Documents</h2>
+<p>After each session, I park the raw experience:</p>
+<pre><code class="language-markdown"># Park: API Integration Refactor
+**Date:** 2025-12-13
+
+## What Happened
+Refactored the data sync pipeline to handle rate limiting.
+
+## Key Outcomes
+- Added exponential backoff to API calls
+- Discovered the `/export` endpoint supports pagination
+- Fixed timezone bug in date parsing
+
+## Connections Made
+| Source | Target | Link Type |
+|--------|--------|-----------|
+| Rate limiting pattern | Global retry config | Reusable across projects |
+
+## For Future Sessions
+The `/export` endpoint is more reliable than `/highlights` for bulk operations.
+</code></pre>
+<p>This is the voyage log. Everything that happened, chronologically, including dead ends.</p>
+<hr />
+<h2 id="the-rutter-claudemd">The Rutter: CLAUDE.md</h2>
+<p>When patterns prove themselves across multiple sessions, they graduate to CLAUDE.md:</p>
+<pre><code class="language-markdown">## API Integration Patterns
+
+### Rate Limiting
+Use exponential backoff with jitter. Start at 1s, max 32s.
+See: `utils/retry.py` for the standard implementation.
+
+### Bulk Operations
+Prefer `/api/v2/export` over `/api/v2/highlights`:
+- Export supports pagination
+- Highlights has undocumented rate limits
+- Export includes metadata that highlights omits
+</code></pre>
+<p>Notice what changed: the rutter doesn&rsquo;t explain <em>how</em> I learned this. It states <strong>what the next pilot needs to know</strong>.</p>
+<p>The full pattern lives in <a href="https://github.com/konradish/prompt-kit/blob/main/CLAUDE.md">prompt-kit&rsquo;s CLAUDE.md</a> — battle-tested instructions that boot every session.</p>
 <hr />
 <h2 id="what-doesnt-make-the-cut">What Doesn&rsquo;t Make the Cut</h2>
-<p>A voyage log might include:</p>
+<p>A park document might include:</p>
 <ul>
 <li>&ldquo;Tried three different API endpoints before finding the right one&rdquo;</li>
 <li>&ldquo;Spent 40 minutes debugging a typo in the config file&rdquo;</li>
 <li>&ldquo;Asked clarifying questions about the requirements&rdquo;</li>
 <li>&ldquo;Refactored the approach twice before settling on the final design&rdquo;</li>
-<li>&ldquo;The user seemed frustrated around message 47&rdquo;</li>
 </ul>
 <p>The rutter keeps:</p>
 <ul>
-<li>&ldquo;Use <code>/api/v2/export</code>, not <code>/api/v2/highlights</code> — the latter doesn&rsquo;t include favorites&rdquo;</li>
+<li>&ldquo;Use <code>/api/v2/export</code> for bulk operations — it&rsquo;s paginated and more reliable&rdquo;</li>
 <li>&ldquo;Config keys are case-sensitive in production but not locally&rdquo;</li>
 <li>&ldquo;Always confirm scope before implementation on ambiguous requests&rdquo;</li>
 </ul>
 <p>The voyage was interesting. The rutter is useful.</p>
 <hr />
-<h2 id="when-to-write-the-rutter">When to Write the Rutter</h2>
+<h2 id="when-to-update-the-rutter">When to Update the Rutter</h2>
 <p>Not after every session. After enough sessions to see patterns:</p>
 <ul>
 <li>When the same mistake happens twice</li>
 <li>When a workaround becomes standard practice</li>
 <li>When you notice yourself explaining the same thing to fresh contexts</li>
-<li>When a technique proves itself across multiple situations</li>
+<li>When a technique proves itself across multiple projects</li>
 </ul>
 <p>The rutter captures <strong>what held up</strong>, not what seemed good at the time.</p>
 <hr />
-<h2 id="the-implementation">The Implementation</h2>
+<h2 id="the-refinement-loop">The Refinement Loop</h2>
 <ol>
-<li>
-<p><strong>Start sessions by reading the rutter</strong> — Don&rsquo;t start cold. Load the distilled context from previous voyages.</p>
-</li>
-<li>
-<p><strong>Accumulate voyages, then synthesize</strong> — Individual sessions build up raw material. Periodically run a park pass to extract the patterns worth keeping.</p>
-</li>
-<li>
-<p><strong>Refine, don&rsquo;t append</strong> — The rutter gets better over time by removing what didn&rsquo;t hold up, not by adding everything new.</p>
-</li>
-<li>
-<p><strong>Test against fresh contexts</strong> — A good rutter works when handed to a new agent with no prior history.</p>
-</li>
+<li><strong>Park after sessions</strong> — Capture raw experience in <code>.claude-sessions/</code> or similar</li>
+<li><strong>Review periodically</strong> — Scan recent parks for recurring patterns</li>
+<li><strong>Promote to CLAUDE.md</strong> — Extract the durable wisdom</li>
+<li><strong>Prune what didn&rsquo;t hold</strong> — Remove instructions that caused problems</li>
 </ol>
+<p>The rutter gets better by removing what didn&rsquo;t work, not by adding everything new.</p>
+<hr />
+<h2 id="real-example-wsl-docker">Real Example: WSL + Docker</h2>
+<p>From <a href="https://github.com/konradish/prompt-kit/blob/main/CLAUDE.md">prompt-kit&rsquo;s CLAUDE.md</a>:</p>
+<pre><code class="language-markdown">## WSL + Docker Gotchas
+
+- Use `host.docker.internal` for host access, not `localhost`
+- Socket-based port checks instead of PowerShell curl
+- Build-time vars need `--force-recreate --build`
+- LAN IPs (192.168.x.x) for cross-container networking
+</code></pre>
+<p>This section emerged from at least five different debugging sessions across three projects. Each time I hit one of these, I&rsquo;d park it. Eventually the pattern was clear enough to extract.</p>
 <hr />
 <h2 id="the-punchline">The Punchline</h2>
 <p>The pilots who survived the age of sail didn&rsquo;t have better ships. They had better rutters.</p>
-<p>Build the rutter. Let experience accumulate. Then distill.</p>
+<p>Build park documents for raw experience. Build CLAUDE.md for extracted wisdom. Let experience accumulate, then distill.</p>
 <hr />
 <p><strong>Sources:</strong>
-- James Clavell, <em>Shōgun</em> (1975)</p>
+- James Clavell, <em>Shōgun</em> (1975)
+- <a href="https://github.com/konradish/prompt-kit">prompt-kit</a> — My Claude Code configuration system</p>
     </article>
   </main>
 
