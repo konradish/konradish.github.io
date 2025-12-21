@@ -30,3 +30,59 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Root directory contains all files (flat structure)
 - Inline CSS/JS used for simplicity (no build system required)
 - GitHub Pages for deployment
+
+## Blog Publishing
+
+Publish markdown blog posts from Obsidian to the site.
+
+### Quick Start
+
+```bash
+# Dry run (preview)
+uv run publish.py /path/to/post.md --dry-run
+
+# Publish
+uv run publish.py /path/to/post.md
+
+# Commit and deploy
+git add blog/ blog.html && git commit -m "Add blog post: Title" && git push
+```
+
+### Frontmatter Format
+
+```yaml
+---
+title: "Post Title"
+date: 2025-12-21
+tags: [AI Workflows, Projects]
+excerpt: "Brief description for the index page."
+slug: optional-custom-slug  # defaults to filename
+---
+```
+
+### With Images
+
+Place images in a folder matching the post slug:
+```
+source/
+├── my-post.md
+└── my-post/
+    ├── hero.png
+    └── diagram.png
+```
+
+Reference in markdown: `![Alt text](./my-post/diagram.png)`
+
+The publish script copies the image folder to `blog/{slug}/`.
+
+### Files
+
+- `publish.py` - Publishing script (uses uv for dependencies)
+- `blog/_template.html` - Post template
+- `blog.html` - Blog index page
+- `blog/{slug}.html` - Individual posts
+
+### Source
+
+Posts are authored in Obsidian: `/mnt/c/ObsidianNotes/Projects/Blog/`
+Documentation: `[[Projects/konradodell.com Retrofit]]`

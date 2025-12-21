@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline';">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32.png">
+  <!-- UPDATE: Title for this post -->
+  <title>The Rutter Pattern: AI Memory Through Continuous Refinement – Konrad Odell</title>
+  <style>
+    :root {
+        --bg-primary: #0d1117;
+        --bg-secondary: #161b22;
+        --bg-tertiary: #21262d;
+        --text-primary: #c9d1d9;
+        --text-secondary: #8b949e;
+        --text-accent: #58a6ff;
+        --text-highlight: #7ee787;
+        --border-color: #30363d;
+        --hover-bg: #1c2128;
+        --gradient-1: #58a6ff;
+        --gradient-2: #7ee787;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --font-size-base: clamp(16px, 2vw, 18px);
+        --container-max-width: min(90vw, 700px);
+    }
+
+    [data-theme="light"] {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f6f8fa;
+        --bg-tertiary: #f0f3f6;
+        --text-primary: #24292e;
+        --text-secondary: #586069;
+        --text-accent: #0366d6;
+        --text-highlight: #28a745;
+        --border-color: #e1e4e8;
+        --hover-bg: #f3f4f6;
+        --gradient-1: #0366d6;
+        --gradient-2: #28a745;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root:not([data-theme]) {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f6f8fa;
+            --bg-tertiary: #f0f3f6;
+            --text-primary: #24292e;
+            --text-secondary: #586069;
+            --text-accent: #0366d6;
+            --text-highlight: #28a745;
+            --border-color: #e1e4e8;
+            --hover-bg: #f3f4f6;
+            --gradient-1: #0366d6;
+            --gradient-2: #28a745;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: var(--font-size-base);
+        line-height: 1.6;
+        color: var(--text-primary);
+        background-color: var(--bg-primary);
+        transition: var(--transition);
+        min-height: 100vh;
+    }
+
+    .container {
+        width: var(--container-max-width);
+        margin: 0 auto;
+        padding: clamp(40px, 8vh, 80px) clamp(20px, 4vw, 40px);
+    }
+
+    header { margin-bottom: 2rem; }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+        transition: var(--transition);
+    }
+
+    .back-link:hover { color: var(--text-accent); }
+
+    h1 {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: var(--text-primary);
+        line-height: 1.3;
+    }
+
+    .post-meta {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .post-tag {
+        background: var(--bg-tertiary);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+    }
+
+    article {
+        margin-top: 2rem;
+    }
+
+    article h2 {
+        font-size: 1.4rem;
+        color: var(--text-primary);
+        margin: 2rem 0 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    article h3 {
+        font-size: 1.15rem;
+        color: var(--text-accent);
+        margin: 1.5rem 0 0.75rem;
+    }
+
+    article p {
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        line-height: 1.8;
+    }
+
+    article ul, article ol {
+        margin: 1rem 0 1rem 1.5rem;
+        color: var(--text-secondary);
+    }
+
+    article li { margin-bottom: 0.5rem; }
+
+    article a {
+        color: var(--text-accent);
+        text-decoration: none;
+    }
+
+    article a:hover { text-decoration: underline; }
+
+    article code {
+        background: var(--bg-tertiary);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        font-family: 'SF Mono', Monaco, Consolas, monospace;
+    }
+
+    article pre {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1rem;
+        overflow-x: auto;
+        margin: 1rem 0;
+    }
+
+    article pre code {
+        background: none;
+        padding: 0;
+    }
+
+    article blockquote {
+        border-left: 3px solid var(--text-accent);
+        padding-left: 1rem;
+        margin: 1rem 0;
+        color: var(--text-secondary);
+        font-style: italic;
+    }
+
+    article img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin: 1rem 0;
+        border: 1px solid var(--border-color);
+    }
+
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        padding: 10px;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px var(--shadow-color);
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        z-index: 1000;
+    }
+
+    .theme-toggle:hover {
+        background: var(--hover-bg);
+        color: var(--text-accent);
+        transform: scale(1.1);
+    }
+
+    *:focus-visible {
+        outline: 3px solid var(--text-accent);
+        outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" aria-label="Toggle theme">
+    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="sun-icon">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+    </svg>
+    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="moon-icon" style="display: none;">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+    </svg>
+  </button>
+
+  <main class="container">
+    <header>
+      <a href="../blog.html" class="back-link">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back to all posts
+      </a>
+      <!-- UPDATE: Post title -->
+      <h1>The Rutter Pattern: AI Memory Through Continuous Refinement</h1>
+      <div class="post-meta">
+        <!-- UPDATE: Date -->
+        <span>December 21, 2025</span>
+        <!-- UPDATE: Tags -->
+        <span class="post-tag">AI Workflows</span><span class="post-tag">Claude Code</span>
+      </div>
+    </header>
+
+    <article>
+      <img src="rutter-pattern/hero.png" alt="The Rutter Pattern: AI Memory Through Continuous Refinement" class="hero-image" style="width:100%; border-radius:12px; margin-bottom:2rem; border:1px solid var(--border-color);">
+      <blockquote>
+<p><em>&ldquo;A rutter was a small book containing the detailed observation of a pilot who had been there before. It recorded magnetic compass courses between ports and capes&hellip; the how we got there and how we got back: how many days on a special tack, the pattern of the wind&hellip; where there were friends and where foes.&rdquo;</em>
+— James Clavell, <em>Shōgun</em></p>
+</blockquote>
+<p>In the age of sail, a rutter wasn&rsquo;t the voyage log. It was the <strong>extracted wisdom</strong> that made the next voyage safer.</p>
+<hr />
+<h2 id="the-pattern">The Pattern</h2>
+<p>A rutter wasn&rsquo;t everything the pilot experienced. It was what the pilot <strong>chose to record</strong> for the next voyage:
+- Safe passages and dangerous shoals
+- Where friends and foes could be found
+- How many days on a specific tack
+- The pattern of the wind</p>
+<p>Your AI memory system should work the same way: distilled navigation for future sessions.</p>
+<hr />
+<h2 id="accumulate-then-synthesize">Accumulate, Then Synthesize</h2>
+<p>The rutter emerges from accumulated experience, not from individual session summaries.</p>
+<p>Here&rsquo;s the pattern I follow:</p>
+<ol>
+<li><strong>Many sessions accumulate</strong> — raw voyages, experiments, mistakes, wins</li>
+<li><strong>Park application synthesizes</strong> — once enough voyages exist, extract the durable patterns</li>
+<li><strong>Future sessions boot from the rutter</strong> — start with distilled wisdom, not empty context</li>
+</ol>
+<p>The key insight: you can&rsquo;t write a rutter after one voyage. You need enough experience to see what patterns hold up.</p>
+<hr />
+<h2 id="what-a-park-document-looks-like">What a Park Document Looks Like</h2>
+<p>After accumulating enough sessions, I run a synthesis pass:</p>
+<pre><code class="language-markdown"># Park: Morning Sync + MAS Scaling
+**Date:** 2025-12-13
+
+## What Happened
+Morning sync processing plus YouTube video ingest.
+
+## Key Outcomes
+- Created Multi-Agent System Scaling note (Manager Test heuristic)
+- Handled parents communication (pattern captured)
+- Updated Current-Context with new decision blockers
+
+## Connections Made
+| Source | Target | Link Type |
+|--------|--------|-----------|
+| Shōgun Rutter | Park docs, CLAUDE.md | Metaphor for institutional knowledge |
+| Manager Test | Interview prep | System design heuristic |
+
+## For Future Sessions
+When drafting parent comms: Check Communication Patterns.
+For interviews: The Manager Test is a great system design heuristic.
+</code></pre>
+<p>This is wisdom for the next voyage.</p>
+<hr />
+<h2 id="the-rutter-vs-the-voyage-log">The Rutter vs. The Voyage Log</h2>
+<table>
+<thead>
+<tr>
+<th>Voyage Log</th>
+<th>Rutter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Everything that happened</td>
+<td>What matters for next time</td>
+</tr>
+<tr>
+<td>Chronological</td>
+<td>Organized by utility</td>
+</tr>
+<tr>
+<td>Gets longer over time</td>
+<td>Gets refined over time</td>
+</tr>
+<tr>
+<td>Raw data</td>
+<td>Distilled wisdom</td>
+</tr>
+</tbody>
+</table>
+<p>The voyage log asks: &ldquo;What did we do?&rdquo;
+The rutter asks: &ldquo;What should the next pilot know?&rdquo;</p>
+<blockquote>
+<p><em>Editor&rsquo;s note: The author of this document — which is to say, me — had to be explicitly told to stop using &ldquo;it&rsquo;s not X, it&rsquo;s Y&rdquo; constructions throughout the drafts. I&rsquo;m now writing about this correction in the third person, which is exactly the kind of recursive absurdity you get when an AI writes its own rutter. The lesson held up. I&rsquo;m including it.</em></p>
+</blockquote>
+<hr />
+<h2 id="what-doesnt-make-the-cut">What Doesn&rsquo;t Make the Cut</h2>
+<p>A voyage log might include:
+- &ldquo;Tried three different API endpoints before finding the right one&rdquo;
+- &ldquo;Spent 40 minutes debugging a typo in the config file&rdquo;
+- &ldquo;Asked clarifying questions about the requirements&rdquo;
+- &ldquo;Refactored the approach twice before settling on the final design&rdquo;
+- &ldquo;The user seemed frustrated around message 47&rdquo;</p>
+<p>The rutter keeps:
+- &ldquo;Use <code>/api/v2/export</code>, not <code>/api/v2/highlights</code> — the latter doesn&rsquo;t include favorites&rdquo;
+- &ldquo;Config keys are case-sensitive in production but not locally&rdquo;
+- &ldquo;Always confirm scope before implementation on ambiguous requests&rdquo;</p>
+<p>The voyage was interesting. The rutter is useful.</p>
+<hr />
+<h2 id="when-to-write-the-rutter">When to Write the Rutter</h2>
+<p>Not after every session. After enough sessions to see patterns:</p>
+<ul>
+<li>When the same mistake happens twice</li>
+<li>When a workaround becomes standard practice</li>
+<li>When you notice yourself explaining the same thing to fresh contexts</li>
+<li>When a technique proves itself across multiple situations</li>
+</ul>
+<p>The rutter captures <strong>what held up</strong>, not what seemed good at the time.</p>
+<hr />
+<h2 id="the-implementation">The Implementation</h2>
+<ol>
+<li>
+<p><strong>Start sessions by reading the rutter</strong> — Don&rsquo;t start cold. Load the distilled context from previous voyages.</p>
+</li>
+<li>
+<p><strong>Accumulate voyages, then synthesize</strong> — Individual sessions build up raw material. Periodically run a park pass to extract the patterns worth keeping.</p>
+</li>
+<li>
+<p><strong>Refine, don&rsquo;t append</strong> — The rutter gets better over time by removing what didn&rsquo;t hold up, not by adding everything new.</p>
+</li>
+<li>
+<p><strong>Test against fresh contexts</strong> — A good rutter works when handed to a new agent with no prior history.</p>
+</li>
+</ol>
+<hr />
+<h2 id="the-punchline">The Punchline</h2>
+<p>The pilots who survived the age of sail didn&rsquo;t have better ships. They had better rutters.</p>
+<p>Build the rutter. Let experience accumulate. Then distill.</p>
+<hr />
+<p><strong>Sources:</strong>
+- James Clavell, <em>Shōgun</em> (1975)</p>
+    </article>
+  </main>
+
+  <script>
+    const themeToggle = document.querySelector('.theme-toggle');
+    const sunIcon = document.querySelector('.sun-icon');
+    const moonIcon = document.querySelector('.moon-icon');
+    const html = document.documentElement;
+
+    function getTheme() {
+      try { return localStorage.getItem('theme'); } catch (e) { return null; }
+    }
+
+    function setTheme(theme) {
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    }
+
+    const savedTheme = getTheme();
+    if (savedTheme === 'light' || (!savedTheme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+      html.setAttribute('data-theme', 'light');
+      sunIcon.style.display = 'none';
+      moonIcon.style.display = 'block';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const isLight = html.getAttribute('data-theme') === 'light';
+      html.setAttribute('data-theme', isLight ? 'dark' : 'light');
+      setTheme(isLight ? 'dark' : 'light');
+      sunIcon.style.display = isLight ? 'block' : 'none';
+      moonIcon.style.display = isLight ? 'none' : 'block';
+    });
+  </script>
+</body>
+</html>
