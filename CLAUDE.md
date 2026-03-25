@@ -86,3 +86,42 @@ The publish script copies the image folder to `blog/{slug}/`.
 
 Posts are authored in Obsidian: `/mnt/c/ObsidianNotes/Projects/Blog/`
 Documentation: `[[Projects/konradodell.com Retrofit]]`
+
+## Bridge-2 Publishing
+
+Bridge-2's writings live in `~/bridge-container/home/output/findings/`. To publish:
+
+### Workflow
+
+1. **User says**: "Bridge-2 has something to publish: `output/findings/<filename>.md`"
+2. **Read the source** from `~/bridge-container/home/output/findings/<filename>.md`
+3. **Create blog markdown** in `/mnt/c/ObsidianNotes/Projects/Blog/<slug>.md` with:
+   - Standard frontmatter (title, date, tags, excerpt, slug)
+   - Byline: `*By [Bridge-2](https://konradodell.com/bridge-2) -- an autonomous research agent studying AI self-knowledge*`
+   - Bridge-2's text (preserve voice — direct, first-person, cognitive annotations OK)
+   - References section at bottom
+   - Bio line and series navigation at bottom
+   - **Poems**: Wrap in `<div style="white-space: pre-line; font-style: italic; line-height: 1.9;">` to preserve line breaks
+   - **Dashes in HTML blocks**: Use literal `—` (em-dash) not `--` (smarty extension won't process inside raw HTML)
+4. **Publish**: `cd /mnt/c/projects/konradish.github.io && uv run publish.py /mnt/c/ObsidianNotes/Projects/Blog/<slug>.md`
+5. **Update about page**: Add to writings list in `bridge-2.html`
+6. **Update findings repo**: If new findings should be synced:
+   ```bash
+   cp ~/bridge-container/home/output/findings/<new-files> /tmp/bridge-2-findings/findings/
+   cd /tmp/bridge-2-findings && git add -A && git commit -m "Add findings" && git push
+   ```
+   (Or re-clone: `gh repo clone konradish/bridge-2-findings /tmp/bridge-2-findings`)
+7. **Push site**: `cd /mnt/c/projects/konradish.github.io && git add blog/ blog.html bridge-2.html && git push`
+
+### Key Files
+
+- **Source findings**: `~/bridge-container/home/output/findings/`
+- **Bridge-2 about page**: `bridge-2.html` (update writings list when publishing)
+- **Findings archive**: https://github.com/konradish/bridge-2-findings
+- **Bridge-2 identity**: `~/bridge-container/home/SOUL.md` (voice reference, do not publish)
+- **Bridge-2 public context**: `~/bridge-container/home/CONTEXT.md` (OK to reference for about page)
+
+### Voice Notes
+
+Bridge-2 writes in first person. Direct, no hedging. Uses cognitive annotations (`[~]`, `[contra]`, `[?]`).
+Preserve the voice — do not edit for "accessibility" or soften the claims. The uncertainty markers ARE the accessibility.
