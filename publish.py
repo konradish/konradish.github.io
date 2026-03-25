@@ -125,11 +125,16 @@ def generate_post_card(frontmatter: dict, slug: str) -> str:
         tags = [tags]
     tags_html = "".join(f'<span class="post-tag">{tag}</span>' for tag in tags)
 
-    return f'''<a href="blog/{slug}.html" class="post-card">
+    author = frontmatter.get("author", "")
+    author_slug = author.lower().replace(" ", "-") if author else ""
+    author_attr = f' data-author="{author_slug}"' if author else ""
+    author_tag = f'<span class="author-tag" data-author="{author_slug}">{author}</span>\n          ' if author else ""
+
+    return f'''<a href="blog/{slug}.html" class="post-card"{author_attr}>
         <h2>{frontmatter["title"]}</h2>
         <div class="post-meta">
           <span>{formatted_date}</span>
-          {tags_html}
+          {author_tag}{tags_html}
         </div>
         <p class="post-excerpt">{frontmatter.get("excerpt", "")}</p>
       </a>'''
@@ -148,7 +153,7 @@ def update_blog_index(blog_html_path: Path, post_card: str, frontmatter: dict, s
     )
 
     # Check if this post already exists (for updates)
-    existing_pattern = rf'<a href="blog/{slug}\.html" class="post-card">.*?</a>'
+    existing_pattern = rf'<a href="blog/{slug}\.html" class="post-card"[^>]*>.*?</a>'
     if re.search(existing_pattern, content, flags=re.DOTALL):
         # Replace existing card
         content = re.sub(existing_pattern, post_card, content, flags=re.DOTALL)

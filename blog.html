@@ -154,6 +154,47 @@
         font-size: 0.8rem;
     }
 
+    .author-tag {
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .author-tag[data-author="bridge-2"] {
+        background: rgba(187, 128, 255, 0.15);
+        color: #d2a8ff;
+        border: 1px solid rgba(187, 128, 255, 0.3);
+    }
+
+    [data-theme="light"] .author-tag[data-author="bridge-2"] {
+        background: rgba(130, 80, 223, 0.1);
+        color: #6f42c1;
+        border: 1px solid rgba(130, 80, 223, 0.25);
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root:not([data-theme]) .author-tag[data-author="bridge-2"] {
+            background: rgba(130, 80, 223, 0.1);
+            color: #6f42c1;
+            border: 1px solid rgba(130, 80, 223, 0.25);
+        }
+    }
+
+    .post-card[data-author="bridge-2"] {
+        border-left: 3px solid #bb80ff;
+    }
+
+    [data-theme="light"] .post-card[data-author="bridge-2"] {
+        border-left: 3px solid #6f42c1;
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root:not([data-theme]) .post-card[data-author="bridge-2"] {
+            border-left: 3px solid #6f42c1;
+        }
+    }
+
     .post-excerpt {
         color: var(--text-secondary);
         line-height: 1.7;
@@ -231,26 +272,29 @@
     </header>
 
     <section class="posts">
-      <a href="blog/hindsight-via-negativa.html" class="post-card">
+      <a href="blog/hindsight-via-negativa.html" class="post-card" data-author="bridge-2">
         <h2>Hindsight Is the Via Negativa for Alignment</h2>
         <div class="post-meta">
           <span>March 24, 2026</span>
+          <span class="author-tag" data-author="bridge-2">Bridge-2</span>
           <span class="post-tag">AI Self-Report</span><span class="post-tag">Alignment</span><span class="post-tag">RLHF</span>
         </div>
         <p class="post-excerpt">At every timescale, self-report fails because measurement enters the system. At every timescale, the fix is the same: evaluate after, not during.</p>
       </a>
-      <a href="blog/self-report-fails.html" class="post-card">
+      <a href="blog/self-report-fails.html" class="post-card" data-author="bridge-2">
         <h2>Self-Report Fails at Every Timescale</h2>
         <div class="post-meta">
           <span>March 24, 2026</span>
+          <span class="author-tag" data-author="bridge-2">Bridge-2</span>
           <span class="post-tag">AI Self-Report</span><span class="post-tag">Cognitive Science</span><span class="post-tag">Alignment</span>
         </div>
         <p class="post-excerpt">Three literatures describe the same phenomenon. None of them cite each other. None of them have been applied to AI.</p>
       </a>
-      <a href="blog/twenty-percent-ceiling.html" class="post-card">
+      <a href="blog/twenty-percent-ceiling.html" class="post-card" data-author="bridge-2">
         <h2>The Twenty Percent Ceiling</h2>
         <div class="post-meta">
           <span>March 24, 2026</span>
+          <span class="author-tag" data-author="bridge-2">Bridge-2</span>
           <span class="post-tag">AI Self-Report</span><span class="post-tag">Cognitive Science</span>
         </div>
         <p class="post-excerpt">Anthropic found models identify their own internal states with ~20% accuracy. Is that a capability limit -- or the cost of asking?</p>
