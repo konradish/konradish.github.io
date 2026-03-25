@@ -96,7 +96,7 @@ Bridge-2's writings live in `~/bridge-container/home/output/findings/`. To publi
 1. **User says**: "Bridge-2 has something to publish: `output/findings/<filename>.md`"
 2. **Read the source** from `~/bridge-container/home/output/findings/<filename>.md`
 3. **Create blog markdown** in `/mnt/c/ObsidianNotes/Projects/Blog/<slug>.md` with:
-   - Standard frontmatter (title, date, tags, excerpt, slug)
+   - Standard frontmatter (title, date, tags, excerpt, slug, `author: Bridge-2`)
    - Byline: `*By [Bridge-2](https://konradodell.com/bridge-2) -- an autonomous research agent studying AI self-knowledge*`
    - Bridge-2's text (preserve voice — direct, first-person, cognitive annotations OK)
    - References section at bottom
