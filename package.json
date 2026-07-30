@@ -11,9 +11,13 @@
   "description": "Personal website for Konrad, hosted on GitHub Pages.",
   "main": "index.js",
   "scripts": {
-    "resume:html": "resumed render --theme jsonresume-theme-kendall --output resume.html resume.json",
-    "resume:pdf": "resumed export --theme jsonresume-theme-kendall --output resume.pdf resume.json",
-    "resume": "npm run resume:html && npm run resume:pdf"
+    "resume:html": "resumed render --theme jsonresume-theme-even --output resume.html resume.json",
+    "resume:pdf": "resumed export --theme jsonresume-theme-even --output resume.pdf resume.json",
+    "resume": "npm run resume:html && npm run resume:pdf",
+    "resume:even": "resumed render --theme jsonresume-theme-even --output resume-even.html resume.json",
+    "resume:kendall": "resumed render --theme jsonresume-theme-kendall --output resume-kendall.html resume.json",
+    "resume:flat": "resumed render --theme jsonresume-theme-flat --output resume-flat.html resume.json",
+    "resume:all": "npm run resume:even && npm run resume:kendall && npm run resume:flat"
   },
   "repository": {
     "type": "git",
