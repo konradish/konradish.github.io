@@ -112,9 +112,9 @@
   "work": [
     {
       "name": "Moxe Health",
-      "position": "Staff Engineer, Architecture (Team Lead 2022-2024)",
+      "position": "Staff Engineer, Architecture",
       "url": "https://moxehealth.com",
-      "startDate": "2022-09",
+      "startDate": "2024-01",
       "summary": "Architect for a B2B healthcare data interchange platform (HIPAA-regulated clinical data at scale), focused on data-platform capability, applied-AI evaluation, and cross-team technical coordination.",
       "highlights": [
         "Identified, scoped, and validated applied-AI opportunities against real clinical and financial workloads, including a multimodal LLM proof-of-concept that surfaced a material volume of recoverable invoice value",
@@ -122,8 +122,6 @@
         "Built a healthcare quality-measure (HEDIS) proof-of-concept with Product: FHIR chart data to analyst-ready extracts, validated end-to-end against a simulated FHIR harness rather than by inspection",
         "Partnered on Databricks implementation including Unity Catalog governance, lakehouse architecture, and self-service tooling for data analysis",
         "Built Spark bulk-ingest and Delta-to-Iceberg conversion tooling for a large-scale clinical lakehouse migration off a legacy external provider",
-        "Led consent-management service team (Java, Spring Boot, NATS) with zero-downtime blue/green deployment",
-        "Built deploy-time safety mechanisms: canary deployment, smoke tests, and auto-rollback",
         "Documented module boundaries and state diagrams for monolith decomposition planning on the core clinical data processing system",
         "Coordinated architecture decisions across data platform, clinical retrieval, and revenue-operations functions, presenting tradeoffs to both engineers and senior leadership",
         "Coached senior engineers on architectural thinking and mentored across disciplines, including a formal data-science mentee"
@@ -141,6 +139,27 @@
         "NATS",
         "AWS",
         "CI/CD"
+      ]
+    },
+    {
+      "name": "Moxe Health",
+      "position": "Senior Software Engineer / Team Lead",
+      "url": "https://moxehealth.com",
+      "startDate": "2022-09",
+      "endDate": "2024-01",
+      "summary": "Led the consent-management service team on a HIPAA-regulated B2B clinical data interchange platform; owned delivery, deploy safety, and the service architecture.",
+      "keywords": [
+        "Java",
+        "Spring Boot",
+        "NATS",
+        "Blue/green deployment",
+        "CI/CD",
+        "HIPAA"
+      ],
+      "highlights": [
+        "Led consent-management service team (Java, Spring Boot, NATS) with zero-downtime blue/green deployment",
+        "Built deploy-time safety mechanisms: canary deployment, smoke tests, and auto-rollback",
+        "Ran the team's delivery cadence and reviews; the operational patterns (canary, smoke tests, auto-rollback) became the platform-wide integration-testing standard"
       ]
     },
     {
