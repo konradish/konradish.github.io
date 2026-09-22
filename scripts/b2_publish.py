@@ -77,10 +77,9 @@ PII_PATTERNS = {
 
 def log(msg: str) -> None:
     line = f"{datetime.now().isoformat(timespec='seconds')} {msg}"
-    print(line)
-    LOG.parent.mkdir(parents=True, exist_ok=True)
-    with LOG.open("a") as f:
-        f.write(line + "\n")
+    # stdout only: the cron line redirects stdout into the log file, so writing
+    # the file here too doubled every line (seen 2026-09-22).
+    print(line, flush=True)
 
 
 def load_deny_terms() -> list[str]:
