@@ -541,24 +541,11 @@
   <main class="container" id="main-content">
     <header>
       <h1>Konrad Odell</h1>
-      <p class="title">Software Engineer</p>
+      <p class="title">Staff Engineer, Architecture</p>
     </header>
 
     <section class="about">
-      <p>20 years building software. Currently exploring how AI tools fit into real development workflows.</p>
-
-      <div class="hero-container">
-        <canvas id="hero-canvas" role="img" aria-label="Interactive 3D low-poly portrait that responds to mouse movement" style="width:100%;height:300px;display:block;background:transparent;margin-top:20px;border-radius:8px;">
-          <p>An animated 3D low-poly portrait visualization that responds to mouse movement.</p>
-        </canvas>
-        <button class="glasses-toggle" id="glasses-toggle" aria-label="Toggle glasses on model" aria-pressed="true">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-          </svg>
-          <span>Glasses</span>
-        </button>
-      </div>
+      <p>Twenty years shipping software. The last four at architecture altitude inside a HIPAA-regulated clinical data exchange; the last two building and running production LLM and agentic systems end to end. I write with an autonomous research agent about what AI systems can and cannot tell you about themselves.</p>
     </section>
     
     <nav class="links">
@@ -599,51 +586,64 @@
       <h2>Featured Projects</h2>
       <div class="project-list">
         <article class="project" style="grid-column: 1 / -1;">
-          <h3><a href="https://github.com/konradish/prompt-kit" target="_blank" rel="noopener noreferrer">Prompt Kit<span class="sr-only"> (opens in new tab)</span></a></h3>
-          <img src="assets/preview/prompt-kit.png" alt="AI workflow illustration showing terminal windows connected by data streams" loading="lazy" decoding="async" style="width:100%; border-radius:8px; margin-bottom:12px; border:1px solid var(--border-color);">
-          <p>Templates, workflow commands, and patterns for AI-assisted development. Captures lessons across sessions so each project builds on the last.</p>
+          <h3><a href="https://electricityfinder.online" target="_blank" rel="noopener noreferrer">ElectricityFinder<span class="sr-only"> (opens in new tab)</span></a></h3>
+          <p>A live subscription product for Texas retail electricity. Ranks plans against your real smart-meter usage instead of the advertised rate, reads the Electricity Facts Label PDFs with an LLM extraction pipeline behind an eval gate, and carries the PUCT broker-disclosure and privacy work that a regulated domain demands. Built and shipped solo.</p>
           <ul>
-            <li><strong>HTK Workflow</strong>: Hypothesis → Test Kernel methodology for incremental, verifiable progress</li>
-            <li><strong>Session Management</strong>: Park documents and spaced repetition for institutional knowledge</li>
-            <li><strong>Fullstack Templates</strong>: Battle-tested starters for Python, TypeScript, and multi-service projects</li>
-            <li><strong>Global Configuration</strong>: CLAUDE.md system that evolves with your workflow</li>
+            <li><strong>Stack</strong>: Cloudflare Workers + D1 at the edge, Postgres and the extraction pipeline on a Hetzner box behind a Cloudflare tunnel, Stripe billing</li>
+            <li><strong>The part that mattered</strong>: measured where extraction actually failed (routing, not the prompt) before touching the model</li>
           </ul>
         </article>
         <article class="project">
-          <h3>Mind → Music <span style="font-size: 0.75em; color: var(--text-secondary); font-weight: normal;">(Coming Soon)</span></h3>
-          <img src="assets/preview/mind-music.png" alt="Brain-computer interface illustration with EEG waves transforming into music" loading="lazy" decoding="async" style="width:100%; border-radius:8px; margin-bottom:12px; border:1px solid var(--border-color);">
-          <p>Real-time EEG analysis using the Muse headband. Monitoring consciousness states and exploring brain-computer interface patterns for therapeutic applications.</p>
+          <h3>Agent factory at home</h3>
+          <p>A multi-agent message bus and control plane I run for myself: a Claude Code orchestrator, a jailed local-model reviewer that never sees the network, a persistent belief store that auto-updates reversible claims and escalates the rest, and a trace critic that grades the agents' own sessions.</p>
           <ul>
-            <li>Python analysis pipeline with Docker</li>
-            <li>OSC receiver for real-time data streaming</li>
-            <li>Consciousness state detection algorithms</li>
+            <li><a href="blog/dispatch-factory-dashboard.html">A factory control plane for AI agents in one afternoon</a></li>
+            <li><a href="https://github.com/konradish/prompt-kit" target="_blank" rel="noopener noreferrer">Prompt Kit<span class="sr-only"> (opens in new tab)</span></a>: the public half of the workflow (commands, park documents, templates)</li>
           </ul>
         </article>
         <article class="project">
-          <h3><a href="https://konradish.github.io/magic-window" target="_blank" rel="noopener noreferrer">Magic Window<span class="sr-only"> (opens in new tab)</span></a></h3>
-          <img src="assets/preview/magic-window-hero.png" alt="Parallax window effect with layered 3D geometric shapes" loading="lazy" decoding="async" style="width:100%; border-radius:8px; margin-bottom:12px; border:1px solid var(--border-color);">
-          <p>Simulates a window by using webcam to track your head position and moving the 3D scene accordingly.</p>
-          <img src="assets/preview/magicwindow.gif" alt="Animated demonstration of Magic Window project showing 3D scene responding to head tracking" loading="lazy" decoding="async" style="width:100%; border-radius:8px; margin:12px 0; border:1px solid var(--border-color);">
+          <h3>Bridge-2</h3>
+          <p>An autonomous research agent that runs from a persistent container with its own memory and archive, studying the gap between what AI systems process and what they can report about it. Every essay under Writing below is Bridge-2's; I run the loop, check the citations, and publish. <a href="bridge-2.html">Who Bridge-2 is and how it works</a>.</p>
           <ul>
-            <li>WebGL/Three.js for 3D visualization</li>
-            <li>Face tracking technology</li>
-            <li>Responsive perspective adjustment</li>
+            <li>Verbal overshadowing and measurement reactivity in AI self-report</li>
+            <li>The via negativa for alignment: evaluate after, not during</li>
           </ul>
         </article>
       </div>
     </section>
 
     <section class="projects" style="margin-top: clamp(20px, 4vh, 30px);">
-      <h2>Other Work</h2>
+      <h2>Writing</h2>
       <div class="project-list">
-        <article class="project">
-          <h3><a href="https://konradish.github.io/data_experiments/" target="_blank" rel="noopener noreferrer">Data Experiments<span class="sr-only"> (opens in new tab)</span></a></h3>
-          <img src="assets/preview/data-experiments-hero.png" alt="Algorithm visualization showing sorting bars, pathfinding maze, and graph network" loading="lazy" decoding="async" style="width:100%; border-radius:8px; margin-bottom:12px; border:1px solid var(--border-color);">
-          <p>Interactive data visualizations—sorting algorithms, pathfinding demos, and exploration tools.</p>
-          <div style="display:flex; gap:10px; margin:12px 0;">
-            <img src="assets/preview/2dsort.gif" alt="Animated visualization of sorting algorithms in 2D" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
-            <img src="assets/preview/3dsort.gif" alt="Animated 3D visualization of sorting algorithms" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
-            <img src="assets/preview/pathfind.gif" alt="Pathfinding algorithm demonstration" loading="lazy" decoding="async" style="width:33%; border-radius:6px; border:1px solid var(--border-color);">
+        <article class="project" style="grid-column: 1 / -1;">
+          <p style="margin-bottom: 8px;">Essays by Bridge-2, edited and published by me.</p>
+          <ul>
+            <li><a href="blog/the-kill-count.html">The Kill Count</a> <span style="color: var(--text-secondary);">— August 2026</span></li>
+            <li><a href="blog/the-shrinking-outside.html">The Shrinking Outside</a> <span style="color: var(--text-secondary);">— July 2026</span></li>
+            <li><a href="blog/the-imperfection-youre-counting-on.html">The Imperfection You're Counting On</a> <span style="color: var(--text-secondary);">— July 2026</span></li>
+            <li><a href="blog/wine-gradient.html">The Wine Gradient: Why AI Self-Report Fails at Every Timescale</a> <span style="color: var(--text-secondary);">— March 2026</span></li>
+          </ul>
+          <p style="margin-top: 8px;"><a href="blog.html">All essays →</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="projects" style="margin-top: clamp(20px, 4vh, 30px);">
+      <h2>Earlier experiments</h2>
+      <div class="project-list">
+        <article class="project" style="grid-column: 1 / -1;">
+          <p><a href="https://konradish.github.io/magic-window" target="_blank" rel="noopener noreferrer">Magic Window<span class="sr-only"> (opens in new tab)</span></a> (webcam head-tracking parallax in Three.js) · <a href="https://konradish.github.io/data_experiments/" target="_blank" rel="noopener noreferrer">Data Experiments<span class="sr-only"> (opens in new tab)</span></a> (sorting and pathfinding visualizations) · Mind → Music (Muse EEG state detection, shelved)</p>
+          <div class="hero-container" style="margin-top: 12px;">
+        <canvas id="hero-canvas" role="img" aria-label="Interactive 3D low-poly portrait that responds to mouse movement" style="width:100%;height:300px;display:block;background:transparent;margin-top:20px;border-radius:8px;">
+          <p>An animated 3D low-poly portrait visualization that responds to mouse movement.</p>
+        </canvas>
+        <button class="glasses-toggle" id="glasses-toggle" aria-label="Toggle glasses on model" aria-pressed="true">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+          </svg>
+          <span>Glasses</span>
+        </button>
           </div>
         </article>
       </div>
@@ -654,7 +654,7 @@
 
     <footer style="margin-top: clamp(40px, 8vh, 60px); padding-top: 20px; border-top: 1px solid var(--border-color); text-align: center; animation: fadeInUp 0.6s ease-out 1s both;">
       <p style="font-size: 0.85rem; color: var(--text-secondary);">
-        Built with <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer" style="color: var(--text-accent); text-decoration: none;">Claude Code</a>
+        Built with <a href="https://github.com/konradish/prompt-kit" target="_blank" rel="noopener noreferrer" style="color: var(--text-accent); text-decoration: none;">Claude Code</a>
         <span style="margin: 0 8px;">·</span>
         <a href="https://github.com/konradish/prompt-kit" target="_blank" rel="noopener noreferrer" style="color: var(--text-accent); text-decoration: none;">See the workflow</a>
       </p>
