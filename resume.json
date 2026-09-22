@@ -2,74 +2,185 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Konrad Odell",
-    "label": "Engineering Leader | Data Platforms & AI Integration",
+    "label": "Healthcare Data Platforms & Agentic AI Systems",
     "email": "contact@konradodell.com",
     "url": "https://konradodell.com",
-    "summary": "20+ years building and leading distributed systems teams. Expertise in monolith decomposition, data lakehouse architecture, and translating AI capabilities into measurable business outcomes.",
+    "summary": "Twenty years shipping software, the last four at architecture altitude inside a HIPAA-regulated clinical data exchange and the last two building and running production LLM and agentic systems end to end. Day job: data platform and integration architecture — lakehouse governance, FHIR pipelines, applied AI evaluated against live clinical and financial workloads. Own time: a licensed, revenue-taking consumer product in a regulated market, built and operated solo, plus an agentic engineering practice — 68 reusable agent skills, MCP servers, and custom eval harnesses that decide what reaches production. The through-line is making systems that fail silently fail loudly instead.",
     "location": {
       "city": "Dallas-Fort Worth",
       "region": "TX",
       "country": "US"
     },
     "profiles": [
-      { "network": "GitHub", "username": "konradish", "url": "https://github.com/konradish" },
-      { "network": "LinkedIn", "username": "konrad-odell", "url": "https://www.linkedin.com/in/konrad-odell/" }
+      {
+        "network": "GitHub",
+        "username": "konradish",
+        "url": "https://github.com/konradish"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "konrad-odell",
+        "url": "https://www.linkedin.com/in/konrad-odell/"
+      }
     ]
   },
-
   "skills": [
-    { "name": "Languages", "level": "Expert", "keywords": ["Java", "Python", "SQL", "JavaScript", "Bash"] },
-    { "name": "Data Platforms", "level": "Advanced", "keywords": ["Databricks (Unity Catalog, Genie, Lakehouse)", "Spark", "Trino", "Iceberg", "dbt"] },
-    { "name": "Cloud", "level": "Advanced", "keywords": ["AWS (API Gateway, Lambda, EKS, RDS, S3)", "Cloudflare"] },
-    { "name": "DevOps", "keywords": ["Docker", "Kubernetes", "GitHub Actions"] },
-    { "name": "Healthcare", "keywords": ["HIPAA", "FHIR", "HL7", "Clinical Data Processing", "PII Governance"] }
+    {
+      "name": "Applied AI & Agents",
+      "level": "Advanced",
+      "keywords": [
+        "Production LLM pipelines",
+        "Multi-agent orchestration",
+        "AI coding agents as production build tools",
+        "MCP servers & tool integrations",
+        "Reusable agent skills / sub-agents",
+        "Retrieval & hybrid semantic search",
+        "Multi-provider model routing",
+        "Local inference & LoRA fine-tuning"
+      ]
+    },
+    {
+      "name": "Evaluation & Reliability",
+      "level": "Advanced",
+      "keywords": [
+        "Custom eval harnesses",
+        "LLM-as-judge gates",
+        "Adversarial evaluation",
+        "Worker/verifier separation",
+        "Deploy-time content smoke tests",
+        "Mutation & contract testing"
+      ]
+    },
+    {
+      "name": "Healthcare & Regulated Domains",
+      "keywords": [
+        "HIPAA",
+        "FHIR",
+        "HL7",
+        "HEDIS quality measures",
+        "Clinical data processing",
+        "PII governance",
+        "PUCT / CAN-SPAM / TDPSA"
+      ]
+    },
+    {
+      "name": "Languages",
+      "level": "Advanced",
+      "keywords": [
+        "Python",
+        "TypeScript",
+        "Java",
+        "SQL",
+        "JavaScript",
+        "Bash"
+      ]
+    },
+    {
+      "name": "Data Platforms",
+      "level": "Advanced",
+      "keywords": [
+        "Databricks (Unity Catalog, Genie, Lakehouse)",
+        "Spark",
+        "Trino",
+        "Iceberg",
+        "dbt",
+        "DuckDB",
+        "Vector databases"
+      ]
+    },
+    {
+      "name": "Cloud & Distributed Systems",
+      "level": "Advanced",
+      "keywords": [
+        "AWS (API Gateway, Lambda, EKS, RDS, S3)",
+        "Cloudflare (Workers, D1, Tunnels)",
+        "Event-driven architecture (NATS)",
+        "Enterprise integration",
+        "Data pipelines"
+      ]
+    },
+    {
+      "name": "DevOps",
+      "keywords": [
+        "Docker",
+        "Kubernetes",
+        "GitHub Actions",
+        "Blue/green & canary deploys"
+      ]
+    }
   ],
-
   "work": [
     {
       "name": "Moxe Health",
-      "position": "Software Architect",
+      "position": "Staff Engineer, Architecture (Team Lead 2022-2024)",
       "url": "https://moxehealth.com",
       "startDate": "2022-09",
-      "summary": "Architect for B2B healthcare data interchange platform, focused on data platform capabilities and cross-team technical coordination.",
+      "summary": "Architect for a B2B healthcare data interchange platform (HIPAA-regulated clinical data at scale), focused on data-platform capability, applied-AI evaluation, and cross-team technical coordination.",
       "highlights": [
+        "Identified, scoped, and validated applied-AI opportunities against real clinical and financial workloads, including a multimodal LLM proof-of-concept that surfaced a material volume of recoverable invoice value",
+        "Designed a FHIR-to-template clinical document generation pipeline, now in active development with partner engineers contributing to it",
+        "Built a healthcare quality-measure (HEDIS) proof-of-concept with Product: FHIR chart data to analyst-ready extracts, validated end-to-end against a simulated FHIR harness rather than by inspection",
         "Partnered on Databricks implementation including Unity Catalog governance, lakehouse architecture, and self-service tooling for data analysis",
-        "Built Databricks Genie interfaces enabling non-engineering teams to query complex healthcare datasets through natural language",
-        "Migrated ~600 TB clinical data to Trino+Iceberg lakehouse, replacing $14M/yr legacy vendor dependency",
+        "Built Spark bulk-ingest and Delta-to-Iceberg conversion tooling for a large-scale clinical lakehouse migration off a legacy external provider",
         "Led consent-management service team (Java, Spring Boot, NATS) with zero-downtime blue/green deployment",
-        "Validated AI opportunities including multimodal LLM proof-of-concept that identified $300K in recoverable invoices",
-        "Established integration testing patterns with canary deployment, smoke tests, and auto-rollback",
-        "Documented module boundaries and state diagrams for monolith decomposition planning on core clinical data processing system",
-        "Coordinated architecture decisions across Data Platform, Chart Retrieval, and RevOps teams"
+        "Built deploy-time safety mechanisms: canary deployment, smoke tests, and auto-rollback",
+        "Documented module boundaries and state diagrams for monolith decomposition planning on the core clinical data processing system",
+        "Coordinated architecture decisions across data platform, clinical retrieval, and revenue-operations functions, presenting tradeoffs to both engineers and senior leadership",
+        "Coached senior engineers on architectural thinking and mentored across disciplines, including a formal data-science mentee"
       ],
-      "keywords": ["Databricks", "Lakehouse", "Spark", "Java", "Python", "NATS", "AWS", "CI/CD", "Agile"]
+      "keywords": [
+        "Healthcare",
+        "HIPAA",
+        "FHIR",
+        "Applied AI",
+        "Databricks",
+        "Lakehouse",
+        "Spark",
+        "Java",
+        "Python",
+        "NATS",
+        "AWS",
+        "CI/CD"
+      ]
     },
     {
       "name": "Cognizant Softvision → Discover Financial Services",
       "position": "Senior Software Engineer II",
       "startDate": "2021-08",
       "endDate": "2022-09",
-      "summary": "Built card-tracking API ingesting USPS and internal events on Spring Boot microservices in Agile environment.",
+      "summary": "Built card-tracking API ingesting USPS and internal events on Spring Boot microservices in a regulated financial-services environment.",
       "highlights": [
         "Introduced contract-test pipeline (WireMock + Pact) to catch breaking API changes pre-production",
         "Partnered with DevOps on Helm-based release process, reducing deploy time from 40 to 8 minutes",
         "Mentored junior engineers on testing practices and senior engineers on cross-team communication"
       ],
-      "keywords": ["Spring Boot", "OpenShift", "Helm", "Elasticsearch", "Contract Testing", "Agile"]
+      "keywords": [
+        "Spring Boot",
+        "OpenShift",
+        "Helm",
+        "Elasticsearch",
+        "Contract Testing"
+      ]
     },
     {
       "name": "Nearstar Inc.",
       "position": "Senior Software Engineer → VP of Research",
       "startDate": "2010-09",
       "endDate": "2021-08",
-      "summary": "Legacy modernization, Docker adoption, CI/CD implementation, and performance optimization.",
+      "summary": "Legacy modernization, Docker adoption, CI/CD implementation, and performance optimization; grew from senior IC into a research/architecture leadership role.",
       "highlights": [
-        "Dockerized monolith suite enabling per-customer configuration and SaaS pivot",
+        "Dockerized monolith suite enabling per-customer configuration and a SaaS pivot",
         "Optimized multithreaded PDF loader during COVID spike: +260% throughput, backlog cleared in 36 hours",
         "Designed zero-downtime patch mechanism using Jenkins-orchestrated blue/green deployment",
         "Migrated Windows servers to Linux (MariaDB), enabling zero-downtime deployments and improved performance"
       ],
-      "keywords": ["Java", "Spring", "Docker", "Jenkins", "Legacy Modernization"]
+      "keywords": [
+        "Java",
+        "Spring",
+        "Docker",
+        "Jenkins",
+        "Legacy Modernization"
+      ]
     },
     {
       "name": "ClubCorp",
@@ -79,35 +190,109 @@
       "summary": "Mainframe to Oracle migration; built authentication framework with salted password hashing."
     }
   ],
-
   "projects": [
     {
-      "name": "AI Development Tools",
-      "summary": "Extensive use of Claude Code for autonomous development workflows, tool integration, and codebase analysis. Personal project experience with multi-model routing and structured output extraction.",
-      "keywords": ["Claude Code", "Gemini", "Python", "Agentic Workflows"]
+      "name": "ElectricityFinder",
+      "url": "https://electricityfinder.online",
+      "summary": "Solo-built Texas electricity-plan comparison service — identified the niche, wrote the spec, obtained the license, and shipped it to production in a regulated domain.",
+      "highlights": [
+        "LLM plan-document extraction pipeline gated by an automated eval flywheel — extractions that fail the harness cannot reach production",
+        "Full stack solo: Cloudflare Workers + D1, React/TypeScript frontend, Stripe subscriptions, Smart Meter Texas usage integration",
+        "Registered PUCT electricity broker (BR260062); PUCT disclosure, CAN-SPAM, and TDPSA retention compliance designed in from the start",
+        "~5,000 automated tests, deploy-time bundle invariants, and post-deploy content smoke checks that assert rendered results, not just HTTP status"
+      ],
+      "keywords": [
+        "LLM Extraction",
+        "Eval-Gated Deploys",
+        "Cloudflare Workers",
+        "D1",
+        "TypeScript",
+        "Stripe",
+        "Regulated Domain",
+        "Product Ownership"
+      ]
+    },
+    {
+      "name": "Agentic Engineering Estate",
+      "summary": "A working multi-agent development system used daily to build and verify the projects on this page — the practice behind treating AI coding agents as production build tools.",
+      "highlights": [
+        "Reusable building blocks: a library of 68 agent skills (usage-instrumented and pruned by actual fire-count), 21 deterministic guard hooks, MCP servers and tool adapters in daily production use, and sub-agent/workflow orchestration patterns",
+        "Custom eval harnesses rather than vibes: an own-commit SWE-bench-style benchmark for scoring local and frontier models on real repository work, plus adversarial-eval and domain-specific benches",
+        "Deterministic orchestration with worker/verifier separation; autonomous overnight loops shipped 8 independently fix-verified production bug fixes unattended",
+        "Belief-state engine pairing LLM extraction with deterministic code judges, over a hybrid lexical + semantic search layer",
+        "Multi-provider routing in practice (Anthropic, Google, and local open-weight models behind one gateway), plus local serving and LoRA fine-tuning on consumer hardware"
+      ],
+      "keywords": [
+        "Claude Code",
+        "Agent SDK",
+        "MCP",
+        "Multi-Agent Orchestration",
+        "Eval Harnesses",
+        "LLM-as-Judge",
+        "Python",
+        "llama.cpp"
+      ]
     },
     {
       "name": "SchoolBrain",
       "summary": "School organization app for parents with PostgreSQL streaming replica, OAuth, and Gemini-powered structured data extraction.",
-      "keywords": ["PostgreSQL", "OAuth", "Gemini", "FastAPI", "Next.js"]
+      "keywords": [
+        "PostgreSQL",
+        "OAuth",
+        "Gemini",
+        "FastAPI",
+        "Next.js"
+      ],
+      "highlights": []
     },
     {
       "name": "RecipeBrain",
       "summary": "Meal planning application with semantic search vectors and LLM-powered recipe parsing.",
-      "keywords": ["Supabase", "FastAPI", "PostgreSQL Vector", "Embeddings"]
-    },
-    {
-      "name": "Interactive Visualizers",
-      "summary": "Sort algorithm and pathfinding visualizers built with TypeScript and Three.js.",
-      "keywords": ["TypeScript", "Three.js", "Algorithms"]
+      "keywords": [
+        "Supabase",
+        "FastAPI",
+        "PostgreSQL Vector",
+        "Embeddings"
+      ],
+      "highlights": []
     }
   ],
-
   "education": [
-    { "institution": "UT Dallas", "area": "Computer Science", "studyType": "B.S.", "honors": "Cum Laude", "endDate": "2010-08" }
+    {
+      "institution": "UT Dallas",
+      "area": "Computer Science",
+      "studyType": "B.S.",
+      "honors": "Cum Laude",
+      "endDate": "2010-08"
+    }
   ],
-
   "certificates": [
-    { "name": "AWS Certified Cloud Practitioner", "date": "2021-11" }
+    {
+      "name": "AWS Certified Cloud Practitioner",
+      "date": "2021-11"
+    }
+  ],
+  "publications": [
+    {
+      "name": "I Built a Factory Control Plane for AI Agents in One Afternoon",
+      "publisher": "konradodell.com",
+      "releaseDate": "2026-03-22",
+      "url": "https://konradodell.com/blog/dispatch-factory-dashboard.html",
+      "summary": "A human control surface over a seven-phase agent pipeline (planner, worker, reviewer, verifier, monitor, reporter), built in one Claude Code session; argues the deterministic layer is the control plane, not scaffolding to discard."
+    },
+    {
+      "name": "Stop Getting Attached to Your AI Tooling",
+      "publisher": "konradodell.com",
+      "releaseDate": "2026-02-07",
+      "url": "https://konradodell.com/blog/compostable-patterns.html",
+      "summary": "Coordinating six parallel Claude Code sessions with an orchestrator/worker file protocol, and keeping that tooling disposable as the models change."
+    },
+    {
+      "name": "The Rutter Pattern: AI Memory Through Continuous Refinement",
+      "publisher": "konradodell.com",
+      "releaseDate": "2025-12-21",
+      "url": "https://konradodell.com/blog/rutter-pattern.html",
+      "summary": "Two-tier agent memory: per-session logs distilled into durable patterns only once they prove themselves."
+    }
   ]
 }

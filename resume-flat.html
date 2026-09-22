@@ -1,0 +1,489 @@
+<!doctype html>
+<html>
+	<head>
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui">
+	
+	<title>Konrad Odell</title>
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+	
+	<style type="text/css">
+	@import url(
+	https://fonts.googleapis.com/css?family=Lato:400,700
+);
+body {
+	background: #fff;
+	font-family: Lato, sans-serif;
+	margin: 0 0 80px;
+}
+a {
+	color: #2ecc71;
+}
+a:focus,
+a:hover {
+	color: #f1c40f;
+	text-decoration: none;
+}
+p {
+	line-height: 1.5;
+	margin: 0;
+}
+p + p {
+	margin-top: 10px;
+}
+h1,
+h2,
+h3,
+h4 {
+	margin-top: 0
+}
+section {
+	margin-top: 30px;
+}
+li {
+	line-height: 1.8;
+	list-style: none;
+}
+li:before {
+	content: "\f052";
+	float: left;
+	font: 13px Octicons;
+	margin-top: 6px;
+	margin-left: -20px;
+	opacity: .1;
+	position: absolute;
+}
+blockquote {
+	border-left: 5px solid #e7e9ec;
+	font-size: 14px;
+}
+em {
+	color: #95a5a6;
+	font-weight: normal;
+	font-style: normal;
+}
+h4 span:first-child {
+	color: #000;
+	font-weight: bold;
+}
+.container {
+	max-width: 750px;
+	padding: 0 30px;
+}
+.col-sm-6 {
+	margin-bottom: 10px;
+}
+.col-sm-12 h4 {
+	margin-top: 12px; 
+}
+.col-sm-12 + .col-sm-12 {
+	margin-top: 30px;
+}
+#header {
+	background: #f4f6f6;
+	padding: 50px 0;
+	margin-bottom: 30px;
+}
+#header h2 {
+	color: #95a5a6;
+	font-size: 24px;
+}
+#content h3 {
+	color: #f1c40f;
+	font-size: 26px;
+	margin-top: -4px;
+}
+#content aside {
+	text-align: right;
+	padding-right: 30px;
+}
+#profiles .network {
+	text-transform: capitalize;
+}
+#work .position,
+#volunteer .position {
+	font-weight: bold;
+	margin-bottom: 8px;
+}
+#education .area {
+	font-weight: bold;
+}
+#education .area:before {
+	content: "\f0d7";
+	font: 16px Octicons;
+	margin-right: 6px;
+}
+#education .studyType {
+	margin-left: 25px;
+}
+#awards .summary,
+#publications .summary {
+	margin-top: 8px;
+}
+#publications .website a:before {
+	content: attr(href);
+}
+
+@media (min-width: 480px) {
+	.strike-through {
+		border-top: 1px solid #f4f6f6;
+		height: 20px;
+		margin-top: 12px;
+		margin-bottom: -2px;
+		position: relative;
+	}
+	.strike-through span,
+	.strike-through a {
+		background: #fff;
+		position: absolute;
+	}
+	.strike-through span:first-child {
+		padding-right: 20px;
+		margin-top: -12px;
+	}
+	.strike-through span + span {
+		font-size: 14px;
+		margin-top: -10px;
+		padding-left: 20px;
+		right: 0;
+	}
+}
+@media (max-width: 768px) {
+	.col-sm-6:last-child {
+		margin-bottom: 0px;
+	}
+	#content aside {
+		margin-bottom: 20px;
+		padding-right: 0;
+		text-align: left;
+	}
+	#publications .website a:before {
+		content: "View publication";
+	}
+}
+@media (max-width: 480px) {
+	h1 {
+		font-size: 26px;
+	}
+	.date {
+		font-size: 14px;
+		margin-bottom: 5px;
+	}
+	.strike-through span:first-child {
+		margin-bottom: 7px;
+	}
+	.strike-through span {
+		display: block;
+	}	
+	#header {
+		margin-bottom: 10px;
+		padding: 40px 0;
+	}
+	#actions {
+		display: none;
+	}
+}
+
+	</style>
+	
+	</head>
+	<body>
+	
+	<header id="header">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9 col-sm-push-3">
+					<h1>
+						Konrad Odell
+					</h1>
+					<h2>
+						Applied AI Architect | Healthcare Data Platforms &amp; Agentic Systems
+					</h2>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div id="content" class="container">
+
+	<section id="contact" class="row">
+		<aside class="col-sm-3">
+			<h3>Contact</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+			<div class="col-sm-6">
+				<strong>Email</strong>
+				<div class="email">contact@konradodell.com</div>
+			</div>
+			</div>
+		</div>
+	</section>
+	<section id="about" class="row">
+		<aside class="col-sm-3">
+			<h3>About</h3>
+		</aside>
+		<div class="col-sm-9">
+			<p>Software architect with 20+ years in engineering and 3+ years at architecture altitude in healthcare data exchange, now building and shipping production LLM and agentic systems. HIPAA-native by day job; by practice, an AI-coding-agent-first builder — reusable agent skills, MCP servers, and custom eval harnesses that gate what reaches production. Shipped a licensed, revenue-ready consumer product solo in a regulated domain, end to end.</p>
+		</div>
+	</section>
+	<section id="profiles" class="row">
+		<aside class="col-sm-3">
+			<h3>Profiles</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+				<div class="col-sm-6">
+					<strong class="network">
+						GitHub
+					</strong>
+					<div class="username">
+						<div class="url">
+							<a href="https://github.com/konradish">konradish</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<strong class="network">
+						LinkedIn
+					</strong>
+					<div class="username">
+						<div class="url">
+							<a href="https://www.linkedin.com/in/konrad-odell/">konrad-odell</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="work" class="row">
+		<aside class="col-sm-3">
+			<h3>Work</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span></span>
+					<span class="date">
+						2022-09 — 
+					</span>
+				</h4>
+				<div class="position">
+					Software Architect
+				</div>
+				<div class="summary">
+					<p>Architect for a B2B healthcare data interchange platform (HIPAA-regulated clinical data at scale), focused on data-platform capability, applied-AI evaluation, and cross-team technical coordination.</p>
+				</div>
+				<h4>Highlights</h4>
+				<ul class="highlights">
+					<li class="bullet">Identified, scoped, and validated applied-AI opportunities against real clinical and financial workloads, including a multimodal LLM proof-of-concept that surfaced $300K in recoverable invoices</li>
+					<li class="bullet">Designed a FHIR-to-template clinical document generation pipeline, now in active development with partner engineers contributing to it</li>
+					<li class="bullet">Built a healthcare quality-measure (HEDIS) proof-of-concept with Product: FHIR chart data to analyst-ready extracts, validated end-to-end against a simulated FHIR harness rather than by inspection</li>
+					<li class="bullet">Partnered on Databricks implementation including Unity Catalog governance, lakehouse architecture, and self-service tooling for data analysis</li>
+					<li class="bullet">Built Spark bulk-ingest and Delta-to-Iceberg conversion tooling supporting the ~600 TB clinical-data lakehouse migration off a $14M/yr legacy vendor</li>
+					<li class="bullet">Led consent-management service team (Java, Spring Boot, NATS) with zero-downtime blue/green deployment</li>
+					<li class="bullet">Built deploy-time safety mechanisms: canary deployment, smoke tests, and auto-rollback</li>
+					<li class="bullet">Documented module boundaries and state diagrams for monolith decomposition planning on the core clinical data processing system</li>
+					<li class="bullet">Coordinated architecture decisions across Data Platform, Chart Retrieval, and RevOps teams, presenting tradeoffs to both engineers and senior leadership</li>
+					<li class="bullet">Coached senior engineers on architectural thinking and mentored across disciplines, including a formal data-science mentee</li>
+				</ul>
+			</div>
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span></span>
+					<span class="date">
+						2021-08 — 2022-09
+					</span>
+				</h4>
+				<div class="position">
+					Senior Software Engineer II
+				</div>
+				<div class="summary">
+					<p>Built card-tracking API ingesting USPS and internal events on Spring Boot microservices in a regulated financial-services environment.</p>
+				</div>
+				<h4>Highlights</h4>
+				<ul class="highlights">
+					<li class="bullet">Introduced contract-test pipeline (WireMock + Pact) to catch breaking API changes pre-production</li>
+					<li class="bullet">Partnered with DevOps on Helm-based release process, reducing deploy time from 40 to 8 minutes</li>
+					<li class="bullet">Mentored junior engineers on testing practices and senior engineers on cross-team communication</li>
+				</ul>
+			</div>
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span></span>
+					<span class="date">
+						2010-09 — 2021-08
+					</span>
+				</h4>
+				<div class="position">
+					Senior Software Engineer → VP of Research
+				</div>
+				<div class="summary">
+					<p>Legacy modernization, Docker adoption, CI/CD implementation, and performance optimization; grew from senior IC into a research/architecture leadership role.</p>
+				</div>
+				<h4>Highlights</h4>
+				<ul class="highlights">
+					<li class="bullet">Dockerized monolith suite enabling per-customer configuration and a SaaS pivot</li>
+					<li class="bullet">Optimized multithreaded PDF loader during COVID spike: +260% throughput, backlog cleared in 36 hours</li>
+					<li class="bullet">Designed zero-downtime patch mechanism using Jenkins-orchestrated blue/green deployment</li>
+					<li class="bullet">Migrated Windows servers to Linux (MariaDB), enabling zero-downtime deployments and improved performance</li>
+				</ul>
+			</div>
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span></span>
+					<span class="date">
+						2001-06 — 2008-07
+					</span>
+				</h4>
+				<div class="position">
+					Software Developer
+				</div>
+				<div class="summary">
+					<p>Mainframe to Oracle migration; built authentication framework with salted password hashing.</p>
+				</div>
+			</div>
+			</div>
+		</div>
+	</section>
+
+	
+	<section id="education" class="row">
+		<aside class="col-sm-3">
+			<h3>Education</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span>UT Dallas</span>
+					<span class="date">
+						 — 2010-08
+					</span>
+				</h4>
+				<div class="area">
+					Computer Science
+				</div>
+				<div class="studyType">
+					B.S.
+				</div>
+			</div>
+			</div>
+		</div>
+	</section>
+	
+	
+	
+	<section id="skills" class="row">
+		<aside class="col-sm-3">
+			<h3>Skills</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>Applied AI &amp; Agents</h4>
+				</div>
+				<ul class="keywords">
+					<li>Production LLM pipelines</li>
+					<li>Multi-agent orchestration</li>
+					<li>AI coding agents as production build tools</li>
+					<li>MCP servers &amp; tool integrations</li>
+					<li>Reusable agent skills / sub-agents</li>
+					<li>Retrieval &amp; hybrid semantic search</li>
+					<li>Multi-provider model routing</li>
+					<li>Local inference &amp; LoRA fine-tuning</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>Evaluation &amp; Reliability</h4>
+				</div>
+				<ul class="keywords">
+					<li>Custom eval harnesses</li>
+					<li>LLM-as-judge gates</li>
+					<li>Adversarial evaluation</li>
+					<li>Worker/verifier separation</li>
+					<li>Deploy-time content smoke tests</li>
+					<li>Mutation &amp; contract testing</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>Healthcare &amp; Regulated Domains</h4>
+				</div>
+				<ul class="keywords">
+					<li>HIPAA</li>
+					<li>FHIR</li>
+					<li>HL7</li>
+					<li>HEDIS quality measures</li>
+					<li>Clinical data processing</li>
+					<li>PII governance</li>
+					<li>PUCT / CAN-SPAM / TDPSA</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>Languages</h4>
+				</div>
+				<ul class="keywords">
+					<li>Python</li>
+					<li>TypeScript</li>
+					<li>Java</li>
+					<li>SQL</li>
+					<li>JavaScript</li>
+					<li>Bash</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>Data Platforms</h4>
+				</div>
+				<ul class="keywords">
+					<li>Databricks (Unity Catalog, Genie, Lakehouse)</li>
+					<li>Spark</li>
+					<li>Trino</li>
+					<li>Iceberg</li>
+					<li>dbt</li>
+					<li>DuckDB</li>
+					<li>Vector databases</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>Cloud &amp; Distributed Systems</h4>
+				</div>
+				<ul class="keywords">
+					<li>AWS (API Gateway, Lambda, EKS, RDS, S3)</li>
+					<li>Cloudflare (Workers, D1, Tunnels)</li>
+					<li>Event-driven architecture (NATS)</li>
+					<li>Enterprise integration</li>
+					<li>Data pipelines</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>DevOps</h4>
+				</div>
+				<ul class="keywords">
+					<li>Docker</li>
+					<li>Kubernetes</li>
+					<li>GitHub Actions</li>
+					<li>Blue/green &amp; canary deploys</li>
+				</ul>
+			</div>
+			</div>
+		</div>
+	</section>
+
+
+	
+
+	</div>
+	
+	</body>
+</html>
