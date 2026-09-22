@@ -285,12 +285,6 @@
       "endDate": "2010-08"
     }
   ],
-  "certificates": [
-    {
-      "name": "AWS Certified Cloud Practitioner",
-      "date": "2021-11"
-    }
-  ],
   "publications": [
     {
       "name": "I Built a Factory Control Plane for AI Agents in One Afternoon",
