@@ -121,7 +121,7 @@
         "Designed a FHIR-to-template clinical document generation pipeline",
         "Built a proof of concept that turns FHIR chart data into analyst-ready extracts, validated end-to-end against a simulated FHIR harness rather than by inspection",
         "Partnered on Databricks implementation including Unity Catalog governance, lakehouse architecture, and self-service tooling for data analysis",
-        "Built Spark bulk-ingest and Delta-to-Iceberg conversion tooling for a large-scale clinical lakehouse migration off a legacy external provider",
+        "Coordinated architecture reviews for a large-scale clinical lakehouse migration off a legacy external provider",
         "Documented module boundaries and state diagrams for monolith decomposition planning on a core clinical data processing system",
         "Coordinated architecture decisions across data platform, clinical retrieval, and revenue-operations functions, presenting tradeoffs to both engineers and senior leadership",
         "Coached senior engineers on architectural thinking and mentored across disciplines, including a formal data-science mentee"
@@ -133,7 +133,6 @@
         "Applied AI",
         "Databricks",
         "Lakehouse",
-        "Spark",
         "Java",
         "Python",
         "NATS",
