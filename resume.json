@@ -123,7 +123,7 @@
         "Coordinated architecture reviews for a large-scale clinical lakehouse migration off a legacy external provider",
         "Documented module boundaries and state diagrams for monolith decomposition planning on a core clinical data processing system",
         "Coordinated architecture decisions across data platform, clinical retrieval, and revenue-operations functions, presenting tradeoffs to both engineers and senior leadership",
-        "Coached senior engineers on architectural thinking and mentored across disciplines, including a formal data-science mentee"
+        "Coached senior engineers on architectural thinking and mentored across disciplines"
       ],
       "keywords": [
         "Healthcare",
