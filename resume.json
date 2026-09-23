@@ -5,7 +5,7 @@
     "label": "Healthcare Data Platforms & Agentic AI Systems",
     "email": "contact@konradodell.com",
     "url": "https://konradodell.com",
-    "summary": "I've been shipping software for twenty years. Since 2022 I've been on the architecture team at Moxe Health, a HIPAA-regulated clinical data exchange. The work is data platform and integration: Databricks lakehouse and Unity Catalog governance, FHIR pipelines, and for the last two years, LLM and agent systems that run in production and get judged against real clinical and billing data.\n\nOn my own time I built and run ElectricityFinder, a paid subscription product for people shopping Texas retail electricity plans, including the compliance work a regulated market requires. I also maintain the tooling I build with: MCP servers, a library of agent skills, and evaluation harnesses that decide what is allowed to ship.\n\nWhat I care about most is making failures visible. A system that fails quietly costs more than one that breaks loudly, so a lot of my work is building the checks that turn the first kind into the second.",
+    "summary": "I've been shipping software for twenty years. Since 2022 I've been on the architecture team at Moxe Health, a HIPAA-regulated clinical data exchange. The work is data platform and integration: Databricks lakehouse and Unity Catalog governance, FHIR pipelines, and for the last two years, evaluating LLM and agent approaches against real clinical and billing workloads: proofs of concept that had to prove their value before anyone built on them, and a clinical document generation pipeline.\n\nOn my own time I built and run ElectricityFinder, a paid subscription product for people shopping Texas retail electricity plans. It runs an LLM extraction pipeline in production behind an evaluation gate, plus the compliance work a regulated market requires. I also maintain the tooling I build with: MCP servers, a library of agent skills, and evaluation harnesses that decide what is allowed to ship.\n\nWhat I care about most is making failures visible. A system that fails quietly costs more than one that breaks loudly, so a lot of my work is building the checks that turn the first kind into the second.",
     "location": {
       "city": "Dallas-Fort Worth",
       "region": "TX",
@@ -57,7 +57,7 @@
         "HIPAA",
         "FHIR",
         "HL7",
-        "HEDIS quality measures",
+        "quality measures",
         "Clinical data processing",
         "PII governance",
         "PUCT / CAN-SPAM / TDPSA"
@@ -118,11 +118,11 @@
       "summary": "Architect for a B2B healthcare data interchange platform (HIPAA-regulated clinical data at scale), focused on data-platform capability, applied-AI evaluation, and cross-team technical coordination.",
       "highlights": [
         "Identified, scoped, and validated applied-AI opportunities against real clinical and financial workloads, including a multimodal LLM proof-of-concept that surfaced a material volume of recoverable invoice value",
-        "Designed a FHIR-to-template clinical document generation pipeline, now in active development with partner engineers contributing to it",
-        "Built a healthcare quality-measure (HEDIS) proof-of-concept with Product: FHIR chart data to analyst-ready extracts, validated end-to-end against a simulated FHIR harness rather than by inspection",
+        "Designed a FHIR-to-template clinical document generation pipeline",
+        "Built a proof of concept that turns FHIR chart data into analyst-ready extracts, validated end-to-end against a simulated FHIR harness rather than by inspection",
         "Partnered on Databricks implementation including Unity Catalog governance, lakehouse architecture, and self-service tooling for data analysis",
         "Built Spark bulk-ingest and Delta-to-Iceberg conversion tooling for a large-scale clinical lakehouse migration off a legacy external provider",
-        "Documented module boundaries and state diagrams for monolith decomposition planning on the core clinical data processing system",
+        "Documented module boundaries and state diagrams for monolith decomposition planning on a core clinical data processing system",
         "Coordinated architecture decisions across data platform, clinical retrieval, and revenue-operations functions, presenting tradeoffs to both engineers and senior leadership",
         "Coached senior engineers on architectural thinking and mentored across disciplines, including a formal data-science mentee"
       ],
