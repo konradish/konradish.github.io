@@ -80,7 +80,6 @@
       "level": "Advanced",
       "keywords": [
         "Databricks (Unity Catalog, Genie, Lakehouse)",
-        "Spark",
         "Trino",
         "Iceberg",
         "dbt",
