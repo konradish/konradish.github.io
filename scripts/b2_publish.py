@@ -72,6 +72,8 @@ PII_PATTERNS = {
     "lan-host": re.compile(r"\b[\w-]+\.(?:lan|local|localhost)\b", re.I),
     "street-address": re.compile(r"\b\d{2,5}\s+(?:[A-Z][a-z]+\s){1,3}(?:Ln|Lane|St|Street|Dr|Drive|Rd|Road|Ct|Court|Ave|Avenue|Blvd|Cir|Circle|Way|Trl|Trail)\b"),
     "home-path": re.compile(r"/home/[a-z][\w-]*/"),
+    # vault-only tail leaking into a post (GH #4 shape): Obsidian wiki-links never belong on the site
+    "wiki-link": re.compile(r"\[\[[^\]\n]{1,120}\]\]"),
 }
 
 
@@ -154,6 +156,10 @@ def parse_frontmatter(text: str) -> dict:
     for k in ("title", "date", "excerpt"):
         if not fm.get(k):
             raise ValueError(f"frontmatter missing '{k}'")
+    d = fm["date"]
+    d = d if hasattr(d, "year") else datetime.strptime(str(d)[:10], "%Y-%m-%d").date()
+    if d > datetime.now().date():
+        raise ValueError(f"frontmatter date {d} is in the future (The Guard shipped 9/23 dated 9/24)")
     return fm
 
 
@@ -261,10 +267,10 @@ def selftest() -> int:
     deny = ["Plantedname"]
     bad = ("---\ntitle: t\ndate: 2026-01-01\nexcerpt: e\n---\n"
            "Call me at 469-555-0100 or mail hidden@example.org. Host tower.lan at 192.168.1.5. "
-           "Plantedname lives at 1512 Some Street Ln. A token: ghp_" + "".join(__import__("random").choices("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", k=36)) + ".")
+           "Plantedname lives at 1512 Some Street Ln. See [[Some Vault Note]]. A token: ghp_" + "".join(__import__("random").choices("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", k=36)) + ".")
     reasons = pii_scan(bad, deny, "selftest")
     kinds = {r.split(": ")[1].split(" ->")[0] for r in reasons}
-    want = {"phone", "email", "lan-host", "private-ipv4", "street-address", "deny-term"}
+    want = {"phone", "email", "lan-host", "private-ipv4", "street-address", "deny-term", "wiki-link"}
     with tempfile.TemporaryDirectory() as td:
         (Path(td) / "x.md").write_text(bad)
         gl = gitleaks_scan(Path(td), "selftest")
