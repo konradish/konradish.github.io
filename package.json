@@ -12,7 +12,7 @@
   "main": "index.js",
   "scripts": {
     "resume:html": "resumed render --theme jsonresume-theme-even --output resume.html resume.json",
-    "resume:pdf": "resumed export --theme jsonresume-theme-even --output resume.pdf resume.json",
+    "resume:pdf": "node scripts/render_application_pdf.mjs resume.pdf",
     "resume": "npm run resume:html && npm run resume:pdf",
     "resume:even": "resumed render --theme jsonresume-theme-even --output resume-even.html resume.json",
     "resume:kendall": "resumed render --theme jsonresume-theme-kendall --output resume-kendall.html resume.json",
