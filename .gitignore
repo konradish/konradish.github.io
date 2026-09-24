@@ -44,3 +44,8 @@ Thumbs.db
 .vscode/
 tmp/
 temp/
+
+# Theme-comparison renders are local-only; resume.pdf is the published resume
+resume-even.html
+resume-kendall.html
+resume-flat.html
