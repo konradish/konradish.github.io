@@ -5,7 +5,7 @@
     "label": "Staff Engineer, Architecture · Applied AI & Healthcare Data",
     "email": "contact@konradodell.com",
     "url": "https://konradodell.com",
-    "summary": "I've been shipping software for twenty years and setting technical direction since 2018. I joined Moxe Health, a HIPAA-regulated clinical data exchange, in 2022 and have been on its architecture team since 2024. The work is data platform and integration: Databricks lakehouse and Unity Catalog governance, FHIR pipelines, and for the last two years, evaluating LLM and agent approaches against real clinical and billing workloads: proofs of concept that had to prove their value before anyone built on them, and a clinical document generation pipeline.\n\nOn my own time I built and run ElectricityFinder, which helps people in Texas find an electricity plan. It runs an LLM extraction pipeline in production, with checks at ingest that reject bad extractions before they can be priced, plus the compliance work a regulated market requires. I also maintain the tooling I build with: MCP servers, a library of agent skills, and evaluation harnesses that decide what is allowed to ship.\n\nThe way I build with coding agents is a worker and verifier loop: one agent does the work, a separate one with fresh context has to prove it runs and does the thing before I accept it, and the ones that can't be verified don't ship. Most of my tooling exists to make that loop cheap.",
+    "summary": "I've been shipping software for twenty years and setting technical direction since 2018. I'm on the architecture team at Moxe Health, a HIPAA-regulated clinical data exchange (joined 2022, architecture team since 2024), working on the Databricks lakehouse, FHIR pipelines, and evaluating LLM and agent approaches against real clinical and billing workloads. On my own time I built and run ElectricityFinder, which runs an LLM extraction pipeline in production in a regulated market, and the tooling I build with: MCP servers, agent skills, and evaluation harnesses. I build with coding agents in a worker and verifier loop: a separate agent with fresh context has to prove the work runs before I accept it.",
     "location": {
       "city": "Dallas-Fort Worth",
       "region": "TX",
@@ -26,29 +26,19 @@
   },
   "skills": [
     {
-      "name": "Applied AI & Agents",
-      "level": "Advanced",
+      "name": "Applied AI & Evaluation",
       "keywords": [
         "Production LLM pipelines",
-        "Multi-agent orchestration",
         "AI coding agents as production build tools",
+        "Multi-agent orchestration",
         "MCP servers & tool integrations",
         "Reusable agent skills / sub-agents",
         "Retrieval & hybrid semantic search",
-        "Multi-provider model routing (Anthropic, AWS Bedrock, Google, local open-weight)",
-        "Local inference & LoRA fine-tuning"
-      ]
-    },
-    {
-      "name": "Evaluation & Reliability",
-      "level": "Advanced",
-      "keywords": [
+        "Multi-provider routing (Anthropic, AWS Bedrock, Google, local open-weight)",
         "Custom eval harnesses",
         "LLM-as-judge gates",
-        "Adversarial evaluation",
         "Worker/verifier separation",
-        "Deploy-time content smoke tests",
-        "Mutation & contract testing"
+        "Local inference & LoRA fine-tuning"
       ]
     },
     {
@@ -64,7 +54,6 @@
     },
     {
       "name": "Languages",
-      "level": "Advanced",
       "keywords": [
         "Python",
         "TypeScript",
@@ -75,29 +64,15 @@
       ]
     },
     {
-      "name": "Data Platforms",
-      "level": "Advanced",
+      "name": "Data, Cloud & Delivery",
       "keywords": [
         "Databricks (Unity Catalog, Genie, Lakehouse)",
         "Iceberg",
         "DuckDB",
-        "Vector databases"
-      ]
-    },
-    {
-      "name": "Cloud & Distributed Systems",
-      "level": "Advanced",
-      "keywords": [
+        "Vector databases",
         "AWS (API Gateway, Lambda, EKS, RDS, S3)",
         "Cloudflare (Workers, D1, Tunnels)",
         "Event-driven architecture (NATS)",
-        "Enterprise integration",
-        "Data pipelines"
-      ]
-    },
-    {
-      "name": "DevOps",
-      "keywords": [
         "Docker",
         "Kubernetes",
         "GitHub Actions",
@@ -126,13 +101,9 @@
         "Published a Claude Code skill that diagnoses production incidents from Grafana logs and traces, including a Jira template that requests the production observability access it needs; adopted by multiple teammates",
         "At an executive's request, evaluated moving a production document-ingestion LLM pipeline to another model provider: benchmarked alternatives on sampled documents and documented the migration path",
         "Designed a FHIR-to-template clinical document generation pipeline",
-        "Built a proof of concept that turns FHIR chart data into analyst-ready extracts, validated end-to-end against a simulated FHIR harness",
-        "Partnered on Databricks implementation including Unity Catalog governance, lakehouse architecture, and self-service tooling for data analysis",
-        "Coordinated architecture reviews for a large-scale clinical lakehouse migration off a legacy external provider",
-        "Documented module boundaries and state diagrams for monolith decomposition planning on a core clinical data processing system",
-        "Coordinated architecture decisions across data platform, clinical retrieval, and revenue-operations functions, presenting tradeoffs to both engineers and senior leadership",
-        "Driving canary deploys, smoke tests, and auto-rollback as first-class patterns in the new platform architecture (in progress)",
-        "Coached senior engineers on architectural thinking and mentored across disciplines"
+        "Partnered on the Databricks lakehouse (Unity Catalog governance, self-service analysis tooling) and coordinated architecture reviews for a large-scale clinical lakehouse migration off a legacy external provider",
+        "Coordinated architecture decisions across data platform, clinical retrieval, and revenue-operations functions, presenting tradeoffs to engineers and senior leadership; coached senior engineers on architectural thinking and mentored across disciplines",
+        "Driving canary deploys, smoke tests, and auto-rollback as first-class patterns in the new platform architecture (in progress)"
       ],
       "keywords": [
         "Healthcare",
@@ -176,8 +147,7 @@
       "summary": "Built card-tracking API ingesting USPS and internal events on Spring Boot microservices in a regulated financial-services environment.",
       "highlights": [
         "Introduced contract-test pipeline (WireMock + Pact) to catch breaking API changes pre-production",
-        "Partnered with DevOps on Helm-based release process, reducing deploy time from 40 to 8 minutes",
-        "Mentored junior engineers on testing practices and senior engineers on cross-team communication"
+        "Partnered with DevOps on Helm-based release process, reducing deploy time from 40 to 8 minutes"
       ],
       "keywords": [
         "Spring Boot",
@@ -195,9 +165,7 @@
       "summary": "Legacy modernization, Docker adoption, CI/CD implementation, and performance optimization; grew from senior IC to leading technical direction as VP of Research (2018-2021).",
       "highlights": [
         "Dockerized monolith suite enabling per-customer configuration and a SaaS pivot",
-        "Optimized multithreaded PDF loader during COVID spike: +260% throughput, backlog cleared in 36 hours",
-        "Designed zero-downtime patch mechanism using Jenkins-orchestrated blue/green deployment",
-        "Migrated Windows servers to Linux (MariaDB), enabling zero-downtime deployments and improved performance"
+        "Optimized multithreaded PDF loader during COVID spike: +260% throughput, backlog cleared in 36 hours"
       ],
       "keywords": [
         "Java",
@@ -254,28 +222,6 @@
         "Python",
         "llama.cpp"
       ]
-    },
-    {
-      "name": "SchoolBrain",
-      "summary": "School organization app for parents with PostgreSQL streaming replica, OAuth, and Gemini-powered structured data extraction.",
-      "keywords": [
-        "PostgreSQL",
-        "OAuth",
-        "Gemini",
-        "FastAPI",
-        "Next.js"
-      ],
-      "highlights": []
-    },
-    {
-      "name": "RecipeBrain",
-      "summary": "Meal planning application with semantic search vectors and LLM-powered recipe parsing.",
-      "keywords": [
-        "FastAPI",
-        "PostgreSQL + pgvector",
-        "Embeddings"
-      ],
-      "highlights": []
     }
   ],
   "education": [
@@ -292,22 +238,19 @@
       "name": "I Built a Factory Control Plane for AI Agents in One Afternoon",
       "publisher": "konradodell.com",
       "releaseDate": "2026-03-22",
-      "url": "https://konradodell.com/blog/dispatch-factory-dashboard.html",
-      "summary": "A human control surface over a multi-phase agent pipeline (planner, worker, reviewer, verifier, monitor, reporter), built in one Claude Code session; argues the deterministic layer is the control plane, not scaffolding to discard."
+      "url": "https://konradodell.com/blog/dispatch-factory-dashboard.html"
     },
     {
       "name": "Stop Getting Attached to Your AI Tooling",
       "publisher": "konradodell.com",
       "releaseDate": "2026-02-07",
-      "url": "https://konradodell.com/blog/compostable-patterns.html",
-      "summary": "Coordinating six parallel Claude Code sessions with an orchestrator/worker file protocol, and keeping that tooling disposable as the models change."
+      "url": "https://konradodell.com/blog/compostable-patterns.html"
     },
     {
       "name": "The Rutter Pattern: AI Memory Through Continuous Refinement",
       "publisher": "konradodell.com",
       "releaseDate": "2025-12-21",
-      "url": "https://konradodell.com/blog/rutter-pattern.html",
-      "summary": "Two-tier agent memory: per-session logs distilled into durable patterns only once they prove themselves."
+      "url": "https://konradodell.com/blog/rutter-pattern.html"
     }
   ]
 }
