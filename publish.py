@@ -159,13 +159,34 @@ def update_blog_index(blog_html_path: Path, post_card: str, frontmatter: dict, s
         content = re.sub(existing_pattern, post_card, content, flags=re.DOTALL)
         print(f"  Updated existing post card in index")
     else:
-        # Add new card at the top (assumes newest posts first)
-        posts_pattern = r'(<section class="posts">)\s*'
+        # Add new card at the top of its section (newest first). Posts with an
+        # author (Bridge-2) go in the essays section; posts without one are mine.
+        section = "posts" if frontmatter.get("author") else "posts mine"
+        posts_pattern = rf'(<section class="{section}">)\s*'
         replacement = f'\\1\n      {post_card}\n      '
-        content = re.sub(posts_pattern, replacement, content)
-        print(f"  Added new post card to index")
+        content, n = re.subn(posts_pattern, replacement, content, count=1)
+        if n != 1:
+            raise SystemExit(f'blog.html has no <section class="{section}">')
+        print(f"  Added new post card to index ({section})")
 
     return content
+
+
+def update_home_writing(index_html_path: Path, frontmatter: dict, slug: str) -> str | None:
+    """Add my own post to the top of the homepage Writing list. Bridge-2 posts are skipped."""
+    if frontmatter.get("author"):
+        return None
+    content = index_html_path.read_text()
+    if f'href="blog/{slug}.html"' in content:
+        return None
+    dt = frontmatter["date"]
+    dt = datetime.fromisoformat(dt) if isinstance(dt, str) else dt
+    item = (f'<li><a href="blog/{slug}.html">{frontmatter["title"]}</a> '
+            f'<span style="color: var(--text-secondary);">— {dt.strftime("%B %Y")}</span></li>')
+    marker = "<!-- my-posts -->"
+    if marker not in content:
+        raise SystemExit(f"index.html is missing the {marker} marker")
+    return content.replace(marker, f"{marker}\n            {item}", 1)
 
 
 def copy_images(source_dir: Path, slug: str, dest_blog_dir: Path, dry_run: bool = False) -> list[Path]:
@@ -236,6 +257,10 @@ def main():
     # Update blog index
     blog_index_html = update_blog_index(blog_html_path, post_card, frontmatter, slug)
 
+    # Homepage Writing list (my posts only)
+    index_html_path = site_dir / "index.html"
+    home_html = update_home_writing(index_html_path, frontmatter, slug)
+
     # Copy images
     images = copy_images(post_path.parent, slug, blog_dir, args.dry_run)
 
@@ -243,6 +268,8 @@ def main():
         print("\n[DRY RUN] Would create/update:")
         print(f"  - {blog_dir / slug}.html")
         print(f"  - {blog_html_path}")
+        if home_html:
+            print(f"  - {index_html_path}")
         if images:
             print(f"  - {len(images)} images in {blog_dir / slug}/")
         print("\nPost preview (first 500 chars of body):")
@@ -256,6 +283,10 @@ def main():
         # Update blog index
         blog_html_path.write_text(blog_index_html)
         print(f"  Updated: {blog_html_path}")
+
+        if home_html:
+            index_html_path.write_text(home_html)
+            print(f"  Updated: {index_html_path}")
 
         print(f"\nDone! View at: file://{post_output}")
         print(f"Or after push: https://konradodell.com/blog/{slug}.html")
