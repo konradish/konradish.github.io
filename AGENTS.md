@@ -27,5 +27,5 @@
 - PRs should describe the visual delta, list testing steps (commands above), and attach before/after screenshots or screencasts for UI updates.
 
 ## Configuration & Deployment Notes
-- GitHub Pages deploys from `main`; pushing triggers an automatic build, so verify `CNAME` still points to `konradodell.com` after force pushes.
+- GitHub Pages deploys from `master`; pushing triggers an automatic build, so verify `CNAME` still points to `konradodell.com` after force pushes.
 - Never expose sensitive résumé data from `private-resume.json`; if you must sync it, encrypt out-of-band.
