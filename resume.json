@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Konrad Odell",
-    "label": "Healthcare Data Platforms & Agentic AI Systems",
+    "label": "Staff Engineer, Architecture · Applied AI & Healthcare Data",
     "email": "contact@konradodell.com",
     "url": "https://konradodell.com",
     "summary": "I've been shipping software for twenty years and setting technical direction since 2018. I joined Moxe Health, a HIPAA-regulated clinical data exchange, in 2022 and have been on its architecture team since 2024. The work is data platform and integration: Databricks lakehouse and Unity Catalog governance, FHIR pipelines, and for the last two years, evaluating LLM and agent approaches against real clinical and billing workloads: proofs of concept that had to prove their value before anyone built on them, and a clinical document generation pipeline.\n\nOn my own time I built and run ElectricityFinder, which helps people in Texas find an electricity plan. It runs an LLM extraction pipeline in production, with checks at ingest that reject bad extractions before they can be priced, plus the compliance work a regulated market requires. I also maintain the tooling I build with: MCP servers, a library of agent skills, and evaluation harnesses that decide what is allowed to ship.\n\nThe way I build with coding agents is a worker and verifier loop: one agent does the work, a separate one with fresh context has to prove it runs and does the thing before I accept it, and the ones that can't be verified don't ship. Most of my tooling exists to make that loop cheap.",
