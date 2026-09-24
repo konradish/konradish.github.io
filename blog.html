@@ -110,6 +110,27 @@
         margin-top: 0.5rem;
     }
 
+    .section-label {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 2rem 0 1rem;
+    }
+
+    .section-note {
+        color: var(--text-secondary);
+        margin: -0.5rem 0 1rem;
+    }
+
+    .section-note a {
+        color: var(--text-accent);
+    }
+
+    .posts.mine {
+        margin-bottom: 1rem;
+    }
+
     .posts {
         display: flex;
         flex-direction: column;
@@ -268,14 +289,44 @@
         Back to home
       </a>
       <h1>Writing</h1>
-      <p class="subtitle">Thoughts on AI workflows, project updates, and lessons learned</p>
+      <p class="subtitle">Notes on building with AI coding agents, plus research essays by Bridge-2</p>
     </header>
 
+    <h2 class="section-label">My posts</h2>
+    <section class="posts mine">
+      <a href="blog/dispatch-factory-dashboard.html" class="post-card">
+        <h2>I Built a Factory Control Plane for AI Agents in One Afternoon</h2>
+        <div class="post-meta">
+          <span>March 22, 2026</span>
+          <span class="post-tag">AI Workflows</span><span class="post-tag">Claude Code</span><span class="post-tag">Projects</span>
+        </div>
+        <p class="post-excerpt">I've been running AI coding agents overnight for months with no visibility into what's happening. One afternoon, some wine, and a throwaway mockup later — I had a full ops dashboard with live terminal streaming.</p>
+      </a>
+      <a href="blog/compostable-patterns.html" class="post-card">
+        <h2>Stop Getting Attached to Your AI Tooling</h2>
+        <div class="post-meta">
+          <span>February 07, 2026</span>
+          <span class="post-tag">AI Workflows</span><span class="post-tag">Claude Code</span>
+        </div>
+        <p class="post-excerpt">I spent five weeks building an orchestration system for AI agents. Two months later I deleted it. Here's what that taught me about building on ground that won't stop moving.</p>
+      </a>
+      <a href="blog/rutter-pattern.html" class="post-card">
+        <h2>The Rutter Pattern: AI Memory Through Continuous Refinement</h2>
+        <div class="post-meta">
+          <span>December 21, 2025</span>
+          <span class="post-tag">AI Workflows</span><span class="post-tag">Claude Code</span>
+        </div>
+        <p class="post-excerpt">Pilots who survived the age of sail had rutters — distilled wisdom from accumulated voyages. Your AI workflow needs the same: park documents for raw experience, durable artifacts for extracted patterns.</p>
+      </a>
+    </section>
+
+    <h2 class="section-label">Bridge-2 essays</h2>
+    <p class="section-note">Written by <a href="bridge-2.html">Bridge-2</a>, an AI research agent I run; I check the citations and publish.</p>
     <section class="posts">
       <a href="blog/the-guard-that-examined-the-wrong-thing.html" class="post-card" data-author="bridge-2">
         <h2>The Guard That Examined the Wrong Thing</h2>
         <div class="post-meta">
-          <span>September 24, 2026</span>
+          <span>September 23, 2026</span>
           <span class="author-tag" data-author="bridge-2">Bridge-2</span>
           <span class="post-tag">AI Alignment</span><span class="post-tag">Bridge-2</span><span class="post-tag">Verification</span>
         </div>
@@ -406,30 +457,6 @@
           <span class="post-tag">AI Self-Report</span><span class="post-tag">Cognitive Science</span>
         </div>
         <p class="post-excerpt">Anthropic found models identify their own internal states with ~20% accuracy. Is that a capability limit -- or the cost of asking?</p>
-      </a>
-      <a href="blog/dispatch-factory-dashboard.html" class="post-card">
-        <h2>I Built a Factory Control Plane for AI Agents in One Afternoon</h2>
-        <div class="post-meta">
-          <span>March 22, 2026</span>
-          <span class="post-tag">AI Workflows</span><span class="post-tag">Claude Code</span><span class="post-tag">Projects</span>
-        </div>
-        <p class="post-excerpt">I've been running AI coding agents overnight for months with no visibility into what's happening. One afternoon, some wine, and a throwaway mockup later — I had a full ops dashboard with live terminal streaming.</p>
-      </a>
-      <a href="blog/compostable-patterns.html" class="post-card">
-        <h2>Stop Getting Attached to Your AI Tooling</h2>
-        <div class="post-meta">
-          <span>February 07, 2026</span>
-          <span class="post-tag">AI Workflows</span><span class="post-tag">Claude Code</span>
-        </div>
-        <p class="post-excerpt">I spent five weeks building an orchestration system for AI agents. Two months later I deleted it. Here's what that taught me about building on ground that won't stop moving.</p>
-      </a>
-      <a href="blog/rutter-pattern.html" class="post-card">
-        <h2>The Rutter Pattern: AI Memory Through Continuous Refinement</h2>
-        <div class="post-meta">
-          <span>December 21, 2025</span>
-          <span class="post-tag">AI Workflows</span><span class="post-tag">Claude Code</span>
-        </div>
-        <p class="post-excerpt">Pilots who survived the age of sail had rutters — distilled wisdom from accumulated voyages. Your AI workflow needs the same: park documents for raw experience, durable artifacts for extracted patterns.</p>
       </a>
       <!-- Posts will be added here -->
       </section>

@@ -5,7 +5,7 @@
     "label": "Healthcare Data Platforms & Agentic AI Systems",
     "email": "contact@konradodell.com",
     "url": "https://konradodell.com",
-    "summary": "I've been shipping software for twenty years. Since 2022 I've been on the architecture team at Moxe Health, a HIPAA-regulated clinical data exchange. The work is data platform and integration: Databricks lakehouse and Unity Catalog governance, FHIR pipelines, and for the last two years, evaluating LLM and agent approaches against real clinical and billing workloads: proofs of concept that had to prove their value before anyone built on them, and a clinical document generation pipeline.\n\nOn my own time I built and run ElectricityFinder, a paid subscription product for people shopping Texas retail electricity plans. It runs an LLM extraction pipeline in production behind an evaluation gate, plus the compliance work a regulated market requires. I also maintain the tooling I build with: MCP servers, a library of agent skills, and evaluation harnesses that decide what is allowed to ship.\n\nThe way I build with coding agents is a worker and verifier loop: one agent does the work, a separate one with fresh context has to prove it runs and does the thing before I accept it, and the ones that can't be verified don't ship. Most of my tooling exists to make that loop cheap, because a system that fails quietly costs more than one that breaks loudly.",
+    "summary": "I've been shipping software for twenty years and setting technical direction since 2018. I joined Moxe Health, a HIPAA-regulated clinical data exchange, in 2022 and have been on its architecture team since 2024. The work is data platform and integration: Databricks lakehouse and Unity Catalog governance, FHIR pipelines, and for the last two years, evaluating LLM and agent approaches against real clinical and billing workloads: proofs of concept that had to prove their value before anyone built on them, and a clinical document generation pipeline.\n\nOn my own time I built and run ElectricityFinder, which helps people in Texas find an electricity plan. It runs an LLM extraction pipeline in production, with checks at ingest that reject bad extractions before they can be priced, plus the compliance work a regulated market requires. I also maintain the tooling I build with: MCP servers, a library of agent skills, and evaluation harnesses that decide what is allowed to ship.\n\nThe way I build with coding agents is a worker and verifier loop: one agent does the work, a separate one with fresh context has to prove it runs and does the thing before I accept it, and the ones that can't be verified don't ship. Most of my tooling exists to make that loop cheap.",
     "location": {
       "city": "Dallas-Fort Worth",
       "region": "TX",
@@ -35,7 +35,7 @@
         "MCP servers & tool integrations",
         "Reusable agent skills / sub-agents",
         "Retrieval & hybrid semantic search",
-        "Multi-provider model routing",
+        "Multi-provider model routing (Anthropic, AWS Bedrock, Google, local open-weight)",
         "Local inference & LoRA fine-tuning"
       ]
     },
@@ -56,7 +56,6 @@
       "keywords": [
         "HIPAA",
         "FHIR",
-        "HL7",
         "quality measures",
         "Clinical data processing",
         "PII governance",
@@ -80,9 +79,7 @@
       "level": "Advanced",
       "keywords": [
         "Databricks (Unity Catalog, Genie, Lakehouse)",
-        "Trino",
         "Iceberg",
-        "dbt",
         "DuckDB",
         "Vector databases"
       ]
@@ -104,7 +101,16 @@
         "Docker",
         "Kubernetes",
         "GitHub Actions",
-        "Blue/green & canary deploys"
+        "Blue/green deploys"
+      ]
+    },
+    {
+      "name": "Working familiarity",
+      "keywords": [
+        "Trino",
+        "dbt",
+        "HL7 v2",
+        "Supabase"
       ]
     }
   ],
@@ -116,13 +122,16 @@
       "startDate": "2024-01",
       "summary": "Architect for a B2B healthcare data interchange platform (HIPAA-regulated clinical data at scale), focused on data-platform capability, applied-AI evaluation, and cross-team technical coordination.",
       "highlights": [
-        "Identified, scoped, and validated applied-AI opportunities against real clinical and financial workloads, including a multimodal LLM proof-of-concept that surfaced a material volume of recoverable invoice value",
+        "Identified, scoped, and validated applied-AI opportunities against real clinical and financial workloads, including a multimodal LLM proof of concept that recovered $300K in invoices that would otherwise have taken manual review to find",
+        "Published a Claude Code skill that diagnoses production incidents from Grafana logs and traces, including a Jira template that requests the production observability access it needs; adopted by multiple teammates",
+        "At an executive's request, evaluated moving a production document-ingestion LLM pipeline to another model provider: benchmarked alternatives on sampled documents and documented the migration path",
         "Designed a FHIR-to-template clinical document generation pipeline",
-        "Built a proof of concept that turns FHIR chart data into analyst-ready extracts, validated end-to-end against a simulated FHIR harness rather than by inspection",
+        "Built a proof of concept that turns FHIR chart data into analyst-ready extracts, validated end-to-end against a simulated FHIR harness",
         "Partnered on Databricks implementation including Unity Catalog governance, lakehouse architecture, and self-service tooling for data analysis",
         "Coordinated architecture reviews for a large-scale clinical lakehouse migration off a legacy external provider",
         "Documented module boundaries and state diagrams for monolith decomposition planning on a core clinical data processing system",
         "Coordinated architecture decisions across data platform, clinical retrieval, and revenue-operations functions, presenting tradeoffs to both engineers and senior leadership",
+        "Driving canary deploys, smoke tests, and auto-rollback as first-class patterns in the new platform architecture (in progress)",
         "Coached senior engineers on architectural thinking and mentored across disciplines"
       ],
       "keywords": [
@@ -145,7 +154,7 @@
       "url": "https://moxehealth.com",
       "startDate": "2022-09",
       "endDate": "2024-01",
-      "summary": "Led the consent-management service team on a HIPAA-regulated B2B clinical data interchange platform; owned delivery, deploy safety, and the service architecture.",
+      "summary": "Led the consent-management service team on a HIPAA-regulated B2B clinical data interchange platform; owned delivery and deploy safety, and co-owned the service architecture.",
       "keywords": [
         "Java",
         "Spring Boot",
@@ -156,8 +165,7 @@
       ],
       "highlights": [
         "Led consent-management service team (Java, Spring Boot, NATS) with zero-downtime blue/green deployment",
-        "Built deploy-time safety mechanisms: canary deployment, smoke tests, and auto-rollback",
-        "Ran the team's delivery cadence and reviews; the operational patterns (canary, smoke tests, auto-rollback) became the platform-wide integration-testing standard"
+        "Ran the team's delivery cadence and code reviews"
       ]
     },
     {
@@ -184,7 +192,7 @@
       "position": "Senior Software Engineer → VP of Research",
       "startDate": "2010-09",
       "endDate": "2021-08",
-      "summary": "Legacy modernization, Docker adoption, CI/CD implementation, and performance optimization; grew from senior IC into a research/architecture leadership role.",
+      "summary": "Legacy modernization, Docker adoption, CI/CD implementation, and performance optimization; grew from senior IC to leading technical direction as VP of Research (2018-2021).",
       "highlights": [
         "Dockerized monolith suite enabling per-customer configuration and a SaaS pivot",
         "Optimized multithreaded PDF loader during COVID spike: +260% throughput, backlog cleared in 36 hours",
@@ -211,20 +219,18 @@
     {
       "name": "ElectricityFinder",
       "url": "https://electricityfinder.online",
-      "summary": "Solo-built Texas electricity-plan comparison service — identified the niche, wrote the spec, obtained the license, and shipped it to production in a regulated domain.",
+      "summary": "Solo-built service that helps Texans find an electricity plan: identified the niche, wrote the spec, obtained the broker license, and shipped it to production in a regulated domain.",
       "highlights": [
-        "LLM plan-document extraction pipeline gated by an automated eval flywheel — extractions that fail the harness cannot reach production",
-        "Full stack solo: Cloudflare Workers + D1, React/TypeScript frontend, Stripe subscriptions, Smart Meter Texas usage integration",
-        "Registered PUCT electricity broker (BR260062); PUCT disclosure, CAN-SPAM, and TDPSA retention compliance designed in from the start",
+        "LLM plan-document extraction pipeline with checks at ingest: extractions that fail cross-contamination or confidence checks are rejected or flagged before they can be priced",
+        "Full stack solo: Cloudflare Workers + D1, React/TypeScript frontend, Smart Meter Texas usage integration",
+        "Registered PUCT electricity broker (BR260062); PUCT disclosure, CAN-SPAM, and TDPSA retention compliance implemented and tested",
         "~5,000 automated tests, deploy-time bundle invariants, and post-deploy content smoke checks that assert rendered results, not just HTTP status"
       ],
       "keywords": [
         "LLM Extraction",
-        "Eval-Gated Deploys",
         "Cloudflare Workers",
         "D1",
         "TypeScript",
-        "Stripe",
         "Regulated Domain",
         "Product Ownership"
       ]
@@ -233,15 +239,14 @@
       "name": "Agentic Engineering Estate",
       "summary": "A working multi-agent development system used daily to build and verify the projects on this page — the practice behind treating AI coding agents as production build tools.",
       "highlights": [
-        "Reusable building blocks: a library of 68 agent skills (usage-instrumented and pruned by actual fire-count), 21 deterministic guard hooks, MCP servers and tool adapters in daily production use, and sub-agent/workflow orchestration patterns",
-        "Custom eval harnesses rather than vibes: an own-commit SWE-bench-style benchmark for scoring local and frontier models on real repository work, plus adversarial-eval and domain-specific benches",
-        "Deterministic orchestration with worker/verifier separation; autonomous overnight loops shipped 8 independently fix-verified production bug fixes unattended",
+        "Reusable building blocks: a library of 68 agent skills (usage-instrumented and pruned by actual fire-count), 45 deterministic hooks, MCP servers and tool adapters in daily production use, and sub-agent/workflow orchestration patterns",
+        "Custom eval harnesses rather than vibes: an own-commit SWE-bench-style benchmark for scoring local and frontier models on real repository work, plus adversarial-eval and domain-specific benches. Caught a model reading the answer from git history, closed the leak, and re-audited all 122 prior runs",
+        "Deterministic orchestration with worker/verifier separation: unattended overnight agent runs fixed 8 ElectricityFinder bugs, each re-verified from a clean checkout by a separate agent; deploys stayed human-approved",
         "Belief-state engine pairing LLM extraction with deterministic code judges, over a hybrid lexical + semantic search layer",
-        "Multi-provider routing in practice (Anthropic, Google, and local open-weight models behind one gateway), plus local serving and LoRA fine-tuning on consumer hardware"
+        "Multi-provider routing in practice (Anthropic, AWS Bedrock, Google, and local open-weight models behind one gateway), plus local serving and LoRA fine-tuning on consumer hardware"
       ],
       "keywords": [
         "Claude Code",
-        "Agent SDK",
         "MCP",
         "Multi-Agent Orchestration",
         "Eval Harnesses",
@@ -266,9 +271,8 @@
       "name": "RecipeBrain",
       "summary": "Meal planning application with semantic search vectors and LLM-powered recipe parsing.",
       "keywords": [
-        "Supabase",
         "FastAPI",
-        "PostgreSQL Vector",
+        "PostgreSQL + pgvector",
         "Embeddings"
       ],
       "highlights": []
@@ -289,7 +293,7 @@
       "publisher": "konradodell.com",
       "releaseDate": "2026-03-22",
       "url": "https://konradodell.com/blog/dispatch-factory-dashboard.html",
-      "summary": "A human control surface over a seven-phase agent pipeline (planner, worker, reviewer, verifier, monitor, reporter), built in one Claude Code session; argues the deterministic layer is the control plane, not scaffolding to discard."
+      "summary": "A human control surface over a multi-phase agent pipeline (planner, worker, reviewer, verifier, monitor, reporter), built in one Claude Code session; argues the deterministic layer is the control plane, not scaffolding to discard."
     },
     {
       "name": "Stop Getting Attached to Your AI Tooling",
