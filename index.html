@@ -556,6 +556,14 @@
             <li><strong>The part that mattered</strong>: measured where extraction actually failed (routing, not the prompt) before touching the model</li>
           </ul>
         </article>
+        <article class="project" style="grid-column: 1 / -1;">
+          <h3><a href="https://github.com/konradish/local-llm-benchmarks" target="_blank" rel="noopener noreferrer">Local LLM benchmarks<span class="sr-only"> (opens in new tab)</span></a></h3>
+          <p>What open models actually do on consumer GPUs, measured on two machines I run at home: a dedicated headless server with an 8 GB RTX 2080, and my shared 16 GB RTX 4080 desktop. I hill-climbed a 35B mixture-of-experts model one change at a time, with the noise floor measured, and ran a 125B model on the 8 GB card. The repo has the methodology, the scripts, and every raw run.</p>
+          <ul>
+            <li><strong>The part that mattered</strong>: one batch-size setting took prompt reading from about 450 to about 1,090 tokens/s with no loss in writing speed, and an f16 KV cache beat q8_0 by 20% at 64K context. The usual knobs (CPU governor, thread count) did nothing</li>
+            <li><strong>The numbers</strong>: on the 8 GB card, the 35B model at 64K context writes 48 tokens/s and reads 1,040; the 125B model writes 39 and reads 460; the highest quant that fits (Q8_0) writes 34</li>
+          </ul>
+        </article>
         <article class="project">
           <h3>Agent engineering system</h3>
           <p>The multi-agent setup I build everything on this page with: a Claude Code orchestrator, a jailed local-model reviewer that never sees the network, a persistent belief store that auto-updates reversible claims and escalates the rest, and a trace critic that grades the agents' own sessions.</p>
