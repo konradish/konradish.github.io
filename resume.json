@@ -192,7 +192,7 @@
         "LLM plan-document extraction pipeline with checks at ingest: extractions that fail cross-contamination or confidence checks are rejected or flagged before they can be priced",
         "Full stack solo: Cloudflare Workers + D1, React/TypeScript frontend, Smart Meter Texas usage integration",
         "Registered PUCT electricity broker (BR260062); PUCT disclosure, CAN-SPAM, and TDPSA retention compliance implemented and tested",
-        "~5,000 automated tests, deploy-time bundle invariants, and post-deploy content smoke checks that assert rendered results, not just HTTP status"
+        "Golden set of hand-checked EFL PDFs that extraction changes are re-run against, plus a price check of every plan at 500, 1,000 and 2,000 kWh against its Power to Choose listing"
       ],
       "keywords": [
         "LLM Extraction",
