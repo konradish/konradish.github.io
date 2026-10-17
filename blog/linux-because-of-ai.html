@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline';">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32.png">
+  <!-- UPDATE: Title for this post -->
+  <title>I'm Finally Able to Run Linux Because of AI – Konrad Odell</title>
+  <style>
+    :root {
+        --bg-primary: #0d1117;
+        --bg-secondary: #161b22;
+        --bg-tertiary: #21262d;
+        --text-primary: #c9d1d9;
+        --text-secondary: #8b949e;
+        --text-accent: #58a6ff;
+        --text-highlight: #7ee787;
+        --border-color: #30363d;
+        --hover-bg: #1c2128;
+        --gradient-1: #58a6ff;
+        --gradient-2: #7ee787;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --font-size-base: clamp(16px, 2vw, 18px);
+        --container-max-width: min(90vw, 700px);
+    }
+
+    [data-theme="light"] {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f6f8fa;
+        --bg-tertiary: #f0f3f6;
+        --text-primary: #24292e;
+        --text-secondary: #586069;
+        --text-accent: #0366d6;
+        --text-highlight: #28a745;
+        --border-color: #e1e4e8;
+        --hover-bg: #f3f4f6;
+        --gradient-1: #0366d6;
+        --gradient-2: #28a745;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root:not([data-theme]) {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f6f8fa;
+            --bg-tertiary: #f0f3f6;
+            --text-primary: #24292e;
+            --text-secondary: #586069;
+            --text-accent: #0366d6;
+            --text-highlight: #28a745;
+            --border-color: #e1e4e8;
+            --hover-bg: #f3f4f6;
+            --gradient-1: #0366d6;
+            --gradient-2: #28a745;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: var(--font-size-base);
+        line-height: 1.6;
+        color: var(--text-primary);
+        background-color: var(--bg-primary);
+        transition: var(--transition);
+        min-height: 100vh;
+    }
+
+    .container {
+        width: var(--container-max-width);
+        margin: 0 auto;
+        padding: clamp(40px, 8vh, 80px) clamp(20px, 4vw, 40px);
+    }
+
+    header { margin-bottom: 2rem; }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+        transition: var(--transition);
+    }
+
+    .back-link:hover { color: var(--text-accent); }
+
+    h1 {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: var(--text-primary);
+        line-height: 1.3;
+    }
+
+    .post-meta {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .post-tag {
+        background: var(--bg-tertiary);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+    }
+
+    article {
+        margin-top: 2rem;
+    }
+
+    article h2 {
+        font-size: 1.4rem;
+        color: var(--text-primary);
+        margin: 2rem 0 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    article h3 {
+        font-size: 1.15rem;
+        color: var(--text-accent);
+        margin: 1.5rem 0 0.75rem;
+    }
+
+    article p {
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        line-height: 1.8;
+    }
+
+    article ul, article ol {
+        margin: 1rem 0 1rem 1.5rem;
+        color: var(--text-secondary);
+    }
+
+    article li { margin-bottom: 0.5rem; }
+
+    article a {
+        color: var(--text-accent);
+        text-decoration: none;
+    }
+
+    article a:hover { text-decoration: underline; }
+
+    article code {
+        background: var(--bg-tertiary);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        font-family: 'SF Mono', Monaco, Consolas, monospace;
+    }
+
+    article pre {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1rem;
+        overflow-x: auto;
+        margin: 1rem 0;
+    }
+
+    article pre code {
+        background: none;
+        padding: 0;
+    }
+
+    article blockquote {
+        border-left: 3px solid var(--text-accent);
+        padding-left: 1rem;
+        margin: 1rem 0;
+        color: var(--text-secondary);
+        font-style: italic;
+    }
+
+    article img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin: 1rem 0;
+        border: 1px solid var(--border-color);
+    }
+
+    article table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        font-size: 0.95em;
+    }
+
+    article th, article td {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    article th {
+        background: var(--bg-tertiary);
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    article td {
+        color: var(--text-secondary);
+    }
+
+    article tr:hover td {
+        background: var(--hover-bg);
+    }
+
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        padding: 10px;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px var(--shadow-color);
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        z-index: 1000;
+    }
+
+    .theme-toggle:hover {
+        background: var(--hover-bg);
+        color: var(--text-accent);
+        transform: scale(1.1);
+    }
+
+    *:focus-visible {
+        outline: 3px solid var(--text-accent);
+        outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" aria-label="Toggle theme">
+    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="sun-icon">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+    </svg>
+    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="moon-icon" style="display: none;">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+    </svg>
+  </button>
+
+  <main class="container">
+    <header>
+      <a href="../blog.html" class="back-link">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back to all posts
+      </a>
+      <!-- UPDATE: Post title -->
+      <h1>I'm Finally Able to Run Linux Because of AI</h1>
+      <div class="post-meta">
+        <!-- UPDATE: Date -->
+        <span>October 17, 2026</span>
+        <!-- UPDATE: Tags -->
+        <span class="post-tag">Linux</span><span class="post-tag">Claude Code</span><span class="post-tag">AI Workflows</span>
+      </div>
+    </header>
+
+    <article>
+      <p>I&rsquo;m finally able to run Linux because of AI.</p>
+<p>I&rsquo;ve tried Linux before, and I failed to stick with it. Every time, I would have hit the blockers below, one after another, and given up.</p>
+<p>Now I run it on my main computer, and the blockers get handled for me.</p>
+<h2 id="my-old-pc">My old PC</h2>
+<p>I just brought my old PC back: a Threadripper with an RTX 2080 that had been sitting in a closet.</p>
+<p>I have a network KVM, a little box that shows another computer&rsquo;s screen and keyboard in a browser tab, all the way down to the BIOS. Claude Code drove it through the Claude Chrome extension: it read the screen and pressed the keys.</p>
+<ul>
+<li>It upgraded the old install from Debian 11 to Debian 13, in place.</li>
+<li>Through the KVM, it fixed my memory setup in the BIOS. I&rsquo;d tried turning on the rated memory profile myself once, and the machine went to a black screen. Claude found the one extra timing setting that made all four sticks run at their rated speed, and memory reads went from about 26 to 40 GB per second.</li>
+<li>When it typed through the KVM, the Shift key got dropped, so <code>:</code> came out as <code>;</code>. In a root shell that&rsquo;s dangerous. It worked that out and switched to pasting through the KVM&rsquo;s clipboard tool instead.</li>
+</ul>
+<p>That PC now runs local AI models for my main computer.</p>
+<p>These were things I&rsquo;d given up on long ago because of all the blockers. Now it&rsquo;s purely automated.</p>
+<h2 id="electronics">Electronics</h2>
+<p>I took pictures of all the electronics I have lying around and handed them over. Claude Code worked out what each part was, and then started using them.</p>
+<ul>
+<li><strong>A one-inch OLED screen</strong> got set up and now plays animations: a bouncing ball and a clock.</li>
+<li><strong>An ATtiny85</strong>, a tiny 8-pin chip, got flashed to blink an LED. That took using an Arduino Uno as the programmer, which needed a capacitor on the Uno&rsquo;s reset pin.</li>
+<li><strong>I don&rsquo;t really know how capacitors work.</strong> So Opus made me an instructional video in the style of 3Blue1Brown, using Manim (the animation library 3Blue1Brown created), narrated by a text-to-speech model running locally on my computer. It runs about ten and a half minutes: resistors, capacitors, pull-ups, RC circuits. It ends on the Arduino&rsquo;s reset circuit, the same one I&rsquo;d needed that capacitor for.</li>
+</ul>
+<h3 id="the-lightning-detector">The lightning detector</h3>
+<p>Every lightning strike gives off a radio pulse, a small EMP. I ended up with a detector for it, an Arduino with a six-foot wire and three resistors, checked against a weather satellite. Almost none of that was my idea.</p>
+<p>It started with one line from me, late at night, in the middle of asking about other things: &ldquo;I think there&rsquo;s a storm coming tonight maybe, or maybe not, if you can check and tell me if that RF reciever can run overnight and record lightning strikes.&rdquo;</p>
+<p>Here&rsquo;s what I said, and what Claude decided:</p>
+<table>
+<thead>
+<tr>
+<th>What I said</th>
+<th>What Claude decided</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&rdquo;&hellip;if that RF reciever can run overnight and record lightning strikes&rdquo;</td>
+<td>Not that receiver. It listens at 2.4 GHz, where lightning is nearly silent. Lightning is loudest at a few thousand cycles per second, low enough for a bare wire on the Uno&rsquo;s analog pin to hear. It picked three resistors from the Radio Shack packs in my photos, and added a heartbeat every 10 seconds, so a quiet night couldn&rsquo;t be mistaken for a dead logger. The sketch was written and compiled before I answered.</td>
+</tr>
+<tr>
+<td>&ldquo;You want me to find a long wire for the antenna?&rdquo;</td>
+<td>Which wire: the red spool in one of my photos, with the end scraped bare, because it&rsquo;s probably coated. And where it goes: up the wall, away from the PC and the monitors.</td>
+</tr>
+<tr>
+<td>&ldquo;erm could you ascii art what I need to do?&rdquo;</td>
+<td>A wiring diagram. Then it flashed the Uno and set the logger up to keep running after I closed the terminal.</td>
+</tr>
+<tr>
+<td>&ldquo;flikcked the light&rdquo;</td>
+<td>It didn&rsquo;t trust a reading of zero. When the light switch didn&rsquo;t show up in the log, it designed a two-touch test to tell a quiet switch from a disconnected antenna. Both touches showed, so the rig was alive.</td>
+</tr>
+<tr>
+<td>&ldquo;Done. Going to bed regardless.&rdquo;</td>
+<td>It logged all night. In the morning, it checked three airports&rsquo; weather records to confirm there had been no storm, so the quiet log was real.</td>
+</tr>
+<tr>
+<td>&ldquo;I saw flashes&rdquo; (I was out, about two miles from the antenna)</td>
+<td>It asked me to note each flash I saw, so it could look for a burst within seconds. Four sightings, four matches.</td>
+</tr>
+<tr>
+<td>&ldquo;Where do you get the lightning map? Why do we have to wait until tomorrow?&rdquo;</td>
+<td>There was no reason to wait. It pulled NOAA&rsquo;s GOES-19 satellite data for that evening, 1,828 flashes within 150 km, and lined it up with the log second by second. Then it shifted its own log by random amounts to measure what luck alone would give.</td>
+</tr>
+<tr>
+<td>&ldquo;Could you make some sort of cool HTML artifact um, to show the lightning strikes correlated to the satellite?&rdquo;</td>
+<td>A page with a map of every flash, a slider to replay the evening, a timeline, and a table of how far the wire could hear.</td>
+</tr>
+<tr>
+<td>&ldquo;What about those flashes 100 kilometers away? Do you think that those might have just been uh, coincidence?&rdquo;</td>
+<td>Yes, they were. It rebuilt the headline around strikes within 25 km: the wire heard 37% of them, against 7 to 10% when the log was shifted, which is chance. The first headline, 84% of bursts matching a flash, was too flattering.</td>
+</tr>
+</tbody>
+</table>
+<p>My part was a handful of questions, some fetching of wire, and four texts. The question that changed the result was mine: whether the far-away matches were coincidence.</p>
+<h3 id="the-radio">The radio</h3>
+<p>At the end of that night I remembered I own an SDR, a USB radio receiver that can tune across most of the radio spectrum. It had been in a drawer for years. Same deal as the lightning detector: short questions from me, and Claude steering.</p>
+<table>
+<thead>
+<tr>
+<th>What I said or did</th>
+<th>What Claude did</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I remembered I have an SDR, and plugged it in.</td>
+<td>Within minutes it found a temperature sensor I already own, sitting in a drawer, and heard a plane.</td>
+</tr>
+<tr>
+<td>&ldquo;couldn&rsquo;t you track lightning with the SDR?&rdquo;</td>
+<td>Not well: lightning is loudest around 10 kHz, and this dongle can&rsquo;t tune below 52 MHz. It suggested my computer&rsquo;s sound card instead, since that&rsquo;s a receiver for exactly that range.</td>
+</tr>
+<tr>
+<td>&ldquo;also could you look for pager traffic?&rdquo;</td>
+<td>It said no. Decoding pages is illegal under US wiretap law, and many carry patient details. It scanned the band to show me it was active, without decoding anything.</td>
+</tr>
+<tr>
+<td>I put the little antenna on top of my monitor.</td>
+<td>It measured the result: worse. The background noise jumped about 10 dB. It told me to get it away from screens and toward a window.</td>
+</tr>
+<tr>
+<td>&ldquo;can you scan for signals, off the beaten path? Like non standard stuff?&rdquo;</td>
+<td>It swept everything the dongle could reach. First it threw out a dozen peaks as fakes: the dongle hearing its own clock. What was left: the smart-meter network on my street, walkie-talkies, business radios, and air traffic control.</td>
+</tr>
+<tr>
+<td>&ldquo;yeah try reading my meter&rdquo;</td>
+<td>Four water meters in two minutes. To find which one was mine, it had me run a bath and watched which reading jumped.</td>
+</tr>
+<tr>
+<td>&ldquo;Can we record voice chatter across all the non standard bands like walkie talkies all night?&rdquo;</td>
+<td>It built a scanner that hops across 37 channels and records anything that lights up. The first night it piled up 42 GB of audio from one channel that never went quiet, and took my terminal down with it. It capped the clips and gave the scanner a hard memory limit.</td>
+</tr>
+<tr>
+<td>&ldquo;let&rsquo;s spawn opus subagents to analyze each set&rdquo; (that one was my idea)</td>
+<td>Seven analysts, one per mystery signal. Two were machines checking in every 8 and every 64 seconds, like clockwork.</td>
+</tr>
+<tr>
+<td></td>
+<td>It decided the antenna was the bottleneck and picked the gear: a dipole antenna kit and a 10-foot USB extension, so the dongle could sit away from the PC. It put them in my cart.</td>
+</tr>
+<tr>
+<td>&ldquo;the antenna you bought doesn&rsquo;t connect to the dongle&rdquo;</td>
+<td>It owned the mistake: it hadn&rsquo;t checked which plug my old dongle had. It recommended a new dongle over a $6 adapter. I bought an RTL-SDR Blog V3, which takes the antenna directly.</td>
+</tr>
+<tr>
+<td>&ldquo;let&rsquo;s explore what we can find on the Blog V3 now&rdquo;</td>
+<td>A live map of every plane in range. Overnight it logged about 1,350 aircraft, the farthest 80 km out. It also caught pilots talking to DFW Tower and transcribed them: &ldquo;Tower, Bluestreak 5309, visual, 17 left.&rdquo;</td>
+</tr>
+<tr>
+<td></td>
+<td>It noticed tire-pressure sensors that kept showing up at my house, all reading about 26 PSI, and told me to check my tires.</td>
+</tr>
+<tr>
+<td>&ldquo;those are my tires, they all said 25 one said 24 on my dash&rdquo;</td>
+<td>It built a tire logger. It checks my tires every half hour and warns me if one starts dropping faster than the others, which is the early sign of a nail.</td>
+</tr>
+</tbody>
+</table>
+<p>The antenna is in my window now.</p>
+<h2 id="what-it-fixed-on-my-main-computer">What it fixed on my main computer</h2>
+<ul>
+<li><strong>The switch itself.</strong> Which slot the new drive goes in (read from the motherboard manual), how to keep Secure Boot on with the NVIDIA driver, and why Debian stable over a rolling release.</li>
+<li><strong>Moving off Windows.</strong> 140 old project folders, 162 GB, sorted by a short rulebook into keep, move and drop, and then the old Windows disk images deleted.</li>
+<li><strong>Video.</strong> On NVIDIA with Wayland, three separate things were broken. The video player couldn&rsquo;t start OpenGL. Chrome silently decoded video on the CPU, because Debian&rsquo;s driver bridge was older than the version Chrome needs. VLC lost its picture entirely. All three causes were found and fixed.</li>
+<li><strong>The KVM switch.</strong> When I switch the KVM to my work laptop, the main monitor turns off, and it comes back when I switch home. The trigger is the USB mic behind the KVM appearing and disappearing.</li>
+<li><strong>Speakers going silent after some reboots.</strong> The login screen&rsquo;s sound service and mine raced for the sound card at boot, and the loser quietly dropped an output.</li>
+<li><strong>Guitar Pro 8</strong>, a Windows app, running under Wine in its own sandbox.</li>
+<li><strong>Window control on Wayland.</strong> The old X11 tools can&rsquo;t see windows on Wayland, so it worked out KDE&rsquo;s own scripting interface instead.</li>
+<li><strong>The desktop eating memory.</strong> The desktop shell grew to 4.5 GB. The cause was the wallpaper slideshow, a known KDE bug.</li>
+<li><strong>Bluetooth.</strong> My chair speaker&rsquo;s receiver was invisible to the PC. That one is a known Intel bug, diagnosed but not fixed.</li>
+<li><strong>Slow startup.</strong> Boot time, terminal launch and Claude Code launch, each measured and then sped up.</li>
+<li><strong>Local models.</strong> A 27-billion-parameter model fits and runs on my 16 GB graphics card on bare-metal Linux.</li>
+</ul>
+<h2 id="it-broke-things-too">It broke things too</h2>
+<ul>
+<li><strong>A hard freeze.</strong> One session set up encrypted swap on a loop device, which is a known kernel deadlock, and the machine froze hard later that day. It went back to a plain swap file.</li>
+<li><strong>Local models silently on the CPU.</strong> Another session reloaded Docker, which quietly took the GPU away from running containers. A model &ldquo;loaded fine&rdquo; and then ran at 4 tokens a second. The fix that stuck was changing how Docker hands the GPU to containers.</li>
+</ul>
+<h2 id="unlocked">Unlocked</h2>
+<p>This is unlocking my ability to do things. It feels like magic. All of these were out of reach for so long, because of time and endurance, or laziness, and now they&rsquo;re unlocked.</p>
+<p>I still don&rsquo;t understand how capacitors work.</p>
+    </article>
+  </main>
+
+  <script>
+    const themeToggle = document.querySelector('.theme-toggle');
+    const sunIcon = document.querySelector('.sun-icon');
+    const moonIcon = document.querySelector('.moon-icon');
+    const html = document.documentElement;
+
+    function getTheme() {
+      try { return localStorage.getItem('theme'); } catch (e) { return null; }
+    }
+
+    function setTheme(theme) {
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    }
+
+    const savedTheme = getTheme();
+    if (savedTheme === 'light' || (!savedTheme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+      html.setAttribute('data-theme', 'light');
+      sunIcon.style.display = 'none';
+      moonIcon.style.display = 'block';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const isLight = html.getAttribute('data-theme') === 'light';
+      html.setAttribute('data-theme', isLight ? 'dark' : 'light');
+      setTheme(isLight ? 'dark' : 'light');
+      sunIcon.style.display = isLight ? 'block' : 'none';
+      moonIcon.style.display = isLight ? 'none' : 'block';
+    });
+  </script>
+</body>
+</html>
